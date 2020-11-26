@@ -1,25 +1,32 @@
 # bot.py
+# ---------- IMPORTS ----------
 import os
-import random
-import requests
+import random as rnd
+import requests as req
 from discord.ext import commands
 import discord
 from dotenv import load_dotenv
-###########IMPORTS###########
 
+# ---------- logging init ----------
+import logging as l
 
-#! Handling discord TOKEN and PREFIX
+# logging config
+l.basicConfig(level=l.DEBUG, filename='bot.log',
+    format='%(asctime)s %(levelname)s: %(message)s',
+    datefmt='%I:%M:%S-%m/%d/%Y')
+
+# ----- Handling discord TOKEN and PREFIX -----
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 bot = commands.Bot(command_prefix='!')
 
-####################################
+# ---------- commands ----------
 
 
-
-@bot.event #* Handling command errors
+# Handling command errors
+@bot.event
 async def on_command_error(ctx, error):
     
 
@@ -28,8 +35,8 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("You dont have all the requirements :angry:")
 
-
-@bot.event #* Making commands case insensitive
+# Making commands case insensitive
+@bot.event
 async def on_message(message):
     temp = message.content.split(" ")
     message.content = str(temp[0].lower())
@@ -39,7 +46,10 @@ async def on_message(message):
     await bot.process_commands(message)
 
 
-@bot.command(help="Bans someone.") #! Need to add reason as optional arg
+# ----- moderation commands -----
+
+# ----- ban
+@bot.command(help="Bans someone.") # Need to add reason as optional arg
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, user: discord.Member, *, reason="No reason provided"):
 
@@ -49,8 +59,8 @@ async def ban(ctx, user: discord.Member, *, reason="No reason provided"):
         await ctx.channel.send(embed=ban)
         await user.send(embed=ban)
 
-
-@bot.command(help="Kicks someone.") #! Need to add reason as optional arg
+# ----- kick
+@bot.command(help="Kicks someone.") # Need to add reason as optional arg
 @commands.has_permissions(ban_members=True)
 async def kick(ctx, user: discord.Member, *, reason="No reason provided"):
         await user.kick(reason=reason)
@@ -60,12 +70,13 @@ async def kick(ctx, user: discord.Member, *, reason="No reason provided"):
         await user.send(embed=ban)
 
 
+# ----- wynn info commands -----
 
-
-@bot.command(help="Let's you view a player's profile.") #? Need to make it look better
+# ----- player stats
+@bot.command(help="Let's you view a player's profile.") # Need to make it look better
 async def profile(ctx, PlayerName):
 
-    r = requests.get(f'https://api.wynncraft.com/v2/player/{PlayerName}/stats')
+    r = req.get(f'https://api.wynncraft.com/v2/player/{PlayerName}/stats')
     #get the data
     json = r.json()
     #Print the data
@@ -89,10 +100,11 @@ async def profile(ctx, PlayerName):
     await ctx.channel.send(embed=embedVar)
     # await ctx.send(json['data'][0]['rank'])
 
+# ----- guild stats
 @bot.command(help="Let's you view a guild's info.") #? Need to make it look better
 async def guild(ctx, GuildName):
 
-    r = requests.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={GuildName}')
+    r = req.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={GuildName}')
 
     json = r.json()
 
@@ -109,16 +121,21 @@ async def guild(ctx, GuildName):
     embedVar.add_field(name="Created at: ", value=f"{json['createdFriendly']}", inline=False)
     await ctx.channel.send(embed=embedVar)
 
-
-
+# ----- item stats
 @bot.command(help="Shows you the stats of an item.") #! Need to finish this
 async def item(ctx, ItemName):
-    r = requests.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={ItemName}')
+    r = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={ItemName}')
     json = r.json()
 
-    
 
+# ---------- run the bot ----------
+import shutil
+import os
 
-
-
-bot.run(TOKEN)
+try:
+    bot.run(TOKEN)
+except: pass
+finally:
+    l.info('Old log was moved and renamed as \'%s\'', name)
+    os.rename('bot.log', name)
+    shutil.move(name, './logs')
