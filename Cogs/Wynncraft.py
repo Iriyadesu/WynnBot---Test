@@ -7,7 +7,7 @@ class Wynncraft(commands.Cog):
         self.bot = bot
 
 
-        # ----- player stats
+    # ----- player stats
     @commands.command(help="Let's you view a player's profile.") # Need to make it look better
     async def profile(self,ctx, PlayerName):
 
@@ -33,7 +33,6 @@ class Wynncraft(commands.Cog):
         embedVar.add_field(name="Highest Level: ", value=f"{highestlvl}", inline=False)
         embedVar.add_field(name="Joined: ", value=f"{json['data'][0]['meta']['firstJoin'][:10]}", inline=True)
         await ctx.channel.send(embed=embedVar)
-        # await ctx.send(json['data'][0]['rank'])
     
      # ----- guild stats
     @commands.command() #? Need to make it look better

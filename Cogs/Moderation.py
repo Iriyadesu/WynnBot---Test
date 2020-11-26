@@ -12,7 +12,7 @@ class Moderation(commands.Cog):
             await ctx.message.delete()
             await ctx.channel.send(embed=ban)
             await user.send(embed=ban)
-
+    # ----- kick
     @commands.command()
     async def kick(self,ctx, user: discord.Member, *, reason="No reason provided"):
             await user.kick(reason=reason)

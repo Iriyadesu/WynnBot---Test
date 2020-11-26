@@ -11,8 +11,10 @@ class Events(commands.Cog):
 
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send('Please pass in all requirements :rolling_eyes:.')
-        if isinstance(error, commands.MissingPermissions):
+        elif isinstance(error, commands.MissingPermissions):
             await ctx.send("You dont have all the requirements :angry:")
+        else:
+             print(e)
 
     # Making commands case insensitive
     @commands.Cog.listener()
@@ -31,6 +33,6 @@ class Events(commands.Cog):
             await print('Cannot assign role. Error: ' + str(e))
         await bot.process_commands(message)
 
-        
+
 def setup(bot):
     bot.add_cog(Events(bot))
