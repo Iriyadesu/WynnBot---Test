@@ -22,7 +22,10 @@ l.basicConfig(level=l.DEBUG, filename='bot.log',
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-bot = commands.Bot(command_prefix='!')
+intents = discord.Intents.default()
+intents.members = True
+
+bot = commands.Bot(command_prefix='!', intents=intents)
 
 # ---------- commands ----------
 
@@ -30,7 +33,6 @@ bot = commands.Bot(command_prefix='!')
 # Handling command errors
 @bot.event
 async def on_command_error(ctx, error):
-    
 
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send('Please pass in all requirements :rolling_eyes:.')
@@ -46,6 +48,15 @@ async def on_message(message):
         message.content += " " + str(x)
 
     await bot.process_commands(message)
+
+
+# Giving out Guest role when user joins
+@bot.event
+async def on_member_join(member):
+    try:
+        await member.add_roles(discord.utils.get(member.guild.roles, name='guest')) 
+    except Exception as e:
+        await print('Cannot assign role. Error: ' + str(e))
 
 
 # ----- moderation commands -----
