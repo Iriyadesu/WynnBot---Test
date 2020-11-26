@@ -1,12 +1,19 @@
 # bot.py
+# ---------- IMPORTS ----------
 import os
 import random as rnd
 import requests as req
 from discord.ext import commands
 import discord
 from dotenv import load_dotenv
-# ---------- IMPORTS ----------
 
+# ---------- logging init ----------
+import logging as l
+
+# logging config
+l.basicConfig(level=l.DEBUG, filename='bot.log',
+    format='%(asctime)s %(levelname)s: %(message)s',
+    datefmt='%I:%M:%S-%m/%d/%Y')
 
 # ----- Handling discord TOKEN and PREFIX -----
 
@@ -114,7 +121,7 @@ async def guild(ctx, GuildName):
     embedVar.add_field(name="Created at: ", value=f"{json['createdFriendly']}", inline=False)
     await ctx.channel.send(embed=embedVar)
 
-# ----- item stast
+# ----- item stats
 @bot.command(help="Shows you the stats of an item.") #! Need to finish this
 async def item(ctx, ItemName):
     r = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={ItemName}')
@@ -122,4 +129,13 @@ async def item(ctx, ItemName):
 
 
 # ---------- run the bot ----------
-bot.run(TOKEN)
+import shutil
+import os
+
+try:
+    bot.run(TOKEN)
+except: pass
+finally:
+    l.info('Old log was moved and renamed as \'%s\'', name)
+    os.rename('bot.log', name)
+    shutil.move(name, './logs')
