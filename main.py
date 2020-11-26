@@ -73,8 +73,8 @@ async def profile(ctx, PlayerName):
         return await ctx.channel.send('Cannot find user.') 
     highestlvl = 0
     for x in json['data'][0]['classes']:
-        if x['level'] > highestlvl:
-            highestlvl += x['level']
+        if x['professions']['combat']['level'] > highestlvl:
+            highestlvl = x['professions']['combat']['level']
     embedVar = discord.Embed(title=f"{PlayerName}'s profile", color=0x00ff00)
     embedVar.add_field(name="UserName: ", value=f"{json['data'][0]['username']}", inline=True)
     embedVar.add_field(name="Rank: ", value=f"{json['data'][0]['meta']['tag']['value']}", inline=False)
