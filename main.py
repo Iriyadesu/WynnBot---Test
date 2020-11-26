@@ -1,14 +1,16 @@
 # bot.py
 # ---------- IMPORTS ----------
 import os
+import shutil
 import random as rnd
+import logging as l
 import requests as req
-from discord.ext import commands
-import discord
 from dotenv import load_dotenv
 
+import discord
+from discord.ext import commands
+
 # ---------- logging init ----------
-import logging as l
 
 # logging config
 l.basicConfig(level=l.DEBUG, filename='bot.log',
@@ -129,9 +131,6 @@ async def item(ctx, ItemName):
 
 
 # ---------- run the bot ----------
-import shutil
-import os
-
 try:
     bot.run(TOKEN)
 except: pass
