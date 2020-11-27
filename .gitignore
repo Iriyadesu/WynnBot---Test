@@ -1,4 +1,7 @@
+bot.log
 
 .env
 
 .idea
+
+Cogs/__pycache__
