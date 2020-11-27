@@ -5,7 +5,7 @@ class Events(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
 
-    #Handling errors
+    # ----- Handling errors -----
     @commands.Cog.listener()
     async def on_command_error(self,ctx, error):
 
@@ -16,21 +16,21 @@ class Events(commands.Cog):
         else:
              print(error)
 
-    # Making commands case insensitive
+    # ----- Making commands case insensitive -----
     @commands.Cog.listener()
-    async def on_message(self,message):
+    async def on_message(self, message):
         temp = message.content.split(" ")
         message.content = str(temp[0].lower())
         for x in temp[1:]:
             message.content += " " + str(x)
 
-    # Giving out Guest role when user joins
+    # ----- Giving out Guest role when user joins -----
     @commands.Cog.listener()
     async def on_member_join(self,member):
         try:
             await member.add_roles(discord.utils.get(member.guild.roles, name='guest')) 
         except Exception as e:
-            await print('Cannot assign role. Error: ' + str(e))
+            await print('Cannot assign role. Error: ' + e)
         await bot.process_commands(message)
 
 
