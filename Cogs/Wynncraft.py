@@ -3,6 +3,7 @@ import discord
 import requests as req
 import json
 
+
 class Wynncraft(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
