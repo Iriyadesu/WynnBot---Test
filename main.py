@@ -13,7 +13,7 @@ from discord.ext import commands
 # ---------- logging init ----------
 
 # logging config
-l.basicConfig(level=l.DEBUG, filename='bot.log',
+l.basicConfig(level=l.INFO, filename='bot.log',
     format='%(asctime)s %(levelname)s: %(message)s',
     datefmt='%I:%M:%S-%m/%d/%Y')
 
@@ -28,7 +28,10 @@ intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 # ---------- registering commands ----------
-extensions = ['Cogs.Moderation', 'Cogs.Wynncraft', 'Cogs.Events']
+
+bot.remove_command('help')
+
+extensions = ['Cogs.Moderation', 'Cogs.Wynncraft', 'Cogs.Events', 'Cogs.Info']
 
 if __name__ == '__main__':
     for ext in extensions:

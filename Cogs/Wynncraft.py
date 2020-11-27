@@ -8,7 +8,7 @@ class Wynncraft(commands.Cog):
 
 
     # ----- player stats
-    @commands.command(help="Let's you view a player's profile.") # Need to make it look better
+    @commands.command(description="Search for players") # Need to make it look better
     async def profile(self,ctx, PlayerName):
 
         r = req.get(f'https://api.wynncraft.com/v2/player/{PlayerName}/stats')
@@ -35,7 +35,7 @@ class Wynncraft(commands.Cog):
         await ctx.channel.send(embed=embedVar)
     
      # ----- guild stats
-    @commands.command() #? Need to make it look better
+    @commands.command(description="Let's you search for guilds.") #? Need to make it look better
     async def guild(self,ctx, GuildName):
         r = req.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={GuildName}')
 
@@ -55,7 +55,7 @@ class Wynncraft(commands.Cog):
         await ctx.channel.send(embed=embedVar)
 
     # ----- item stats
-    @commands.command(help="Shows you the stats of an item.") #! Need to finish this
+    @commands.command(description="Search for items") #! Need to finish this
     async def item(self,ctx, ItemName):
         r = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={ItemName}')
         json = r.json()

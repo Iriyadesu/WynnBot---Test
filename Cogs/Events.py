@@ -14,7 +14,7 @@ class Events(commands.Cog):
         elif isinstance(error, commands.MissingPermissions):
             await ctx.send("You dont have all the requirements :angry:")
         else:
-             print(e)
+             print(error)
 
     # Making commands case insensitive
     @commands.Cog.listener()
