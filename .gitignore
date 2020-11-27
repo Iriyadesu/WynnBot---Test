@@ -5,3 +5,5 @@ bot.log
 .idea
 
 Cogs/__pycache__
+
+logs

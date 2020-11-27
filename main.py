@@ -15,7 +15,7 @@ l.basicConfig(level=l.INFO, filename='bot.log',
     format='%(asctime)s %(levelname)s: %(message)s',
     datefmt='%I:%M:%S-%m/%d/%Y')
 
-name = dt.datetime.utcnow().strftime('%H:%M:%S-%m/%d/%Y')
+name = 'bot_' + dt.datetime.utcnow().strftime('%H-%M-%S_%m%d%Y') + '.log'
 
 
 # ----- Handling discord TOKEN and PREFIX -----
@@ -43,5 +43,6 @@ if __name__ == '__main__':
         bot.run(TOKEN)
     finally:
         l.info('Old log was moved and renamed as \'%s\'', name)
+        l.shutdown()
         os.rename('bot.log', name)
         shutil.move(name, './logs')
