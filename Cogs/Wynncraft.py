@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 import requests as req
+import json
 
 class Wynncraft(commands.Cog):
     def __init__(self,bot):
@@ -13,31 +14,33 @@ class Wynncraft(commands.Cog):
 
         resp = req.get(f'https://api.wynncraft.com/v2/player/{PlayerName}/stats')
         # get the data
-        data = resp.json()['data'][0]
+        data = resp.json()
+
+        res = data['data'][0]
         # print the data
-        if resp['code'] == 400:
+        if data['code'] == 400:
             return await ctx.channel.send('Cannot find user.') 
         highestlvl = 0
-        for x in data['classes']:
+        for x in res['classes']:
             if x['professions']['combat']['level'] > highestlvl:
                 highestlvl = x['professions']['combat']['level']
         embedVar = discord.Embed(title=f"{PlayerName}'s profile", color=0x00ff00)
-        embedVar.add_field(name="UserName: ", value=f"{data['username']}", inline=True)
-        embedVar.add_field(name="Rank: ", value=f"{data['meta']['tag']['value']}", inline=False)
-        embedVar.add_field(name="Online: ", value=f"{data['meta']['location']['online']}", inline=True)
-        embedVar.add_field(name="Server: ", value=f"{data['meta']['location']['server']}", inline=True)
+        embedVar.add_field(name="UserName: ", value=f"{res['username']}", inline=True)
+        embedVar.add_field(name="Rank: ", value=f"{res['meta']['tag']['value']}", inline=False)
+        embedVar.add_field(name="Online: ", value=f"{res['meta']['location']['online']}", inline=True)
+        embedVar.add_field(name="Server: ", value=f"{res['meta']['location']['server']}", inline=True)
         embedVar.add_field(name = chr(173), value = chr(173))
-        embedVar.add_field(name="Guild's name: ", value=f"{data['guild']['name']}", inline=True)
-        embedVar.add_field(name="Rank in guild: ", value=f"{data['guild']['rank']}", inline=True)
-        embedVar.add_field(name="Playtime: ", value=f"{int((data[0]['meta']['playtime'] *4.7)/60)} hours.", inline=False)
+        embedVar.add_field(name="Guild's name: ", value=f"{res['guild']['name']}", inline=True)
+        embedVar.add_field(name="Rank in guild: ", value=f"{res['guild']['rank']}", inline=True)
+        embedVar.add_field(name="Playtime: ", value=f"{int((res['meta']['playtime'] *4.7)/60)} hours.", inline=False)
         embedVar.add_field(name="Highest Level: ", value=f"{highestlvl}", inline=False)
-        embedVar.add_field(name="Joined: ", value=f"{data['meta']['firstJoin'][:10]}", inline=True)
+        embedVar.add_field(name="Joined: ", value=f"{res['meta']['firstJoin'][:10]}", inline=True)
         await ctx.channel.send(embed=embedVar)
     
      #  ----- guild stats -----
     @commands.command(description="Let's you search for guilds.") #? Need to make it look better
     async def guild(self,ctx, GuildName):
-        r = req.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={GuildName}')
+        resp = req.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={GuildName}')
 
         data = resp.json()
 
