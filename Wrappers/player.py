@@ -146,6 +146,12 @@ class Player:
             'classes': [WClass(cls, self._name) for cls in data['classes']]
             }
 
+        highestlvl = 0
+        for player_class in self._data['classes']:
+            if player_class['combat level'] > highestlvl:
+                highestlvl = player_class['combat level']
+        self._data['highest level combat'] = highestlvl
+
     def update(self):
         """Updates the information. Basically it initialises itself again."""
         self.__init__(self._uuid)

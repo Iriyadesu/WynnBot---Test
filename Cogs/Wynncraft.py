@@ -2,6 +2,8 @@ from discord.ext import commands
 import discord
 import requests as req
 
+from Wrappers.player import Player
+
 
 class Wynncraft(commands.Cog):
     def __init__(self, bot):
@@ -10,39 +12,28 @@ class Wynncraft(commands.Cog):
     # ----- player stats -----
     @commands.command(description="Search for players") # Need to make it look better
     async def profile(self, ctx, player_name, stat=None):
+        player = Player(player_name)
 
-        resp = req.get(f'https://api.wynncraft.com/v2/player/{player_name}/stats')
-        # get the data
-        data = resp.json()['data'][0]
-
-        if resp.json()['code'] == 400:
-            return await ctx.channel.send('Cannot find user.')
         if stat is not None:
             try:
                 embedVar = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
-                embedVar.add_field(name=stat, value=data[stat])
+                embedVar.add_field(name=stat, value=player[stat])
                 await ctx.channel.send(embed=embedVar)
                 return
             except:
                 await ctx.channel.send('requested stat was not found')
                 return
 
-        highestlvl = 0
-        for x in data['classes']:
-            if x['professions']['combat']['level'] > highestlvl:
-                highestlvl = x['professions']['combat']['level']
-
         embedVar = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
-        embedVar.add_field(name="UserName: ", value=f"{data['username']}", inline=True)
-        embedVar.add_field(name="Rank: ", value=f"{data['meta']['tag']['value']}", inline=False)
-        embedVar.add_field(name="Online: ", value=f"{data['meta']['location']['online']}", inline=True)
-        embedVar.add_field(name="Server: ", value=f"{data['meta']['location']['server']}", inline=True)
+        embedVar.add_field(name="UserName: ", value=f"{player['username']}", inline=True)
+        embedVar.add_field(name="Rank: ", value=f"{player['rank']}", inline=False)
+        embedVar.add_field(name="Online: ", value=f"{player['location']}", inline=True)
         embedVar.add_field(name=chr(173), value=chr(173))
-        embedVar.add_field(name="Guild's name: ", value=f"{data['guild']['name']}", inline=True)
-        embedVar.add_field(name="Rank in guild: ", value=f"{data['guild']['rank']}", inline=True)
-        embedVar.add_field(name="Playtime: ", value=f"{int((data['meta']['playtime'] *4.7)/60)} hours.", inline=False)
-        embedVar.add_field(name="Highest Level: ", value=f"{highestlvl}", inline=False)
-        embedVar.add_field(name="Joined: ", value=f"{data['meta']['firstJoin'][:10]}", inline=True)
+        embedVar.add_field(name="Guild's name: ", value=f"{player['guild name']}", inline=True)
+        embedVar.add_field(name="Rank in guild: ", value=f"{player['guild rank']}", inline=True)
+        embedVar.add_field(name="Playtime: ", value=f"{player['total playtime']} hours.", inline=False)
+        embedVar.add_field(name="Highest Level: ", value=f"{player['highest level combat']}", inline=False)
+        embedVar.add_field(name="Joined: ", value=f"{player['first join'][:10]}", inline=True)
         await ctx.channel.send(embed=embedVar)
     
     #  ----- guild stats -----
