@@ -40,7 +40,7 @@ class Events(commands.Cog):
         message = await channel.fetch_message(payload.message_id)
         user = await self.bot.fetch_user(payload.user_id)
         emoji = payload.emoji.name
-        if str(message.id) == "781950236008513547" and emoji == "👍":
+        if message.content == "CTKQ" and emoji == "👍":
             await channel.send("Boo")
 
 
