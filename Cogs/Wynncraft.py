@@ -9,20 +9,22 @@ class Wynncraft(commands.Cog):
 
     # ----- player stats -----
     @commands.command(description="Search for players") # Need to make it look better
-    async def profile(self, ctx, PlayerName):
+    async def profile(self, ctx, player_name):
 
-        resp = req.get(f'https://api.wynncraft.com/v2/player/{PlayerName}/stats')
+        resp = req.get(f'https://api.wynncraft.com/v2/player/{player_name}/stats')
         # get the data
         data = resp.json()['data'][0]
 
         # print the data
         if resp.json()['code'] == 400:
-            return await ctx.channel.send('Cannot find user.') 
+            return await ctx.channel.send('Cannot find user.')
+
         highestlvl = 0
         for x in data['classes']:
             if x['professions']['combat']['level'] > highestlvl:
                 highestlvl = x['professions']['combat']['level']
-        embedVar = discord.Embed(title=f"{PlayerName}'s profile", color=0x00ff00)
+
+        embedVar = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
         embedVar.add_field(name="UserName: ", value=f"{data['username']}", inline=True)
         embedVar.add_field(name="Rank: ", value=f"{data['meta']['tag']['value']}", inline=False)
         embedVar.add_field(name="Online: ", value=f"{data['meta']['location']['online']}", inline=True)
@@ -37,15 +39,15 @@ class Wynncraft(commands.Cog):
     
     #  ----- guild stats -----
     @commands.command(description="Let's you search for guilds.") #? Need to make it look better
-    async def guild(self, ctx, GuildName):
-        resp = req.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={GuildName}')
+    async def guild(self, ctx, guild_name):
+        resp = req.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={guild_name}')
 
         data = resp.json()
 
         if "error" in data:
             return await ctx.channel.send('Cannot find guild.') 
 
-        embedVar = discord.Embed(title=f"{GuildName}", color=0xFF0000)
+        embedVar = discord.Embed(title=f"{guild_name}", color=0xFF0000)
         embedVar.add_field(name="Name: ", value=f"{data['name']}", inline=False)
         embedVar.add_field(name="Prefix: ", value=f"{data['prefix']}", inline=False)
         embedVar.add_field(name="Level: ", value=f"{data['level']}", inline=False)
@@ -57,8 +59,8 @@ class Wynncraft(commands.Cog):
 
     #  ----- item stats -----
     @commands.command(description="Search for items") #! Need to finish this
-    async def item(self, ctx, ItemName):
-        resp = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={ItemName}')
+    async def item(self, ctx, item_name):
+        resp = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={item_name}')
         data = resp.json()
 
 

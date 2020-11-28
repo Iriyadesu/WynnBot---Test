@@ -3,19 +3,19 @@ import discord
 
 
 class Events(commands.Cog):
-    def __init__(self,bot):
+    def __init__(self, bot):
         self.bot = bot
 
     # ----- Handling errors -----
     @commands.Cog.listener()
-    async def on_command_error(self,ctx, error):
+    async def on_command_error(self, ctx, error):
 
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send('Please pass in all requirements :rolling_eyes:.')
         elif isinstance(error, commands.MissingPermissions):
             await ctx.send("You dont have all the requirements :angry:")
         else:
-             await ctx.send(error)
+            await ctx.send(error)
 
     # ----- Making commands case insensitive -----
     @commands.Cog.listener()
