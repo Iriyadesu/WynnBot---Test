@@ -17,6 +17,15 @@ class Events(commands.Cog):
         else:
             await ctx.send(error)
 
+    # ----- Giving out Guest role when user joins -----
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        try:
+            await member.add_roles(discord.utils.get(member.guild.roles, name='guest'))
+        except Exception as e:
+            await print('Cannot assign role. Error: ' + str(e))
+        await bot.process_commands(message)
+
     # ----- Making commands case insensitive -----
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -25,14 +34,8 @@ class Events(commands.Cog):
         for x in temp[1:]:
             message.content += " " + str(x)
 
-    # ----- Giving out Guest role when user joins -----
-    @commands.Cog.listener()
-    async def on_member_join(self, member):
-        try:
-            await member.add_roles(discord.utils.get(member.guild.roles, name='guest')) 
-        except Exception as e:
-            await print('Cannot assign role. Error: ' + str(e))
-        await bot.process_commands(message)
+        if message.content == "cktq:4":
+            await message.channel.send("ahoj")
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
@@ -40,8 +43,6 @@ class Events(commands.Cog):
         message = await channel.fetch_message(payload.message_id)
         user = await self.bot.fetch_user(payload.user_id)
         emoji = payload.emoji.name
-        if message.content == "cktq:4":
-            await channel.send("ahoj")
 
 
 def setup(bot):
