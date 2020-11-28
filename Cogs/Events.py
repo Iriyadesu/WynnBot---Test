@@ -29,13 +29,16 @@ class Events(commands.Cog):
     # ----- Making commands case insensitive -----
     @commands.Cog.listener()
     async def on_message(self, message):
+        if message.author == self.bot.user:
+                return
+        if message.author.bot: return
         temp = message.content.split(" ")
         message.content = str(temp[0].lower())
         for x in temp[1:]:
             message.content += " " + str(x)
 
         if message.content == "cktq:4":
-            await message.channel.send("ahoj")
+            await message.channel.send("cktq:4")
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
