@@ -26,11 +26,13 @@ class Wynncraft(commands.Cog):
 
         embedVar = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
         embedVar.add_field(name="UserName: ", value=f"{player['username']}", inline=True)
+        embedVar.add_field(name=chr(173), value=chr(173))
         embedVar.add_field(name="Rank: ", value=f"{player['rank']}", inline=False)
         embedVar.add_field(name="Online: ", value=f"{player['location']}", inline=True)
         embedVar.add_field(name=chr(173), value=chr(173))
-        embedVar.add_field(name="Guild's name: ", value=f"{player['guild name']}", inline=True)
-        embedVar.add_field(name="Rank in guild: ", value=f"{player['guild rank']}", inline=True)
+        embedVar.add_field(name="Guild name: ", value=f"{player['guild name']}", inline=True)
+        embedVar.add_field(name="Guild rank: ", value=f"{player['guild rank'].lower() if player['guild rank'] else 'none'}",
+                           inline=True)
         embedVar.add_field(name="Playtime: ", value=f"{player['total playtime']} hours.", inline=False)
         embedVar.add_field(name="Highest Level: ", value=f"{player['highest level combat']}", inline=False)
         embedVar.add_field(name="Joined: ", value=f"{player['first join'][:10]}", inline=True)
