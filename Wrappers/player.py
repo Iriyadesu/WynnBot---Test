@@ -307,11 +307,3 @@ class WClass:
 
     def __repr__(self):
         return f'<{self._owner}\'s {self["class"]}; combat lv.{self["combat level"]}>'
-
-
-if __name__ == '__main__':
-    p = Player('TrapinchO')
-    print(p['veteran'])
-    print(p)
-    for clas in p['classes']:
-        print(clas)
