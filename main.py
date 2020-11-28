@@ -46,6 +46,8 @@ if __name__ == '__main__':
     # ---------- run the bot ----------
     try:
         bot.run(TOKEN)
+    except Exception as e:
+        print(e)
     finally:
         move_log = f'Old log was moved and renamed as \'{name}\''
         print(move_log)
