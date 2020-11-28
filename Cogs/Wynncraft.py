@@ -9,15 +9,23 @@ class Wynncraft(commands.Cog):
 
     # ----- player stats -----
     @commands.command(description="Search for players") # Need to make it look better
-    async def profile(self, ctx, player_name):
+    async def profile(self, ctx, player_name, stat=None):
 
         resp = req.get(f'https://api.wynncraft.com/v2/player/{player_name}/stats')
         # get the data
         data = resp.json()['data'][0]
 
-        # print the data
         if resp.json()['code'] == 400:
             return await ctx.channel.send('Cannot find user.')
+        if stat is not None:
+            try:
+                embedVar = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
+                embedVar.add_field(name=stat, value=data[stat])
+                await ctx.channel.send(embed=embedVar)
+                return
+            except:
+                await ctx.channel.send('requested stat was not found')
+                return
 
         highestlvl = 0
         for x in data['classes']:
