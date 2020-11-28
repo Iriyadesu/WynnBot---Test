@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 
+
 class Events(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
@@ -26,11 +27,11 @@ class Events(commands.Cog):
 
     # ----- Giving out Guest role when user joins -----
     @commands.Cog.listener()
-    async def on_member_join(self,member):
+    async def on_member_join(self, member):
         try:
             await member.add_roles(discord.utils.get(member.guild.roles, name='guest')) 
         except Exception as e:
-            await print('Cannot assign role. Error: ' + e)
+            await print('Cannot assign role. Error: ' + str(e))
         await bot.process_commands(message)
 
     @commands.Cog.listener()
@@ -41,6 +42,7 @@ class Events(commands.Cog):
         emoji = payload.emoji.name
         if str(message.id) == "781950236008513547" and emoji == "👍":
             await channel.send("Boo")
+
 
 def setup(bot):
     bot.add_cog(Events(bot))

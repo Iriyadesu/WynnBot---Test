@@ -12,8 +12,9 @@ from discord.ext import commands
 # ---------- logging init ----------
 # logging config
 l.basicConfig(level=l.INFO, filename='bot.log',
-    format='%(asctime)s %(levelname)s: %(message)s',
-    datefmt='%I:%M:%S-%m/%d/%Y')
+              format='%(asctime)s %(levelname)s: %(message)s',
+              datefmt='%I:%M:%S-%m/%d/%Y'
+              )
 
 name = 'bot_' + dt.datetime.utcnow().strftime('%H-%M-%S_%m%d%Y') + '.log'
 

@@ -1,17 +1,15 @@
 from discord.ext import commands
 import discord
 import requests as req
-import json
 
 
 class Wynncraft(commands.Cog):
-    def __init__(self,bot):
+    def __init__(self, bot):
         self.bot = bot
-
 
     # ----- player stats -----
     @commands.command(description="Search for players") # Need to make it look better
-    async def profile(self,ctx, PlayerName):
+    async def profile(self, ctx, PlayerName):
 
         resp = req.get(f'https://api.wynncraft.com/v2/player/{PlayerName}/stats')
         # get the data
@@ -29,7 +27,7 @@ class Wynncraft(commands.Cog):
         embedVar.add_field(name="Rank: ", value=f"{data['meta']['tag']['value']}", inline=False)
         embedVar.add_field(name="Online: ", value=f"{data['meta']['location']['online']}", inline=True)
         embedVar.add_field(name="Server: ", value=f"{data['meta']['location']['server']}", inline=True)
-        embedVar.add_field(name = chr(173), value = chr(173))
+        embedVar.add_field(name=chr(173), value=chr(173))
         embedVar.add_field(name="Guild's name: ", value=f"{data['guild']['name']}", inline=True)
         embedVar.add_field(name="Rank in guild: ", value=f"{data['guild']['rank']}", inline=True)
         embedVar.add_field(name="Playtime: ", value=f"{int((data['meta']['playtime'] *4.7)/60)} hours.", inline=False)
@@ -37,9 +35,9 @@ class Wynncraft(commands.Cog):
         embedVar.add_field(name="Joined: ", value=f"{data['meta']['firstJoin'][:10]}", inline=True)
         await ctx.channel.send(embed=embedVar)
     
-     #  ----- guild stats -----
+    #  ----- guild stats -----
     @commands.command(description="Let's you search for guilds.") #? Need to make it look better
-    async def guild(self,ctx, GuildName):
+    async def guild(self, ctx, GuildName):
         resp = req.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={GuildName}')
 
         data = resp.json()
@@ -59,9 +57,10 @@ class Wynncraft(commands.Cog):
 
     #  ----- item stats -----
     @commands.command(description="Search for items") #! Need to finish this
-    async def item(self,ctx, ItemName):
-        r = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={ItemName}')
-        json = r.json()
+    async def item(self, ctx, ItemName):
+        resp = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={ItemName}')
+        data = resp.json()
+
 
 def setup(bot):
     bot.add_cog(Wynncraft(bot))
