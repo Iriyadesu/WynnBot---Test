@@ -80,7 +80,8 @@ class Moderation(commands.Cog):
                             voters.append(reactor.id)
             output = f"Results of the poll for '{embed.title}':\n" + '\n'.join(['{}: {}'.format(opt_dict[key], tally[key]) for key in tally.keys()])
             await ctx.send(output)
-
+        else:
+            await ctx.send("Correct syntax: !poll <create/end>")
 
 def setup(bot):
     bot.add_cog(Moderation(bot))
