@@ -24,6 +24,12 @@ class Events(commands.Cog):
             await member.add_roles(discord.utils.get(member.guild.roles, name='guest'))
         except Exception as e:
             await print('Cannot assign role. Error: ' + str(e))
+        welcome_embed = discord.Embed(title="Welcome!",
+                                      description=f"Welcome {member.mention} to the official\nWynnic Rebellion discord server!",
+                                      color=32768)
+        welcome_embed.add_field(name='What to do', value='* Read the rules\n* Get a guild role')
+        welcome_embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
+        await member.send('Welcome!', embed=welcome_embed)
 
     # ----- Making commands case insensitive -----
     @commands.Cog.listener()

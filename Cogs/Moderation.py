@@ -20,7 +20,7 @@ class Moderation(commands.Cog):
 
     # ----- kick -----
     @commands.command(description="kicks someone")
-    @commands.has_permissions(kick_members=True)
+    #@commands.has_permissions(kick_members=True)
     async def kick(self, ctx, user: discord.Member, *, reason="No reason provided"):
         await user.kick(reason=reason)
         kick_embed = discord.Embed(title=f":boom: Kicked {user.name}!",
