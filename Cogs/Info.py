@@ -37,8 +37,7 @@ class Info(commands.Cog):
 
         if cog == 'all':
             for cog in cogs:
-                if cog == "Events":
-                    pass
+                if cog == "Events": pass
                 else:
                     # Get a list of all commands under each cog
 
@@ -116,6 +115,7 @@ class Info(commands.Cog):
             for reaction in reactions[:len(options)]:
                 await react_message.add_reaction(reaction)
             embed.set_footer(text='Poll ID: {}'.format(react_message.id))
+
             await react_message.edit(embed=embed)
         elif cord.lower() == "end":
             poll_message = await ctx.channel.fetch_message(var)
@@ -136,6 +136,7 @@ class Info(commands.Cog):
                             voters.append(reactor.id)
             output = f"Results of the poll for '{embed.title}':\n" + '\n'.join(['{}: {}'.format(opt_dict[key], tally[key]) for key in tally.keys()])
             await ctx.send(output)
+
         else:
             await ctx.send("Correct syntax: `!poll <create/end>`")
    

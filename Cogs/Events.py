@@ -1,5 +1,6 @@
 from discord.ext import commands
 import discord
+import logging as l
 
 
 class Events(commands.Cog):
@@ -9,7 +10,6 @@ class Events(commands.Cog):
     # ----- Handling errors -----
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send('Please pass in all requirements :rolling_eyes:.')
         elif isinstance(error, commands.MissingPermissions):
@@ -20,6 +20,7 @@ class Events(commands.Cog):
     # ----- Giving out Guest role when user joins -----
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        l.info(f'New member joined! Username: {member.name}')
         try:
             await member.add_roles(discord.utils.get(member.guild.roles, name='guest'))
         except Exception as e:
