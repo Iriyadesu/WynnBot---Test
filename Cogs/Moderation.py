@@ -39,7 +39,6 @@ class Moderation(commands.Cog):
         except Exception as e:
             await ctx.channel.send('Cannot assign role. Error: ' + str(e))
 
-
     @commands.command(pass_context=True, description="Manages polls")
     async def poll(self, ctx, cord: str, var, *options: str):
         if cord.lower() == "create":
@@ -68,6 +67,7 @@ class Moderation(commands.Cog):
             unformatted_options = [x.strip() for x in embed.description.split('\n')]
             opt_dict = {x[:2]: x[3:] for x in unformatted_options} if unformatted_options[0][0] == '1' \
                 else {x[:1]: x[2:] for x in unformatted_options}
+
             #check if we're using numbers for the poll, or x/checkmark, parse accordingly
             voters = [self.bot.user.id]  # add the bot's ID to the list of voters to exclude it's votes
             tally = {x: 0 for x in opt_dict.keys()}
@@ -81,7 +81,8 @@ class Moderation(commands.Cog):
             output = f"Results of the poll for '{embed.title}':\n" + '\n'.join(['{}: {}'.format(opt_dict[key], tally[key]) for key in tally.keys()])
             await ctx.send(output)
         else:
-            await ctx.send("Correct syntax: !poll <create/end>")
+            await ctx.send("Correct syntax: `!poll <create/end>`")
+
 
 def setup(bot):
     bot.add_cog(Moderation(bot))
