@@ -30,8 +30,9 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author == self.bot.user:
-                return
-        if message.author.bot: return
+            return
+        if message.author.bot:
+            return
         temp = message.content.split(" ")
         message.content = str(temp[0].lower())
         for x in temp[1:]:
