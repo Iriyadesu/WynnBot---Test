@@ -45,10 +45,12 @@ if __name__ == '__main__':
     # ---------- run the bot ----------
     try:
         print('Bot runs')
+        l.log('Bot started')
         bot.run(TOKEN)
     except Exception as e:
         print(e)
     finally:
+        # move the log into "logs" folder
         move_log = f'Old log was moved and renamed as \'{name}\''
         print(move_log)
         l.info(move_log)

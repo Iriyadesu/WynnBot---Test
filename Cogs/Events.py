@@ -24,7 +24,6 @@ class Events(commands.Cog):
             await member.add_roles(discord.utils.get(member.guild.roles, name='guest'))
         except Exception as e:
             await print('Cannot assign role. Error: ' + str(e))
-        await bot.process_commands(message)
 
     # ----- Making commands case insensitive -----
     @commands.Cog.listener()
