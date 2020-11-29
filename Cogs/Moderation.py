@@ -25,7 +25,7 @@ class Moderation(commands.Cog):
 
     # ----- kick -----
     @commands.command(description="kicks someone")
-    #@commands.has_permissions(kick_members=True)
+    @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, user: discord.Member, *, reason="No reason provided"):
         l.info(f'Kicked user {user.name}. Reason: {reason}')  # log it
         await user.kick(reason=reason)  # kick them
