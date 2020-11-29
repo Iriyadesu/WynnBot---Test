@@ -36,7 +36,7 @@ class Events(commands.Cog):
         message.content = str(temp[0].lower())
         for x in temp[1:]:
             message.content += " " + str(x)
-
+            
         if message.content == "cktq:4":
             await message.channel.send("cktq:4")
 
