@@ -111,7 +111,7 @@ class Info(commands.Cog):
             description = []
             for x, option in enumerate(options):
                 description += '\n {} {}'.format(reactions[x], option)
-            embed = discord.Embed(title=var, description=''.join(description))
+            embed = discord.Embed(title=var, description=''.join(description), color=0x0000FF)
             react_message = await ctx.send(embed=embed)
             for reaction in reactions[:len(options)]:
                 await react_message.add_reaction(reaction)

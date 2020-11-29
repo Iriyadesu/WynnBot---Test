@@ -12,8 +12,8 @@ class Moderation(commands.Cog):
     async def ban(self, ctx, user: discord.Member, *, reason="No reason provided"):
         await user.ban(reason=reason)
         ban_embed = discord.Embed(title=f":boom: Banned {user.name}!",
-                            description=f"Reason: {reason}\nBy: {ctx.author.mention}"
-                            )
+                                  description=f"Reason: {reason}\nBy: {ctx.author.mention}",
+                                  color=0xCCCC00)
         await ctx.message.delete()
         await ctx.channel.send('Seems like you were not behaving properly.\n Next', embed=ban_embed)
         await user.send(embed=ban_embed)
@@ -24,7 +24,8 @@ class Moderation(commands.Cog):
     async def kick(self, ctx, user: discord.Member, *, reason="No reason provided"):
         await user.kick(reason=reason)
         kick_embed = discord.Embed(title=f":boom: Kicked {user.name}!",
-                                   description=f"Reason: {reason}\nBy: {ctx.author.mention}")
+                                   description=f"Reason: {reason}\nBy: {ctx.author.mention}",
+                                   color=0xCCCC00)
         await ctx.message.delete()
         await ctx.channel.send(embed=kick_embed)
         kick_embed.title = 'You were kicked!'
