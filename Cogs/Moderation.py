@@ -72,7 +72,15 @@ class Moderation(commands.Cog):
             await ctx.channel.send('Cannot assign role. Error: ' + str(e))
 
 
-def log_embed(action, author, user, reason):
+def log_embed(action, author: discord.Member, user: discord.Member, reason: str):
+    """
+    Used to save some code
+    :param action: action taken; currently ['ban', 'kick', 'mute']
+    :param author: who used that command
+    :param user: again who was the action taken (e.g. who was banned)
+    :param reason: reson for the action
+    :return: discord.Embed()
+    """
     log_embed = discord.Embed(title=action, color=embed_colors['moderation'])
     log_embed.add_field(name='By:', value=author.mention)
     log_embed.add_field(name='Who:', value=user.mention)
