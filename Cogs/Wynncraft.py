@@ -11,7 +11,7 @@ class Wynncraft(commands.Cog):
         self.bot = bot
 
     # ----- player stats -----
-    @commands.command(description="Search for players") # Need to make it look better
+    @commands.command(description="Search for players")  # Need to make it look better
     async def profile(self, ctx, player_name, stat=None):
         player = Player(player_name)
 
@@ -22,7 +22,9 @@ class Wynncraft(commands.Cog):
                 await ctx.channel.send(embed=player_embed)
                 return
             except:
-                await ctx.channel.send('requested stat was not found')
+                error_ember = discord.Embed(title='Error!', color=0)
+                error_ember.add_field(name='Reason:', value=f'Requested stat \"{stat}\" not found')
+                await ctx.channel.send(embed=error_ember)
                 return
 
         player_embed = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
@@ -33,14 +35,14 @@ class Wynncraft(commands.Cog):
         player_embed.add_field(name=chr(173), value=chr(173))
         player_embed.add_field(name="Guild name: ", value=f"{player['guild name']}", inline=True)
         player_embed.add_field(name="Guild rank: ", value=f"{player['guild rank'].lower() if player['guild rank'] else 'none'}",
-                           inline=True)
+                               inline=True)
         player_embed.add_field(name="Playtime: ", value=f"{player['total playtime']} hours.", inline=False)
         player_embed.add_field(name="Highest Level: ", value=f"{player['highest level combat']}", inline=False)
         player_embed.add_field(name="Joined: ", value=f"{player['first join'][:10]}", inline=True)
         await ctx.channel.send(embed=player_embed)
     
     #  ----- guild stats -----
-    @commands.command(description="Let's you search for guilds.") #? Need to make it look better
+    @commands.command(description="Let's you search for guilds.")  #? Need to make it look better
     async def guild(self, ctx, guild_name):
         resp = req.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={guild_name}')
 
@@ -63,11 +65,11 @@ class Wynncraft(commands.Cog):
     @commands.command(description='Sends info about requested guild\nUse `\"` for more-word names.')
     async def territory(self, ctx, territory_name):
         terr = Territory(territory_name)
-        if terr._data is None:
+        if terr.found is None:
             await ctx.channel.send(f'Territory \"{territory_name}\" was not found')
             return
 
-        territory_embed = discord.Embed(title=f"{territory_name}", color=0xFF0000)
+        territory_embed = discord.Embed(title=f"{territory_name}", color=0x00FF00)
         territory_embed.add_field(name='Name:', value=territory_name)
         territory_embed.add_field(name='Owner:', value=terr['owner'])
         territory_embed.add_field(name=chr(173), value=chr(173))

@@ -10,12 +10,18 @@ class Events(commands.Cog):
     # ----- Handling errors -----
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
+        error_ember = discord.Embed(title='Error',
+                                    description='An error occurred while processing the command!',
+                                    color=0)
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send('Please pass in all requirements :rolling_eyes:.')
+            error_message = 'Not enough arguments'
         elif isinstance(error, commands.MissingPermissions):
-            await ctx.send("You dont have all the requirements :angry:")
+            error_message = 'Not enough permissions'
         else:
-            await ctx.send(error)
+            error_message = str(error)
+
+        error_ember.add_field(name='Reason:', value=error_message)
+        await ctx.send(embed=error_ember)
 
     # ----- Giving out Guest role when user joins -----
     @commands.Cog.listener()
@@ -46,7 +52,7 @@ class Events(commands.Cog):
             message.content += " " + str(x)
             
         if message.content == "cktq:4":
-            await message.channel.send("cktq:4")
+            await message.channel.send("ahoj")
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):

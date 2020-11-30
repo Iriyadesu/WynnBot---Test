@@ -1,6 +1,6 @@
 from discord.ext import commands
 import discord
-import random
+from bot_data import colors
 
 
 class Info(commands.Cog):
@@ -19,12 +19,8 @@ class Info(commands.Cog):
         """
 
         # Prepare the embed
-
-        color_list = [c for c in colors.values()]
         help_embed = discord.Embed(
-            title='Help',
-            color=random.choice(color_list)
-        )
+            title='Help', color=0x0000FF)
         help_embed.set_thumbnail(url=self.bot.user.avatar_url)
         help_embed.set_footer(
             text=f'Requested by {ctx.message.author.name}',
@@ -124,7 +120,7 @@ class Info(commands.Cog):
             opt_dict = {x[:2]: x[3:] for x in unformatted_options} if unformatted_options[0][0] == '1' \
                 else {x[:1]: x[2:] for x in unformatted_options}
 
-            #check if we're using numbers for the poll, or x/checkmark, parse accordingly
+            #  check if we're using numbers for the poll, or x/checkmark, parse accordingly
             voters = [self.bot.user.id]  # add the bot's ID to the list of voters to exclude it's votes
             tally = {x: 0 for x in opt_dict.keys()}
             for reaction in poll_message.reactions:
@@ -139,39 +135,6 @@ class Info(commands.Cog):
 
         else:
             await ctx.send("Correct syntax: `!poll <create/end>`")
-   
-
-# These color constants are taken from discord.js library
-colors = {
-  'DEFAULT': 0x000000,
-  'WHITE': 0xFFFFFF,
-  'AQUA': 0x1ABC9C,
-  'GREEN': 0x2ECC71,
-  'BLUE': 0x3498DB,
-  'PURPLE': 0x9B59B6,
-  'LUMINOUS_VIVID_PINK': 0xE91E63,
-  'GOLD': 0xF1C40F,
-  'ORANGE': 0xE67E22,
-  'RED': 0xE74C3C,
-  'GREY': 0x95A5A6,
-  'NAVY': 0x34495E,
-  'DARK_AQUA': 0x11806A,
-  'DARK_GREEN': 0x1F8B4C,
-  'DARK_BLUE': 0x206694,
-  'DARK_PURPLE': 0x71368A,
-  'DARK_VIVID_PINK': 0xAD1457,
-  'DARK_GOLD': 0xC27C0E,
-  'DARK_ORANGE': 0xA84300,
-  'DARK_RED': 0x992D22,
-  'DARK_GREY': 0x979C9F,
-  'DARKER_GREY': 0x7F8C8D,
-  'LIGHT_GREY': 0xBCC0C0,
-  'DARK_NAVY': 0x2C3E50,
-  'BLURPLE': 0x7289DA,
-  'GREYPLE': 0x99AAB5,
-  'DARK_BUT_NOT_BLACK': 0x2C2F33,
-  'NOT_QUITE_BLACK': 0x23272A
-}
 
 
 def setup(bot):
