@@ -87,6 +87,14 @@ class Info(commands.Cog):
 
     @commands.command(pass_context=True, description="Manages polls")
     async def poll(self, ctx, cord: str, var, *options: str):
+        """
+        Creates a poll.
+        :param ctx: channel where the command was used
+        :param cord: whether to create or end poll
+        :param var: The (Ultimate) question (of Life, the Universe, and Everything)
+        :param options: vote options
+        :return: None
+        """
         if cord.lower() == "create":
             if len(options) <= 1:
                 await ctx.send('You need more than one option to make a poll!')

@@ -12,6 +12,12 @@ class Events(commands.Cog):
     # ----- Handling errors -----
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
+        """
+        Called when an error occurs during a processing of a command
+        :param ctx: channel where the command was used
+        :param error: type of error
+        :return: none
+        """
         if isinstance(error, commands.MissingRequiredArgument):
             error_message = 'Not enough arguments'
         elif isinstance(error, commands.MissingPermissions):
@@ -26,6 +32,12 @@ class Events(commands.Cog):
     # ----- Giving out Guest role when user joins -----
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        """
+        When a member joins give him the "Guest" role
+        and send him welcome message into DMs.
+        :param member: member that joined
+        :return: None
+        """
         l.info(f'New member joined! Username: {member.name}')
         try:
             await member.add_roles(discord.utils.get(member.guild.roles, name='guest'))
@@ -42,6 +54,11 @@ class Events(commands.Cog):
     # ----- Making commands case insensitive -----
     @commands.Cog.listener()
     async def on_message(self, message):
+        """
+        What to do when any message is sent.
+        :param message: message sent
+        :return: None
+        """
         if message.author == self.bot.user:
             return
         if message.author.bot:

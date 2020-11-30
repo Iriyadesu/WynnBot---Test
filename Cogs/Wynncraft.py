@@ -14,6 +14,14 @@ class Wynncraft(commands.Cog):
     # ----- player stats -----
     @commands.command(description="Search for players")  # Need to make it look better
     async def profile(self, ctx, player_name, stat=None):
+        """
+        Send embed with info on requested player.
+        Sends specific stat if requested
+        :param ctx: channel where the command was used
+        :param player_name: name of the requested player
+        :param stat: stat requested; default None
+        :return: None
+        """
         player = Player(player_name)
         if not player.found:
             await ctx.channel.send(embed=error_embed('Requested player not found.'))
@@ -46,6 +54,12 @@ class Wynncraft(commands.Cog):
     #  ----- guild stats -----
     @commands.command(description="Let's you search for guilds.")  #? Need to make it look better
     async def guild(self, ctx, guild_name):
+        """
+        Send embed with info on requested guild.
+        :param ctx: channel where the command was used
+        :param guild_name: name of the requested player
+        :return: None
+        """
         resp = req.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={guild_name}')
 
         data = resp.json()
@@ -68,6 +82,12 @@ class Wynncraft(commands.Cog):
     #  ----- territory stats -----
     @commands.command(description='Sends info about requested guild\nUse `\"name\"` for more-word names.')
     async def territory(self, ctx, territory_name):
+        """
+        Send embed with info on requested territory.
+        :param ctx: channel where the command was used
+        :param territory_name: name of the requested player
+        :return: None
+        """
         terr = Territory(territory_name)
         if not terr.found:
             await ctx.channel.send(embed=error_embed('Requested territory not found.'))

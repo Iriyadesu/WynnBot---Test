@@ -13,6 +13,14 @@ class Moderation(commands.Cog):
     @commands.command(description="Bans someone")
     #@commands.has_permissions(ban_members=True)
     async def ban(self, ctx, user: discord.Member, *, reason="No reason provided"):
+        """
+        Used to ban players.
+        Requires "ban" permission.
+        :param ctx: channel where the command was used
+        :param user: who was banned
+        :param reason: reason for the ban
+        :return: None
+        """
         l.info(f'Banned user {user.name}. Reason: {reason}')  # log it
 
         await user.ban(reason=reason)  # ban them
@@ -35,6 +43,14 @@ class Moderation(commands.Cog):
     @commands.command(description="kicks someone")
     #@commands.has_permissions(kick_members=True)
     async def kick(self, ctx, user: discord.Member, *, reason="No reason provided"):
+        """
+        Used to kick players.
+        Requires "kick" permission.
+        :param ctx: channel where the command was used
+        :param user: who was kicked
+        :param reason: reason for the kick
+        :return: None
+        """
         l.info(f'Kicked user {user.name}. Reason: {reason}')  # log it
 
         await user.kick(reason=reason)  # kick them
@@ -56,6 +72,14 @@ class Moderation(commands.Cog):
     @commands.command(description="kicks someone")
     #@commands.has_permissions(kick_members=True)
     async def mute(self, ctx, user: discord.Member, *, reason='No reason provided'):
+        """
+        Used to mute players.
+        Requires "kick" permission.
+        :param ctx: channel where the command was used
+        :param user: who was muted
+        :param reason: reason for the mute
+        :return: None
+        """
         l.info(f'Muted user {user.name}. Reason: {reason}')
 
         await self.bot.get_channel(782625707963842600).send(
