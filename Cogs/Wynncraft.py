@@ -22,9 +22,7 @@ class Wynncraft(commands.Cog):
                 player_embed.add_field(name=stat, value=player[stat])
                 await ctx.channel.send(embed=player_embed)
             except:
-                error_ember = discord.Embed(title='Error!', color=0)
-                error_ember.add_field(name='Reason:', value=f'Requested stat \"{stat}\" not found')
-                await ctx.channel.send(embed=error_ember)
+                await ctx.channel.send(embed=error_embed('Requested stat not found.'))
             return
 
         # create the embed
@@ -50,10 +48,7 @@ class Wynncraft(commands.Cog):
         data = resp.json()
 
         if "error" in data:
-            error_embed = discord.Embed(title='Error!',
-                                        color=embed_colors['error'])
-            error_embed.add_field(name='Reason:', value='Guild not found.')
-            await ctx.channel.send(embed=error_embed)
+            await ctx.channel.send(embed=error_embed('Requested guild not found.'))
             return
 
         # prepare the embed
@@ -72,7 +67,7 @@ class Wynncraft(commands.Cog):
     async def territory(self, ctx, territory_name):
         terr = Territory(territory_name)
         if terr.found is None:
-            await ctx.channel.send(embed=error_embed('Territory not found.'))
+            await ctx.channel.send(embed=error_embed('Requested territory not found.'))
             return
 
         territory_embed = discord.Embed(title=f"{territory_name}", color=0x00FF00)

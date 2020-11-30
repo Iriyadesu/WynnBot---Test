@@ -2,6 +2,8 @@ from discord.ext import commands
 import discord
 import logging as l
 
+from bot_data import error_embed
+
 
 class Events(commands.Cog):
     def __init__(self, bot):
@@ -10,9 +12,6 @@ class Events(commands.Cog):
     # ----- Handling errors -----
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        error_ember = discord.Embed(title='Error',
-                                    description='An error occurred while processing the command!',
-                                    color=0)
         if isinstance(error, commands.MissingRequiredArgument):
             error_message = 'Not enough arguments'
         elif isinstance(error, commands.MissingPermissions):
@@ -20,8 +19,9 @@ class Events(commands.Cog):
         else:
             error_message = str(error)
 
-        error_ember.add_field(name='Reason:', value=error_message)
-        await ctx.send(embed=error_ember)
+        await ctx.send(embed=error_embed(error_message,
+                                         description='An error occurred while processing the command!')
+                       )
 
     # ----- Giving out Guest role when user joins -----
     @commands.Cog.listener()

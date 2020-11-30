@@ -39,8 +39,14 @@ embed_colors = {
 }
 
 
-def error_embed(reason: str = 'No reason provided'):
-    embed = discord.Embed(title='Error!')
+def error_embed(reason: str = 'No reason provided', *, description: str = ''):
+    """
+    Returns embed for errors
+    :param reason: Why did the error happened
+    :param description: description of the embed
+    :return: discord.Embed
+    """
+    embed = discord.Embed(title='Error!', description=description)
     embed.add_field(name='Reason:', value=reason)
 
     return embed
