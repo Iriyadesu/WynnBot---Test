@@ -27,12 +27,9 @@ class Moderation(commands.Cog):
         await user.send('You broke the rules. A LOT.\nNow you have to face the consequences.\nWas it worth it?',
                         embed=ban_embed)  # send it to the user's DMs
 
-        log_embed = discord.Embed(title='Mute', color=embed_colors['moderation'])
-        log_embed.add_field(name='By:', value=ctx.author.mention)
-        log_embed.add_field(name='Who:', value=user.mention)
-        log_embed.add_field(name=chr(173), value=chr(173))
-        log_embed.add_field(name='Reason:', value=reason)
-        await self.bot.get_channel(782625707963842600).send(embed=log_embed)
+        await self.bot.get_channel(782625707963842600).send(
+            embed=log_embed('Ban', ctx.author, user, reason)
+        )
 
     # ----- kick -----
     @commands.command(description="kicks someone")
@@ -51,12 +48,9 @@ class Moderation(commands.Cog):
         await user.send('Seems like you were not behaving properly.\nNext please do not break the rules.',
                         embed=kick_embed)  # send it to the user's DMs
 
-        log_embed = discord.Embed(title='Mute', color=embed_colors['moderation'])
-        log_embed.add_field(name='By:', value=ctx.author.mention)
-        log_embed.add_field(name='Who:', value=user.mention)
-        log_embed.add_field(name=chr(173), value=chr(173))
-        log_embed.add_field(name='Reason:', value=reason)
-        await self.bot.get_channel(782625707963842600).send(embed=log_embed)
+        await self.bot.get_channel(782625707963842600).send(
+            embed=log_embed('Kick', ctx.author, user, reason)
+        )
 
     # ----- mute -----
     @commands.command(description="kicks someone")
@@ -64,12 +58,9 @@ class Moderation(commands.Cog):
     async def mute(self, ctx, user: discord.Member, *, reason='No reason provided'):
         l.info(f'Muted user {user.name}. Reason: {reason}')
 
-        log_embed = discord.Embed(title='Mute', color=embed_colors['moderation'])
-        log_embed.add_field(name='By:', value=ctx.author.mention)
-        log_embed.add_field(name='Who:', value=user.mention)
-        log_embed.add_field(name=chr(173), value=chr(173))
-        log_embed.add_field(name='Reason:', value=reason)
-        await self.bot.get_channel(782625707963842600).send(embed=log_embed)
+        await self.bot.get_channel(782625707963842600).send(
+            embed=log_embed('Mute', ctx.author, user, reason)
+        )
 
     # ----- repeat -----
     @commands.command(description="speak beep boop")
@@ -79,6 +70,15 @@ class Moderation(commands.Cog):
             await ctx.channel.send(str(arg))
         except Exception as e:
             await ctx.channel.send('Cannot assign role. Error: ' + str(e))
+
+
+def log_embed(action, author, user, reason):
+    log_embed = discord.Embed(title=action, color=embed_colors['moderation'])
+    log_embed.add_field(name='By:', value=author.mention)
+    log_embed.add_field(name='Who:', value=user.mention)
+    log_embed.add_field(name=chr(173), value=chr(173))
+    log_embed.add_field(name='Reason:', value=reason)
+    return log_embed
 
 
 def setup(bot):
