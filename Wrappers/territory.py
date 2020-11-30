@@ -35,7 +35,7 @@ class Territory:
 
         data = jres['territories']
         if name not in data:
-            self.found = None
+            self.found = False
             return
         else:
             self.found = True

@@ -42,6 +42,14 @@ class Moderation(commands.Cog):
         await user.send('Seems like you were not behaving properly.\nNext please do not break the rules.',
                         embed=kick_embed)  # send it to the user's DMs
 
+    # ----- mute -----
+    @commands.command(description="kicks someone")
+    @commands.has_permissions(kick_members=True)
+    async def mute(self, ctx, user: discord.member, *, reason='No reason provided'):
+        l.info(f'Muted user {user.name}. Reason: {reason}')
+
+        pass
+
     # ----- repeat -----
     @commands.command(description="speak beep boop")
     @commands.has_permissions(administrator=True)

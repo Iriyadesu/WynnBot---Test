@@ -15,6 +15,9 @@ class Wynncraft(commands.Cog):
     @commands.command(description="Search for players")  # Need to make it look better
     async def profile(self, ctx, player_name, stat=None):
         player = Player(player_name)
+        if not player.found:
+            await ctx.channel.send(embed=error_embed('Requested player not found.'))
+            return
 
         if stat is not None:
             try:
@@ -66,7 +69,7 @@ class Wynncraft(commands.Cog):
     @commands.command(description='Sends info about requested guild\nUse `\"` for more-word names.')
     async def territory(self, ctx, territory_name):
         terr = Territory(territory_name)
-        if terr.found is None:
+        if not terr.found:
             await ctx.channel.send(embed=error_embed('Requested territory not found.'))
             return
 

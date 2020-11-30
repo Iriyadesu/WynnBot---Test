@@ -50,4 +50,3 @@ def error_embed(reason: str = 'No reason provided', *, description: str = ''):
     embed.add_field(name='Reason:', value=reason)
 
     return embed
-

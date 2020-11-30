@@ -97,7 +97,8 @@ class Player:
 
         if res.status_code == 400:
             # if status code is 400 (non-existing name)
-            raise NameError(f'name was not found')
+            self.found = False
+            return
 
         elif res.status_code == 429:
             # if too many requests are sent (exceeded the limit)(750/30min/ip)
@@ -109,6 +110,7 @@ class Player:
 
         else:
             # status code is 200
+            self.found = True
 
             # gets the json
             jres = res.json()
