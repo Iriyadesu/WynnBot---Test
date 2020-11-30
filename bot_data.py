@@ -28,3 +28,10 @@ colors = {
   'DARK_BUT_NOT_BLACK': 0x2C2F33,
   'NOT_QUITE_BLACK': 0x23272A
 }
+
+embed_colors = {
+  'info': 0xFF,  # blue
+  'error': 0,  # black
+  'moderation': 0xFFFF,  # yellow
+  'normal': 0xFF00  # green
+}

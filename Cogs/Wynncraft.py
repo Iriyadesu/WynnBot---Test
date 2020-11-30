@@ -4,6 +4,7 @@ import requests as req
 
 from Wrappers.player import Player
 from Wrappers.territory import Territory
+from bot_data import embed_colors
 
 
 class Wynncraft(commands.Cog):
@@ -20,13 +21,13 @@ class Wynncraft(commands.Cog):
                 player_embed = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
                 player_embed.add_field(name=stat, value=player[stat])
                 await ctx.channel.send(embed=player_embed)
-                return
             except:
                 error_ember = discord.Embed(title='Error!', color=0)
                 error_ember.add_field(name='Reason:', value=f'Requested stat \"{stat}\" not found')
                 await ctx.channel.send(embed=error_ember)
-                return
+            return
 
+        # create the embed
         player_embed = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
         player_embed.add_field(name="UserName: ", value=f"{player['username']}", inline=True)
         player_embed.add_field(name=chr(173), value=chr(173))
@@ -39,7 +40,7 @@ class Wynncraft(commands.Cog):
         player_embed.add_field(name="Playtime: ", value=f"{player['total playtime']} hours.", inline=False)
         player_embed.add_field(name="Highest Level: ", value=f"{player['highest level combat']}", inline=False)
         player_embed.add_field(name="Joined: ", value=f"{player['first join'][:10]}", inline=True)
-        await ctx.channel.send(embed=player_embed)
+        await ctx.channel.send(embed=player_embed)  # send the embed
     
     #  ----- guild stats -----
     @commands.command(description="Let's you search for guilds.")  #? Need to make it look better
@@ -49,8 +50,13 @@ class Wynncraft(commands.Cog):
         data = resp.json()
 
         if "error" in data:
-            return await ctx.channel.send('Cannot find guild.') 
+            error_embed = discord.Embed(title='Error!',
+                                        color=embed_colors['error'])
+            error_embed.add_field(name='Reason:', value='Guild not found.')
+            await ctx.channel.send(embed=error_embed)
+            return
 
+        # prepare the embed
         guild_embed = discord.Embed(title=f"{guild_name}", color=0xFF0000)
         guild_embed.add_field(name="Name: ", value=f"{data['name']}", inline=False)
         guild_embed.add_field(name="Prefix: ", value=f"{data['prefix']}", inline=False)
@@ -59,14 +65,17 @@ class Wynncraft(commands.Cog):
         guild_embed.add_field(name="Territories: ", value=f"{data['territories']}", inline=False)
         # embedVar.add_field(name="Playtime: ", value=f"{json['data'][0]['meta']['playtime'] /60} hours.", inline=False)
         guild_embed.add_field(name="Created at: ", value=f"{data['createdFriendly']}", inline=False)
-        await ctx.channel.send(embed=guild_embed)
+        await ctx.channel.send(embed=guild_embed)  # send the embed
 
     #  ----- territory stats -----
     @commands.command(description='Sends info about requested guild\nUse `\"` for more-word names.')
     async def territory(self, ctx, territory_name):
         terr = Territory(territory_name)
         if terr.found is None:
-            await ctx.channel.send(f'Territory \"{territory_name}\" was not found')
+            error_embed = discord.Embed(title='Error!',
+                                        color=embed_colors['error'])
+            error_embed.add_field(name='Reason:', value='Territory not found.')
+            await ctx.channel.send(embed=error_embed)
             return
 
         territory_embed = discord.Embed(title=f"{territory_name}", color=0x00FF00)

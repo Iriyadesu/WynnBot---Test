@@ -1,17 +1,15 @@
 from discord.ext import commands
 import discord
-from bot_data import colors
+
+from bot_data import embed_colors
 
 
 class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
    
-    @commands.command(
-        name='help',
-        description='The help command!',
-        aliases=['commands', 'command'],
-        usage='cog')
+    @commands.command(name='help', description='The help command!',
+                      aliases=['commands', 'command'], usage='cog')
     async def help_command(self, ctx, cog='all'):
         """
         The third parameter comes into play when
@@ -19,13 +17,11 @@ class Info(commands.Cog):
         """
 
         # Prepare the embed
-        help_embed = discord.Embed(
-            title='Help', color=0x0000FF)
+        help_embed = discord.Embed(title='Help', color=embed_colors['info'])
         help_embed.set_thumbnail(url=self.bot.user.avatar_url)
         help_embed.set_footer(
             text=f'Requested by {ctx.message.author.name}',
-            icon_url=self.bot.user.avatar_url
-        )
+            icon_url=self.bot.user.avatar_url)
 
         # Get a list of all cogs
         cogs = [c for c in self.bot.cogs.keys()]
@@ -48,7 +44,6 @@ class Info(commands.Cog):
                     # Also added a blank field '\u200b' is a whitespace character.
         else:
             # If the cog was specified
-
             lower_cogs = [c.lower() for c in cogs]
 
             # If the cog actually exists.
@@ -120,7 +115,7 @@ class Info(commands.Cog):
             opt_dict = {x[:2]: x[3:] for x in unformatted_options} if unformatted_options[0][0] == '1' \
                 else {x[:1]: x[2:] for x in unformatted_options}
 
-            #  check if we're using numbers for the poll, or x/checkmark, parse accordingly
+            # check if we're using numbers for the poll, or x/checkmark, parse accordingly
             voters = [self.bot.user.id]  # add the bot's ID to the list of voters to exclude it's votes
             tally = {x: 0 for x in opt_dict.keys()}
             for reaction in poll_message.reactions:
