@@ -34,7 +34,7 @@ colors = {
 embed_colors = {
     'info': 0xFF,  # blue
     'error': 0,  # black
-    'moderation': 0xFFFF,  # yellow
+    'moderation': 0xFFFF00,  # yellow
     'normal': 0xFF00  # green
 }
 
