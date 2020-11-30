@@ -66,7 +66,7 @@ class Wynncraft(commands.Cog):
         await ctx.channel.send(embed=guild_embed)  # send the embed
 
     #  ----- territory stats -----
-    @commands.command(description='Sends info about requested guild\nUse `\"` for more-word names.')
+    @commands.command(description='Sends info about requested guild\nUse `\"name\"` for more-word names.')
     async def territory(self, ctx, territory_name):
         terr = Territory(territory_name)
         if not terr.found:
