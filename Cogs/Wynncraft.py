@@ -4,7 +4,7 @@ import requests as req
 
 from Wrappers.player import Player
 from Wrappers.territory import Territory
-from bot_data import embed_colors
+from bot_data import embed_colors, error_embed
 
 
 class Wynncraft(commands.Cog):
@@ -72,10 +72,7 @@ class Wynncraft(commands.Cog):
     async def territory(self, ctx, territory_name):
         terr = Territory(territory_name)
         if terr.found is None:
-            error_embed = discord.Embed(title='Error!',
-                                        color=embed_colors['error'])
-            error_embed.add_field(name='Reason:', value='Territory not found.')
-            await ctx.channel.send(embed=error_embed)
+            await ctx.channel.send(embed=error_embed('Territory not found.'))
             return
 
         territory_embed = discord.Embed(title=f"{territory_name}", color=0x00FF00)
