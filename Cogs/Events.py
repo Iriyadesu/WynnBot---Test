@@ -49,7 +49,7 @@ class Events(commands.Cog):
         welcome_embed.add_field(name='What to do', value='* Read the rules\n* Get a guild role')
         welcome_embed.add_field(name='What *not* to do', value='* Break the rules')
         welcome_embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
-        await member.send('Welcome!', embed=welcome_embed)
+        await member.send(embed=welcome_embed)
 
     # ----- Making commands case insensitive -----
     @commands.Cog.listener()
