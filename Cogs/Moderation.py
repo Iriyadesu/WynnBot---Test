@@ -100,7 +100,7 @@ def log_embed(action, author: discord.Member, user: discord.Member, reason: str)
     :param author: who used that command
     :param user: again who was the action taken (e.g. who was banned)
     :param reason: reson for the action
-    :return: discord.Embed()
+    :return: discord.Embed
     """
     log_embed = discord.Embed(title=action, color=embed_colors['moderation'])
     log_embed.add_field(name='By:', value=author.mention)
@@ -113,6 +113,14 @@ def log_embed(action, author: discord.Member, user: discord.Member, reason: str)
 
 
 def action_embed(action: str, ctx, user: discord.Member, reason: str):
+    """
+    Function for generating moderator embeds
+    :param action: action taken
+    :param ctx: channel where the command was used
+    :param user: again who was the action taken (e.g. who was banned)
+    :param reason: reason for the action
+    :return: discord.Embed
+    """
     embed = discord.Embed(title=f":boom: {action} {user.name}!",
                           description=f"Reason: {reason}\nBy: {ctx.author.mention}",
                           color=embed_colors['moderation'])  # create embed
