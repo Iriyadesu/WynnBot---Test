@@ -50,3 +50,23 @@ def error_embed(reason: str = 'No reason provided', *, description: str = ''):
     embed.add_field(name='Reason:', value=reason)
 
     return embed
+
+
+help_embed = {
+    'moderation': {
+        'ban': '!ban <user> [reason] - bans the user',
+        'kick': '!mute <user> [reason] - kicks the user',
+        'mute': '!mute <user> [reason] - mutes the user',
+    },
+    'wynncraft': {
+        'profile': '!profile <player name> - provides info on requested player',
+        'guild': '!guild <guild name> - provides info on requested guild',
+        'territory': '!territory <territory name> - provides info on requested territory',
+        'item': '!item <item name> - provides info on requested item',
+        '*note*': 'put more word names between `\"`'
+    },
+    'info': {
+        'poll': '!poll <create|end> <name|message id> [options] - creates/ends poll',
+        'help': '!help - displays this message'
+    }
+}

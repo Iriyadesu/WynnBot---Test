@@ -38,6 +38,7 @@ bot.remove_command('help')
 
 extensions = ['Cogs.Moderation', 'Cogs.Wynncraft', 'Cogs.Events', 'Cogs.Info']
 
+
 if __name__ == '__main__':
     for ext in extensions:
         bot.load_extension(ext)

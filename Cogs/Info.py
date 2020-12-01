@@ -1,12 +1,22 @@
 from discord.ext import commands
 import discord
 
-from bot_data import embed_colors
+from bot_data import embed_colors, help_embed
 
 
 class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command(name='help2')
+    async def help2(self, ctx):
+        embed = discord.Embed(title='embed2')
+        for category in help_embed:
+            s = ''
+            for cmd in help_embed[category]:
+                s += f'**{cmd}** = *{help_embed[category][cmd]}*\n'
+            embed.add_field(name=category, value=s, inline=False)
+        await ctx.send(embed=embed)
    
     @commands.command(name='help', description='The help command!',
                       aliases=['commands', 'command'], usage='cog')
