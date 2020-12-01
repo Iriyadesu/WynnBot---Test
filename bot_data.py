@@ -53,20 +53,20 @@ def error_embed(reason: str = 'No reason provided', *, description: str = ''):
 
 
 help_embed = {
-    'moderation': {
-        'ban': '!ban <user> [reason] - bans the user',
-        'kick': '!mute <user> [reason] - kicks the user',
-        'mute': '!mute <user> [reason] - mutes the user',
+    'Moderation': {
+        'ban': {'syntax': '!ban <user> [reason]', 'info': 'bans the user'},
+        'kick': {'syntax': '!mute <user> [reason]', 'info': 'kicks the user'},
+        'mute': {'syntax': '!mute <user> [reason]', 'info': 'mutes the user'},
     },
-    'wynncraft': {
-        'profile': '!profile <player name> - provides info on requested player',
-        'guild': '!guild <guild name> - provides info on requested guild',
-        'territory': '!territory <territory name> - provides info on requested territory',
-        'item': '!item <item name> - provides info on requested item',
-        '*note*': 'put more word names between `\"`'
+    'Wynncraft': {
+        'profile': {'syntax': '!profile <player name>', 'info': 'provides info on requested player'},
+        'guild': {'syntax': '!guild <guild name>', 'info': 'provides info on requested guild'},
+        'territory': {'syntax': '!territory <territory name>', 'info': 'provides info on requested territory'},
+        'item': {'syntax': '!item <item name>', 'info': 'provides info on requested item'},
+        '-- __note__': {'syntax': 'put more word names between double quotes `\"`', 'info': ''}
     },
-    'info': {
-        'poll': '!poll <create|end> <name|message id> [options] - creates/ends poll',
-        'help': '!help - displays this message'
+    'Info': {
+        'poll': {'syntax': '!poll <create|end> <name|message id> [options]', 'info': 'creates/ends poll'},
+        'help': {'syntax': '!help', 'info': 'displays this message'}
     }
 }

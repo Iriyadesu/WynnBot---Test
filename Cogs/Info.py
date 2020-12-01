@@ -10,12 +10,19 @@ class Info(commands.Cog):
 
     @commands.command(name='help2')
     async def help2(self, ctx):
-        embed = discord.Embed(title='embed2')
+        embed = discord.Embed(title='Help')
         for category in help_embed:
             s = ''
             for cmd in help_embed[category]:
-                s += f'**{cmd}** = *{help_embed[category][cmd]}*\n'
-            embed.add_field(name=category, value=s, inline=False)
+                cmd2 = help_embed[category][cmd]
+                s += f'**{cmd}:** *{cmd2["syntax"]} {" = " + cmd2["info"] if cmd2["info"] else ""}*\n'
+            embed.add_field(name=f'__{category}__', value=s, inline=False)
+
+        embed.set_footer(
+            text=f'Requested by {ctx.message.author.name}',
+            icon_url=ctx.message.author.avatar_url)
+        embed.set_thumbnail(
+            url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
         await ctx.send(embed=embed)
    
     @commands.command(name='help', description='The help command!',
@@ -143,7 +150,8 @@ class Info(commands.Cog):
                         if reactor.id not in voters:
                             tally[reaction.emoji] += 1
                             voters.append(reactor.id)
-            output = f"Results of the poll for '{embed.title}':\n" + '\n'.join(['{}: {}'.format(opt_dict[key], tally[key]) for key in tally.keys()])
+            output = f"Results of the poll for '{embed.title}':\n" + '\n'.join(
+                ['{}: {}'.format(opt_dict[key], tally[key]) for key in tally.keys()])
             await ctx.send(output)
 
         else:
