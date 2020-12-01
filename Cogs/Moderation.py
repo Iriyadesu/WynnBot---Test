@@ -102,14 +102,14 @@ def log_embed(action, author: discord.Member, user: discord.Member, reason: str)
     :param reason: reson for the action
     :return: discord.Embed
     """
-    log_embed = discord.Embed(title=action, color=embed_colors['moderation'])
-    log_embed.add_field(name='By:', value=author.mention)
-    log_embed.add_field(name='Who:', value=user.mention)
-    log_embed.add_field(name=chr(173), value=chr(173))
-    log_embed.add_field(name='Reason:', value=reason)
-    log_embed.set_thumbnail(
+    embed = discord.Embed(title=action, color=embed_colors['moderation'])
+    embed.add_field(name='By:', value=author.mention)
+    embed.add_field(name='Who:', value=user.mention)
+    embed.add_field(name=chr(173), value=chr(173))
+    embed.add_field(name='Reason:', value=reason)
+    embed.set_thumbnail(
         url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
-    return log_embed
+    return embed
 
 
 def action_embed(action: str, ctx, user: discord.Member, reason: str):
