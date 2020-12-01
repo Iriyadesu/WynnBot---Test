@@ -24,10 +24,8 @@ class Moderation(commands.Cog):
         l.info(f'Banned user {user.name}. Reason: {reason}')  # log it
 
         await user.ban(reason=reason)  # ban them
-        ban_embed = discord.Embed(title=f":boom: Banned {user.name}!",
-                                  description=f"Reason: {reason}\nBy: {ctx.author.mention}",
-                                  color=embed_colors['moderation'])  # create embed
 
+        ban_embed = action_embed('Banned', ctx, user, reason)
         await ctx.message.delete()  # delete the message
         await ctx.channel.send(embed=ban_embed)  # send the message
 
@@ -54,9 +52,8 @@ class Moderation(commands.Cog):
         l.info(f'Kicked user {user.name}. Reason: {reason}')  # log it
 
         await user.kick(reason=reason)  # kick them
-        kick_embed = discord.Embed(title=f":boom: Kicked {user.name}!",
-                                   description=f"Reason: {reason}\nBy: {ctx.author.mention}",
-                                   color=embed_colors['moderation'])  # create embed
+
+        kick_embed = action_embed('Kicked', ctx, user, reason)
         await ctx.message.delete()  # delete the message
         await ctx.channel.send(embed=kick_embed)  # send the message
 
@@ -110,7 +107,20 @@ def log_embed(action, author: discord.Member, user: discord.Member, reason: str)
     log_embed.add_field(name='Who:', value=user.mention)
     log_embed.add_field(name=chr(173), value=chr(173))
     log_embed.add_field(name='Reason:', value=reason)
+    log_embed.set_thumbnail(
+        url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
     return log_embed
+
+
+def action_embed(action: str, ctx, user: discord.Member, reason: str):
+    embed = discord.Embed(title=f":boom: {action} {user.name}!",
+                          description=f"Reason: {reason}\nBy: {ctx.author.mention}",
+                          color=embed_colors['moderation'])  # create embed
+    embed.set_thumbnail(
+        url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png'
+    )
+
+    return embed
 
 
 def setup(bot):
