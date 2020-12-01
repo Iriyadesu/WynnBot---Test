@@ -79,9 +79,23 @@ class Moderation(commands.Cog):
         """
         l.info(f'Muted user {user.name}. Reason: {reason}')
 
-        await self.bot.get_channel(782625707963842600).send(
-            embed=log_embed('Mute', ctx.author, user, reason)
-        )
+        try:
+            await ctx.message.delete()  
+            await user.add_roles(discord.utils.get(user.guild.roles, name='muted'))
+            await self.bot.get_channel(782625707963842600).send(
+            embed=log_embed('Mute', ctx.author, user, reason))
+        except Exception as e:
+            await print('Cannot assign role. Error: ' + str(e))
+
+    # ----- unmute -----
+    @commands.command(description='unmute')
+    async def unmute(self, ctx, user: discord.Member):
+        l.info(f'Unmuted user {user.name}.')
+        try:
+            await ctx.message.delete()
+            await user.remove_roles(discord.utils.get(user.guild.roles, name='muted'))
+        except Exception as e:
+            await print('Cannot unmute them. Error: ' + str(e))
 
     # ----- repeat -----
     @commands.command(description="speak beep boop")
