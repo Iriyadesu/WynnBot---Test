@@ -14,10 +14,10 @@ from discord.ext import commands
 
 l.basicConfig(level=l.INFO, filename='bot.log',
               format='%(asctime)s %(levelname)s: %(message)s',
-              datefmt='%I:%M:%S-%m/%d/%Y'
+              datefmt='%Y_%m_%d-%H_%M_%S'
               )
 
-name = 'bot_' + dt.datetime.utcnow().strftime('%H-%M-%S_%m%d%Y') + '.log'
+name = dt.datetime.utcnow().strftime('%Y_%m_%d-%H_%M_%S') + '.log'
 
 
 # ----- Handling discord TOKEN and PREFIX -----
