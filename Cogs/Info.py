@@ -167,6 +167,7 @@ class Info(commands.Cog):
         - store all these things in JSON
         (maybe YAML if it could work? idk, didn't work with it)
         - mute command
+        - test everything on you new friend
         """
 
         for i in todo_str.split('\n'):
