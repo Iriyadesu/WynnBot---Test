@@ -59,7 +59,7 @@ help_embed = {
         'mute': {'syntax': '!mute <user> [reason]', 'info': 'mutes the user'},
     },
     'Wynncraft': {
-        'profile': {'syntax': '!profile <player name>', 'info': 'provides info on requested player'},
+        'player': {'syntax': '!profile <player name>', 'info': 'provides info on requested player'},
         'guild': {'syntax': '!guild <guild name>', 'info': 'provides info on requested guild'},
         'territory': {'syntax': '!territory <territory name>', 'info': 'provides info on requested territory'},
         'item': {'syntax': '!item <item name>', 'info': 'provides info on requested item'},

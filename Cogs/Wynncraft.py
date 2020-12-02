@@ -13,7 +13,7 @@ class Wynncraft(commands.Cog):
 
     # ----- player stats -----
     @commands.command(description="Search for players")  # Need to make it look better
-    async def profile(self, ctx, player_name, stat=None):
+    async def player(self, ctx, player_name, stat=None):
         """
         Send embed with info on requested player.
         Sends specific stat if requested
