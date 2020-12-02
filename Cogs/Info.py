@@ -34,9 +34,9 @@ class Info(commands.Cog):
         """
 
         # Prepare the embed
-        help_embed = discord.Embed(title='Help', color=embed_colors['info'])
-        help_embed.set_thumbnail(url=self.bot.user.avatar_url)
-        help_embed.set_footer(
+        embed = discord.Embed(title='Help', color=embed_colors['info'])
+        embed.set_thumbnail(url=self.bot.user.avatar_url)
+        embed.set_footer(
             text=f'Requested by {ctx.message.author.name}',
             icon_url=self.bot.user.avatar_url)
 
@@ -57,7 +57,7 @@ class Info(commands.Cog):
                         # - *{comm.description}*
                     # Add the cog's details to the embed.
 
-                    help_embed.add_field(name=cog, value=commands_list, inline=False)
+                    embed.add_field(name=cog, value=commands_list, inline=False)
                     # Also added a blank field '\u200b' is a whitespace character.
         else:
             # If the cog was specified
@@ -92,13 +92,13 @@ class Info(commands.Cog):
                     help_text += f'Format: `@{self.bot.user.name}#{self.bot.user.discriminator}' \
                         f' {command.name} {command.usage if command.usage is not None else ""}`\n\n\n\n'
 
-                help_embed.description = help_text
+                embed.description = help_text
             else:
                 # Notify the user of invalid cog and finish the command
                 await ctx.send('Invalid cog specified.\nUse `help` command to list all cogs.')
                 return
 
-        await ctx.send(embed=help_embed)
+        await ctx.send(embed=embed)
     
         return
 
