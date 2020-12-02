@@ -157,6 +157,21 @@ class Info(commands.Cog):
         else:
             await ctx.send("Correct syntax: `!poll <create/end>`")
 
+    @commands.command(pass_context=True, description="TOD0TODOTODOTODO")
+    async def todo(self, ctx):
+        todo_str = """.
+        TODO:
+        - settings?
+        - maybe some moderation? (f-words etc.)
+        - bind user to MC account
+        - store all these things in JSON
+        (maybe YAML if it could work? idk, didn't work with it)
+        - mute command
+        """
+
+        for i in todo_str.split('\n'):
+            await ctx.send(i if i else '.')
+
 
 def setup(bot):
     bot.add_cog(Info(bot))

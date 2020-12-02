@@ -83,7 +83,7 @@ class Moderation(commands.Cog):
             await ctx.message.delete()  
             await user.add_roles(discord.utils.get(user.guild.roles, name='muted'))
             await self.bot.get_channel(782625707963842600).send(
-            embed=log_embed('Mute', ctx.author, user, reason))
+                embed=log_embed('Mute', ctx.author, user, reason))
         except Exception as e:
             await print('Cannot assign role. Error: ' + str(e))
 
@@ -95,7 +95,7 @@ class Moderation(commands.Cog):
             await ctx.message.delete()
             await user.remove_roles(discord.utils.get(user.guild.roles, name='muted'))
         except Exception as e:
-            await print('Cannot unmute them. Error: ' + str(e))
+            await print('Cannot unmute them. Error:\n' + str(e))
 
     # ----- repeat -----
     @commands.command(description="speak beep boop")
