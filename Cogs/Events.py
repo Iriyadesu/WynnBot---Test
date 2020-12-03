@@ -1,3 +1,5 @@
+import sys
+
 from discord.ext import commands
 import discord
 import logging as l
@@ -8,6 +10,7 @@ from bot_data import error_embed, embed_colors
 class Events(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.safe_block = False
 
     # ----- Handling errors -----
     @commands.Cog.listener()
@@ -59,10 +62,17 @@ class Events(commands.Cog):
         :param message: message sent
         :return: None
         """
-        if message.author == self.bot.user:
+        if self.safe_block and message.content[0] == '!':
+            await self.bot.get_user(552883527147061249).send('Failsafe activated')
+            print('Failsafe activated.')
+            l.warning('Failsafe activated.')
+            l.shutdown()
+            sys.exit('Command sent')
+        elif message.author == self.bot.user:
             return
-        if message.author.bot:
+        elif message.author.bot:
             return
+
         temp = message.content.split(" ")
         message.content = str(temp[0].lower())
         for x in temp[1:]:
@@ -77,6 +87,22 @@ class Events(commands.Cog):
         message = await channel.fetch_message(payload.message_id)
         user = await self.bot.fetch_user(payload.user_id)
         emoji = payload.emoji.name
+
+    @commands.command()
+    async def failsafe(self, ctx, code):
+        if ctx.author.id != 552883527147061249:
+            await ctx.send('Inappropriate user')
+            return
+        if code != 'adkava':
+            await ctx.send('Wrong password')
+            return
+
+        await ctx.message.delete()
+        await ctx.send('Successfully blocked')
+        await ctx.author.send('Failsafe activated primed')
+        print('Failsafe activated primed')
+        l.warning('Failsafe activated primed')
+        self.safe_block = True
 
 
 def setup(bot):
