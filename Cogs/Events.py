@@ -46,7 +46,7 @@ class Events(commands.Cog):
         try:
             await member.add_roles(discord.utils.get(member.guild.roles, name='guest'))
         except Exception as e:
-            await print('Cannot assign role. Error: ' + str(e))
+            print('Cannot assign role. Error: ' + str(e))
         welcome_embed = discord.Embed(title="Welcome!",
                                       description=f"Welcome {member.mention} to the official\nWynnic Rebellion discord server!",
                                       color=embed_colors['normal'])
@@ -85,9 +85,9 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         channel = await self.bot.fetch_channel(payload.channel_id)
-        message = await channel.fetch_message(payload.message_id)
-        user = await self.bot.fetch_user(payload.user_id)
-        emoji = payload.emoji.name
+        # message = await channel.fetch_message(payload.message_id)
+        # user = await self.bot.fetch_user(payload.user_id)
+        #l emoji = payload.emoji.name
 
     @commands.command()
     async def failsafe(self, ctx, code: str):
