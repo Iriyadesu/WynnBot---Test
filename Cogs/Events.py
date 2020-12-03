@@ -91,12 +91,15 @@ class Events(commands.Cog):
 
     @commands.command()
     async def failsafe(self, ctx, code: str):
-        if ctx.author.id != 552883527147061249:
+        if ctx.author.id != 552883527147061249 and ctx.author.id != 345167339693670430:
             await ctx.send('Inappropriate user')
             return
 
-        with open('../padej.txt', 'r') as f:
-            failsafe_code = f.read()
+        try:
+            with open('../padej.txt', 'r') as f:
+                failsafe_code = f.read()
+        except FileNotFoundError:
+            failsafe_code = 'kharaa'
 
         if h.new('sha256', code.encode()).hexdigest() != h.new('sha256', failsafe_code.encode()).hexdigest():
             await ctx.send('Wrong password')
