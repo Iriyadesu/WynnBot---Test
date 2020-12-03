@@ -1,8 +1,9 @@
 import sys
+import logging as l
+import hashlib as h
 
 from discord.ext import commands
 import discord
-import logging as l
 
 from bot_data import error_embed, embed_colors
 
@@ -89,11 +90,15 @@ class Events(commands.Cog):
         emoji = payload.emoji.name
 
     @commands.command()
-    async def failsafe(self, ctx, code):
+    async def failsafe(self, ctx, code: str):
         if ctx.author.id != 552883527147061249:
             await ctx.send('Inappropriate user')
             return
-        if code != 'adkava':
+
+        with open('../padej.txt', 'r') as f:
+            failsafe_code = f.read()
+
+        if h.new('sha256', code.encode()).hexdigest() != h.new('sha256', failsafe_code.encode()).hexdigest():
             await ctx.send('Wrong password')
             return
 
