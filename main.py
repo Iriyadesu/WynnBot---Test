@@ -36,7 +36,7 @@ bot = commands.Bot(command_prefix='!', intents=intents, case_insensitive=True)
 
 bot.remove_command('help')
 
-extensions = ['Cogs.Moderation', 'Cogs.Wynncraft', 'Cogs.Events', 'Cogs.Info']
+extensions = ['Cogs.Moderation', 'Cogs.Wynncraft', 'Cogs.Events', 'Cogs.Info', 'Cogs.Binder']
 
 
 if __name__ == '__main__':

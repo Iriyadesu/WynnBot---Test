@@ -1,8 +1,7 @@
 from discord.ext import commands
 import discord
 import logging as l
-
-from bot_data import embed_colors
+import bot_data as bd
 
 
 class Moderation(commands.Cog):
@@ -28,12 +27,11 @@ class Moderation(commands.Cog):
             await ctx.message.delete()
             await user.add_roles(discord.utils.get(user.guild.roles, name='muted'))
             await self.bot.get_channel(782625707963842600).send(
-                embed=log_embed('Mute', ctx.author, user, reason))
+                    embed=log_embed('Mute', ctx.author, user, reason))
         except Exception as e:  # TODO: get what exception is raised
-            print('Cannot assign role. Error: ' + str(e))
+            print('Cannot assign role. Error: ' + str(type(e)))
 
     # ----- unmute -----
-    @commands.command(description='unmute')
     async def unmute(self, ctx, user: discord.Member):
         l.info(f'Unmuted user {user.name}.')
         try:
@@ -119,7 +117,7 @@ def log_embed(action, author: discord.Member, user: discord.Member, reason: str)
     :param reason: reson for the action
     :return: discord.Embed
     """
-    embed = discord.Embed(title=action, color=embed_colors['moderation'])
+    embed = discord.Embed(title=action, color=bd.embed_colors['moderation'])
     embed.add_field(name='By:', value=author.mention)
     embed.add_field(name='Who:', value=user.mention)
     embed.add_field(name=chr(173), value=chr(173))
@@ -140,7 +138,7 @@ def action_embed(action: str, ctx, user: discord.Member, reason: str) -> discord
     """
     embed = discord.Embed(title=f":boom: {action} {user.name}!",
                           description=f"Reason: {reason}\nBy: {ctx.author.mention}",
-                          color=embed_colors['moderation'])  # create embed
+                          color=bd.embed_colors['moderation'])  # create embed
     embed.set_thumbnail(
         url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png'
     )

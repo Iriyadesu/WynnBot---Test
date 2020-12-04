@@ -1,20 +1,20 @@
+import bot_data as bd
+
 from discord.ext import commands
 import discord
 
-from bot_data import help_embed
 
-
-class Info(commands.Cog):
+class Info(commands.Cog):  # TODO: Add proper documentation to the class + methods
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command()
     async def help(self, ctx):  # TODO: add documentation
         embed = discord.Embed(title='Help')
-        for category in help_embed:
+        for category in bd.help_embed:
             s = ''
-            for cmd in help_embed[category]:
-                cmd2 = help_embed[category][cmd]
+            for cmd in bd.help_embed[category]:
+                cmd2 = bd.help_embed[category][cmd]
                 s += f'**{cmd}:** *{cmd2["syntax"]} {" = " + cmd2["info"] if cmd2["info"] else ""}*\n'
             embed.add_field(name=f'__{category}__', value=s, inline=False)
 

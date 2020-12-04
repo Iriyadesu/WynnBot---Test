@@ -1,13 +1,13 @@
 from discord.ext import commands
 import discord
 import requests as req
+import bot_data as bd
 
 from Wrappers.player import Player
 from Wrappers.territory import Territory
-from bot_data import error_embed
 
 
-class Wynncraft(commands.Cog):
+class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + methods
     def __init__(self, bot):
         self.bot = bot
 
@@ -24,7 +24,7 @@ class Wynncraft(commands.Cog):
         """
         player = Player(player_name)
         if not player.found:
-            await ctx.channel.send(embed=error_embed('Requested player not found.'))
+            await ctx.channel.send(embed=bd.error_embed('Requested player not found.'))
             return
 
         if stat is not None:
@@ -33,7 +33,7 @@ class Wynncraft(commands.Cog):
                 player_embed.add_field(name=stat, value=player[stat])
                 await ctx.channel.send(embed=player_embed)
             except:  # TODO: get type of raised exception
-                await ctx.channel.send(embed=error_embed('Requested stat not found.'))
+                await ctx.channel.send(embed=bd.error_embed('Requested stat not found.'))
             return
 
         # ----- create the embed -----
@@ -66,7 +66,7 @@ class Wynncraft(commands.Cog):
         data = resp.json()
 
         if "error" in data:
-            await ctx.channel.send(embed=error_embed('Requested guild not found.'))
+            await ctx.channel.send(embed=bd.error_embed('Requested guild not found.'))
             return
 
         # ----- create the embed -----
@@ -91,7 +91,7 @@ class Wynncraft(commands.Cog):
         """
         terr = Territory(territory_name)
         if not terr.found:
-            await ctx.channel.send(embed=error_embed('Requested territory not found.'))
+            await ctx.channel.send(embed=bd.error_embed('Requested territory not found.'))
             return
 
         # ----- create the embed -----
@@ -107,8 +107,10 @@ class Wynncraft(commands.Cog):
     #  ----- item stats -----
     @commands.command(description="Search for items")  # TODO: Need to finish this
     async def item(self, ctx, item_name):
-        resp = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={item_name}')
+        # resp = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={item_name}')
         # data = resp.json()
+        ctx.channel.send('Command not implemented')
+        raise NotImplementedError('Command not implemented')
 
 
 def setup(bot):

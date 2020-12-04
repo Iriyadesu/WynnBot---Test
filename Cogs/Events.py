@@ -1,14 +1,13 @@
 import sys
 import logging as l
 import hashlib as h
+import bot_data as bd
 
 from discord.ext import commands
 import discord
 
-from bot_data import error_embed, embed_colors
 
-
-class Events(commands.Cog):
+class Events(commands.Cog):  # TODO: Add proper documentation to the class + methods
     def __init__(self, bot):
         self.bot = bot
         self.safe_block = False
@@ -29,8 +28,8 @@ class Events(commands.Cog):
         else:
             error_message = str(error)
 
-        await ctx.send(embed=error_embed(error_message,
-                                         description='An error occurred while processing the command!')
+        await ctx.send(embed=bd.error_embed(error_message,
+                                            description='An error occurred while processing the command!')
                        )
 
     # ----- Giving out Guest role when user joins -----
@@ -50,7 +49,7 @@ class Events(commands.Cog):
         # ----- create the embed -----
         welcome_embed = discord.Embed(title="Welcome!",
                                       description=f"Welcome {member.mention} to the official\nWynnic Rebellion discord server!",
-                                      color=embed_colors['normal'])
+                                      color=bd.embed_colors['normal'])
         welcome_embed.add_field(name='How to get started:', value='* Read the rules\n* Get a guild role')
         welcome_embed.add_field(name='What *not* to do', value='* Break the rules')
         welcome_embed.set_thumbnail(
