@@ -21,6 +21,7 @@ class Moderation(commands.Cog):
         :param reason: reason for the mute
         :return: None
         """
+        # TODO: Make it work properly even when the bot if offline (aka remove their perms to send messages)
         l.info(f'Muted user {user.name}. Reason: {reason}')
 
         try:
@@ -28,8 +29,8 @@ class Moderation(commands.Cog):
             await user.add_roles(discord.utils.get(user.guild.roles, name='muted'))
             await self.bot.get_channel(782625707963842600).send(
                 embed=log_embed('Mute', ctx.author, user, reason))
-        except Exception as e:
-            await print('Cannot assign role. Error: ' + str(e))
+        except Exception as e:  # TODO: get what exception is raised
+            print('Cannot assign role. Error: ' + str(e))
 
     # ----- unmute -----
     @commands.command(description='unmute')
@@ -38,8 +39,8 @@ class Moderation(commands.Cog):
         try:
             await ctx.message.delete()
             await user.remove_roles(discord.utils.get(user.guild.roles, name='muted'))
-        except Exception as e:
-            await print('Cannot unmute them. Error:\n' + str(e))
+        except Exception as e:  # TODO: get what exception is raised
+            print('Cannot unmute them. Error:\n' + str(e))
 
     # ----- kick -----
     @commands.command(description="kicks someone")
@@ -62,8 +63,9 @@ class Moderation(commands.Cog):
         await ctx.channel.send(embed=kick_embed)  # send the message
 
         kick_embed.title = 'You were kicked!'
-        await user.send('Seems like you were not behaving properly.\nNext please do not break the rules.',
-                        embed=kick_embed)  # send it to the user's DMs
+        await user.send(
+            'Seems like you were not behaving properly.\nNext please do not break the rules.',
+            embed=kick_embed)  # send it to the user's DMs
 
         await self.bot.get_channel(782625707963842600).send(
             embed=log_embed('Kick', ctx.author, user, reason)
@@ -90,12 +92,13 @@ class Moderation(commands.Cog):
         await ctx.channel.send(embed=ban_embed)  # send the message
 
         ban_embed.title = 'You were banned!'
-        await user.send('You broke the rules. A LOT.\nNow you have to face the consequences.\nWas it worth it?',
-                        embed=ban_embed)  # send it to the user's DMs
+        await user.send(
+            'You broke the rules. A LOT.\nNow you have to face the consequences.\nWas it worth it?',
+            embed=ban_embed)  # send it to the user's DMs
 
         await self.bot.get_channel(782625707963842600).send(
             embed=log_embed('Ban', ctx.author, user, reason)
-        )
+            )
 
     # ----- repeat -----
     @commands.command(description="speak beep boop")
@@ -107,7 +110,7 @@ class Moderation(commands.Cog):
             await ctx.channel.send('Cannot assign role. Error: ' + str(e))
 
 
-def log_embed(action, author: discord.Member, user: discord.Member, reason: str):
+def log_embed(action, author: discord.Member, user: discord.Member, reason: str) -> discord.Embed:
     """
     Used to save some code
     :param action: action taken; currently ['ban', 'kick', 'mute']
@@ -126,7 +129,7 @@ def log_embed(action, author: discord.Member, user: discord.Member, reason: str)
     return embed
 
 
-def action_embed(action: str, ctx, user: discord.Member, reason: str):
+def action_embed(action: str, ctx, user: discord.Member, reason: str) -> discord.Embed:
     """
     Function for generating moderator embeds
     :param action: action taken

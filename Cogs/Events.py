@@ -45,14 +45,16 @@ class Events(commands.Cog):
         l.info(f'New member joined! Username: {member.name}')
         try:
             await member.add_roles(discord.utils.get(member.guild.roles, name='guest'))
-        except Exception as e:
+        except Exception as e:  # TODO: get type of raised exception
             print('Cannot assign role. Error: ' + str(e))
+        # ----- create the embed -----
         welcome_embed = discord.Embed(title="Welcome!",
                                       description=f"Welcome {member.mention} to the official\nWynnic Rebellion discord server!",
                                       color=embed_colors['normal'])
         welcome_embed.add_field(name='How to get started:', value='* Read the rules\n* Get a guild role')
         welcome_embed.add_field(name='What *not* to do', value='* Break the rules')
-        welcome_embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
+        welcome_embed.set_thumbnail(
+            url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
         await member.send(embed=welcome_embed)
 
     # ----- Making commands case insensitive -----
@@ -86,11 +88,12 @@ class Events(commands.Cog):
             await message.channel.send("ahoj")
 
     @commands.Cog.listener()
-    async def on_raw_reaction_add(self, payload):
-        channel = await self.bot.fetch_channel(payload.channel_id)
+    async def on_raw_reaction_add(self, payload):  # TODO: either remove or do something with it
+        # channel = await self.bot.fetch_channel(payload.channel_id)
         # message = await channel.fetch_message(payload.message_id)
         # user = await self.bot.fetch_user(payload.user_id)
-        #l emoji = payload.emoji.name
+        # emoji = payload.emoji.name
+        pass
 
     @commands.command()
     async def failsafe(self, ctx, code: str):
@@ -116,5 +119,5 @@ class Events(commands.Cog):
         self.safe_block = True
 
 
-def setup(bot):
+def setup(bot):  # TODO: what documentation to add here?
     bot.add_cog(Events(bot))

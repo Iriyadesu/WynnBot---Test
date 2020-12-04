@@ -4,7 +4,7 @@ import requests as req
 
 from Wrappers.player import Player
 from Wrappers.territory import Territory
-from bot_data import embed_colors, error_embed
+from bot_data import error_embed
 
 
 class Wynncraft(commands.Cog):
@@ -12,7 +12,7 @@ class Wynncraft(commands.Cog):
         self.bot = bot
 
     # ----- player stats -----
-    @commands.command(description="Search for players")  # Need to make it look better
+    @commands.command(description="Search for players")  # TODO: Need to make it look better
     async def player(self, ctx, player_name, stat=None):
         """
         Send embed with info on requested player.
@@ -32,11 +32,11 @@ class Wynncraft(commands.Cog):
                 player_embed = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
                 player_embed.add_field(name=stat, value=player[stat])
                 await ctx.channel.send(embed=player_embed)
-            except:
+            except:  # TODO: get type of raised exception
                 await ctx.channel.send(embed=error_embed('Requested stat not found.'))
             return
 
-        # create the embed
+        # ----- create the embed -----
         player_embed = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
         player_embed.add_field(name="UserName: ", value=f"{player['username']}", inline=True)
         player_embed.add_field(name=chr(173), value=chr(173))
@@ -52,7 +52,7 @@ class Wynncraft(commands.Cog):
         await ctx.channel.send(embed=player_embed)  # send the embed
     
     #  ----- guild stats -----
-    @commands.command(description="Let's you search for guilds.")  #? Need to make it look better
+    @commands.command(description="Let's you search for guilds.")  # TODO: Need to make it look better
     async def guild(self, ctx, guild_name):
         """
         Send embed with info on requested guild.
@@ -60,6 +60,7 @@ class Wynncraft(commands.Cog):
         :param guild_name: name of the requested player
         :return: None
         """
+        # TODO: Create the API wrapper
         resp = req.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={guild_name}')
 
         data = resp.json()
@@ -68,7 +69,7 @@ class Wynncraft(commands.Cog):
             await ctx.channel.send(embed=error_embed('Requested guild not found.'))
             return
 
-        # prepare the embed
+        # ----- create the embed -----
         guild_embed = discord.Embed(title=f"{guild_name}", color=0xFF0000)
         guild_embed.add_field(name="Name: ", value=f"{data['name']}", inline=False)
         guild_embed.add_field(name="Prefix: ", value=f"{data['prefix']}", inline=False)
@@ -93,6 +94,7 @@ class Wynncraft(commands.Cog):
             await ctx.channel.send(embed=error_embed('Requested territory not found.'))
             return
 
+        # ----- create the embed -----
         territory_embed = discord.Embed(title=f"{territory_name}", color=0x00FF00)
         territory_embed.add_field(name='Name:', value=territory_name)
         territory_embed.add_field(name='Owner:', value=terr['owner'])
@@ -103,10 +105,10 @@ class Wynncraft(commands.Cog):
         await ctx.channel.send(embed=territory_embed)
 
     #  ----- item stats -----
-    @commands.command(description="Search for items") #! Need to finish this
+    @commands.command(description="Search for items")  # TODO: Need to finish this
     async def item(self, ctx, item_name):
         resp = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={item_name}')
-        data = resp.json()
+        # data = resp.json()
 
 
 def setup(bot):

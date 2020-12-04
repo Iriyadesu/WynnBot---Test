@@ -1,5 +1,7 @@
 import discord
 
+# TODO: move here as much data as possible
+
 colors = {
     'DEFAULT': 0x000000,
     'WHITE': 0xFFFFFF,
@@ -39,6 +41,7 @@ embed_colors = {
 }
 
 
+# TODO: maybe improve it?
 def error_embed(reason: str = 'No reason provided', *, description: str = ''):
     """
     Returns embed for errors

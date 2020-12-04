@@ -4,7 +4,8 @@ uh
 
 from requests import get
 
-
+# TODO: finish it
+# TODO: add documentation
 class Guild:
     """
     Class containing all information about a guild

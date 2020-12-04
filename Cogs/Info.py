@@ -9,7 +9,7 @@ class Info(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def help(self, ctx):
+    async def help(self, ctx):  # TODO: add documentation
         embed = discord.Embed(title='Help')
         for category in help_embed:
             s = ''
@@ -26,7 +26,7 @@ class Info(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(pass_context=True, description="Manages polls")
-    async def poll(self, ctx, cord: str, var, *options: str):
+    async def poll(self, ctx, cord: str, var, *options: str):  # TODO: add documentation, a lot of it
         """
         Creates a poll.
         :param ctx: channel where the command was used
@@ -81,7 +81,7 @@ class Info(commands.Cog):
             await ctx.send("Correct syntax: `!poll <create/end>`")
 
     @commands.command(pass_context=True, description="TOD0TODOTODOTODO")
-    async def todo(self, ctx):
+    async def todo(self, ctx):  # TODO: improve print
         todo_str = """.
         TODO:
         - settings?
@@ -91,6 +91,11 @@ class Info(commands.Cog):
         (maybe YAML if it could work? idk, didn't work with it)
         - mute command = drastically improve it. Works, but badly
         - test everything on you new friend
+        - guild API wrapper
+        - recheck documentation (both back- and front- end)
+        
+        WHEN DONE:
+        - uncomment perms requirements
         """
 
         for i in todo_str.split('\n'):
