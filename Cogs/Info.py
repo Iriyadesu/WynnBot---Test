@@ -89,7 +89,7 @@ class Info(commands.Cog):
         - bind user to MC account
         - store all these things in JSON
         (maybe YAML if it could work? idk, didn't work with it)
-        - mute command
+        - mute command = drastically improve it. Works, but badly
         - test everything on you new friend
         """
 
