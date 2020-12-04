@@ -8,7 +8,7 @@ class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='help2')
+    @commands.command()
     async def help(self, ctx):
         embed = discord.Embed(title='Help')
         for category in help_embed:

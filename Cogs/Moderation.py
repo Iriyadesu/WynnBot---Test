@@ -9,33 +9,37 @@ class Moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    #  ----- ban -----
-    @commands.command(description="Bans someone")
-    #@commands.has_permissions(ban_members=True)
-    async def ban(self, ctx, user: discord.Member, *, reason="No reason provided"):
+    # ----- mute -----
+    @commands.command(description="kicks someone")
+    #@commands.has_permissions(kick_members=True)
+    async def mute(self, ctx, user: discord.Member, *, reason='No reason provided'):
         """
-        Used to ban players.
-        Requires "ban" permission.
+        Used to mute players.
+        Requires "kick" permission.
         :param ctx: channel where the command was used
-        :param user: who was banned
-        :param reason: reason for the ban
+        :param user: who was muted
+        :param reason: reason for the mute
         :return: None
         """
-        l.info(f'Banned user {user.name}. Reason: {reason}')  # log it
+        l.info(f'Muted user {user.name}. Reason: {reason}')
 
-        await user.ban(reason=reason)  # ban them
+        try:
+            await ctx.message.delete()
+            await user.add_roles(discord.utils.get(user.guild.roles, name='muted'))
+            await self.bot.get_channel(782625707963842600).send(
+                embed=log_embed('Mute', ctx.author, user, reason))
+        except Exception as e:
+            await print('Cannot assign role. Error: ' + str(e))
 
-        ban_embed = action_embed('Banned', ctx, user, reason)
-        await ctx.message.delete()  # delete the message
-        await ctx.channel.send(embed=ban_embed)  # send the message
-
-        ban_embed.title = 'You were banned!'
-        await user.send('You broke the rules. A LOT.\nNow you have to face the consequences.\nWas it worth it?',
-                        embed=ban_embed)  # send it to the user's DMs
-
-        await self.bot.get_channel(782625707963842600).send(
-            embed=log_embed('Ban', ctx.author, user, reason)
-        )
+    # ----- unmute -----
+    @commands.command(description='unmute')
+    async def unmute(self, ctx, user: discord.Member):
+        l.info(f'Unmuted user {user.name}.')
+        try:
+            await ctx.message.delete()
+            await user.remove_roles(discord.utils.get(user.guild.roles, name='muted'))
+        except Exception as e:
+            await print('Cannot unmute them. Error:\n' + str(e))
 
     # ----- kick -----
     @commands.command(description="kicks someone")
@@ -65,37 +69,33 @@ class Moderation(commands.Cog):
             embed=log_embed('Kick', ctx.author, user, reason)
         )
 
-    # ----- mute -----
-    @commands.command(description="kicks someone")
-    #@commands.has_permissions(kick_members=True)
-    async def mute(self, ctx, user: discord.Member, *, reason='No reason provided'):
+    #  ----- ban -----
+    @commands.command(description="Bans someone")
+    #@commands.has_permissions(ban_members=True)
+    async def ban(self, ctx, user: discord.Member, *, reason="No reason provided"):
         """
-        Used to mute players.
-        Requires "kick" permission.
+        Used to ban players.
+        Requires "ban" permission.
         :param ctx: channel where the command was used
-        :param user: who was muted
-        :param reason: reason for the mute
+        :param user: who was banned
+        :param reason: reason for the ban
         :return: None
         """
-        l.info(f'Muted user {user.name}. Reason: {reason}')
+        l.info(f'Banned user {user.name}. Reason: {reason}')  # log it
 
-        try:
-            await ctx.message.delete()  
-            await user.add_roles(discord.utils.get(user.guild.roles, name='muted'))
-            await self.bot.get_channel(782625707963842600).send(
-                embed=log_embed('Mute', ctx.author, user, reason))
-        except Exception as e:
-            await print('Cannot assign role. Error: ' + str(e))
+        await user.ban(reason=reason)  # ban them
 
-    # ----- unmute -----
-    @commands.command(description='unmute')
-    async def unmute(self, ctx, user: discord.Member):
-        l.info(f'Unmuted user {user.name}.')
-        try:
-            await ctx.message.delete()
-            await user.remove_roles(discord.utils.get(user.guild.roles, name='muted'))
-        except Exception as e:
-            await print('Cannot unmute them. Error:\n' + str(e))
+        ban_embed = action_embed('Banned', ctx, user, reason)
+        await ctx.message.delete()  # delete the message
+        await ctx.channel.send(embed=ban_embed)  # send the message
+
+        ban_embed.title = 'You were banned!'
+        await user.send('You broke the rules. A LOT.\nNow you have to face the consequences.\nWas it worth it?',
+                        embed=ban_embed)  # send it to the user's DMs
+
+        await self.bot.get_channel(782625707963842600).send(
+            embed=log_embed('Ban', ctx.author, user, reason)
+        )
 
     # ----- repeat -----
     @commands.command(description="speak beep boop")

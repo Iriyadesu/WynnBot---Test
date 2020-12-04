@@ -69,10 +69,13 @@ class Events(commands.Cog):
             l.warning('Failsafe activated.')
             l.shutdown()
             sys.exit('Command sent')
-        elif message.author == self.bot.user:
+        if message.author == self.bot.user:
             return
-        elif message.author.bot:
+        if message.author.bot:
             return
+        for role in message.author.roles:
+            if role.name == 'muted':
+                await message.delete()
 
         temp = message.content.split(" ")
         message.content = str(temp[0].lower())
