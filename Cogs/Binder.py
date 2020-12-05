@@ -30,12 +30,11 @@ class Binder(commands.Cog):  # TODO: finish it
             await ctx.channel.send(f'Player \"{player_name}\" is not in guild \"{guild_name}\"')
             return
 
-        await ctx.channel.send(str(player_name['highest level combat']))
         if player_name['highest level combat'] != highest_lvl:
             await ctx.channel.send(f'Highest level of player {player_name} is not {highest_lvl}')
             return
 
-        Binder.player_list[ctx.author.id] = (username, player_name['guild name'])
+        Binder.player_list[ctx.author.id] = (username, player_name['guild name'], highest_lvl)
         await ctx.channel.send(Binder.player_list)
 
 
