@@ -32,7 +32,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
 
         player = Player(player_name)
         if not player.found:
-            await ctx.channel.send(embed=bd.error_embed('Requested player not found.'))
+            await ctx.channel.send(embed=bd.error_embed('API error', description='Requested player not found.'))
             return
 
         if stat is not None:
@@ -41,7 +41,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
                 player_embed.add_field(name=stat, value=player[stat])
                 await ctx.channel.send(embed=player_embed)
             except:  # TODO: get type of raised exception
-                await ctx.channel.send(embed=bd.error_embed('Requested stat not found.'))
+                await ctx.channel.send(embed=bd.error_embed('API error', description='Requested stat not found.'))
             return
 
         # ----- create the embed -----
@@ -75,7 +75,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         data = resp.json()
 
         if "error" in data:
-            await ctx.channel.send(embed=bd.error_embed('Requested guild not found.'))
+            await ctx.channel.send(embed=bd.error_embed('API error', description='Requested guild not found.'))
             return
 
         # ----- create the embed -----
@@ -100,7 +100,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         """
         terr = Territory(territory_name)
         if not terr.found:
-            await ctx.channel.send(embed=bd.error_embed('Requested territory not found.'))
+            await ctx.channel.send(embed=bd.error_embed('API error', 'Requested territory not found.'))
             return
 
         # ----- create the embed -----

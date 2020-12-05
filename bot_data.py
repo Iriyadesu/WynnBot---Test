@@ -42,15 +42,16 @@ embed_colors = {
 
 
 # TODO: maybe improve it?
-def error_embed(reason: str = 'No reason provided', *, description: str = ''):
+def error_embed(err_type: str = 'No reason provided', *, description: str = ''):
     """
     Returns embed for errors
-    :param reason: Why did the error happened
+    :param err_type: type of the error
     :param description: description of the embed
     :return: discord.Embed
     """
-    embed = discord.Embed(title='Error!', description=description)
-    embed.add_field(name='Reason:', value=reason)
+    embed = discord.Embed(title='Error!', description='An Error occurred during processing of the command')
+    embed.add_field(name='Type:', value=err_type)
+    embed.add_field(name='Reason:', value=description)
 
     return embed
 

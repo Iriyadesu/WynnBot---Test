@@ -35,8 +35,8 @@ class Events(commands.Cog):  # TODO: Add proper documentation to the class + met
         else:
             error_message = str(error)
 
-        await ctx.send(embed=bd.error_embed(error_message,
-                                            description='An error occurred while processing the command!')
+        await ctx.send(embed=bd.error_embed(str(error.__class__.__name__),
+                                            description=error_message)
                        )
 
     # ----- Giving out Guest role when user joins -----
