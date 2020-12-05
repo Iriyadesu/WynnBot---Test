@@ -14,6 +14,10 @@ class Binder(commands.Cog):  # TODO: finish it
 
     @commands.command()
     async def bind(self, ctx, username: Union[discord.Member, str], guild_name: str, highest_lvl: int):
+        if ctx.author.id in Binder.player_list:
+            await ctx.channel.send(f'User \"{ctx.author.mention}\" is already bound')
+            return
+
         player_name = Player(username)
         if not player_name.found:
             await ctx.channel.send(f'Player name \"{username}\" was not found')

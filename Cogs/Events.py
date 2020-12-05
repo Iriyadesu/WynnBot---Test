@@ -1,5 +1,5 @@
 import sys
-import logging as l
+import logging as log
 import hashlib as h
 import bot_data as bd
 
@@ -11,6 +11,13 @@ class Events(commands.Cog):  # TODO: Add proper documentation to the class + met
     def __init__(self, bot):
         self.bot = bot
         self.safe_block = False
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        await self.bot.change_presence(activity=discord.Game(name="on developer's nerves"))
+        # await self.bot.get_channel(781492333967179821).send('Bot successfully started')
+
+        print('Bot successfully started')
 
     # ----- Handling errors -----
     @commands.Cog.listener()
@@ -41,7 +48,7 @@ class Events(commands.Cog):  # TODO: Add proper documentation to the class + met
         :param member: member that joined
         :return: None
         """
-        l.info(f'New member joined! Username: {member.name}')
+        log.info(f'New member joined! Username: {member.name}')
         try:
             await member.add_roles(discord.utils.get(member.guild.roles, name='guest'))
         except Exception as e:  # TODO: get type of raised exception
@@ -64,11 +71,12 @@ class Events(commands.Cog):  # TODO: Add proper documentation to the class + met
         :param message: message sent
         :return: None
         """
+
         if self.safe_block and message.content[0] == '!':
             await self.bot.get_user(552883527147061249).send('Failsafe activated')
             print('Failsafe activated.')
-            l.warning('Failsafe activated.')
-            l.shutdown()
+            log.warning('Failsafe activated.')
+            log.shutdown()
             sys.exit('Command sent')
         if message.author == self.bot.user:
             return
@@ -114,7 +122,7 @@ class Events(commands.Cog):  # TODO: Add proper documentation to the class + met
         await ctx.send('Successfully blocked')
         await ctx.author.send('Failsafe activated primed')
         print('Failsafe activated primed')
-        l.warning('Failsafe activated primed')
+        log.warning('Failsafe activated primed')
         self.safe_block = True
 
 

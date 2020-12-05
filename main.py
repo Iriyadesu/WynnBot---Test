@@ -2,7 +2,7 @@
 # ---------- IMPORTS ----------
 import os
 import shutil
-import logging as l
+import logging as log
 import datetime as dt
 from dotenv import load_dotenv
 
@@ -12,10 +12,10 @@ from discord.ext import commands
 # ---------- logging init ----------
 # logging config
 
-l.basicConfig(level=l.INFO, filename='bot.log',
-              format='%(asctime)s %(levelname)s: %(message)s',
-              datefmt='%Y_%m_%d-%H_%M_%S'
-              )
+log.basicConfig(level=log.INFO, filename='bot.log',
+                format='%(asctime)s %(levelname)s: %(message)s',
+                datefmt='%Y_%m_%d-%H_%M_%S'
+                )
 
 name = dt.datetime.utcnow().strftime('%Y_%m_%d-%H_%M_%S') + '.log'
 
@@ -45,8 +45,7 @@ if __name__ == '__main__':
 
     # ---------- run the bot ----------
     try:
-        print('Bot runs')
-        l.info('Bot started')
+        log.info('Bot successfully started')
         bot.run(TOKEN)
     except Exception as e:
         print(e)
@@ -54,7 +53,7 @@ if __name__ == '__main__':
         # move the log into "logs" folder
         move_log = f'Old log was moved and renamed as \'{name}\''
         print(move_log)
-        l.info(move_log)
-        l.shutdown()
+        log.info(move_log)
+        log.shutdown()
         os.rename('bot.log', name)
         shutil.move(name, './logs')
