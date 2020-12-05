@@ -82,7 +82,7 @@ class Info(commands.Cog):  # TODO: Add proper documentation to the class + metho
 
     @commands.command(pass_context=True, description="TOD0TODOTODOTODO")
     async def todo(self, ctx):  # TODO: improve print
-        todo_str = """.
+        todo_str = """
         TODO:
         - settings?
         - maybe some moderation? (f-words etc.)
@@ -98,8 +98,12 @@ class Info(commands.Cog):  # TODO: Add proper documentation to the class + metho
         - uncomment perms requirements
         """
 
-        for i in todo_str.split('\n'):
-            await ctx.send(i if i else '.')
+        embed = discord.Embed(title='TODO:')
+        embed.add_field(name='todo', value=todo_str)
+        # for i in todo_str.split('\n'):
+        #     embed.add_field(name='-', value=f"- {i if i else '.'}", inline=False)
+
+        await ctx.channel.send(embed=embed)
 
 
 def setup(bot):

@@ -1,7 +1,4 @@
-from typing import Union
-
 from discord.ext import commands
-import discord
 
 from Wrappers.player import Player
 from bot_data import error_embed
@@ -14,7 +11,7 @@ class Binder(commands.Cog):  # TODO: finish it
         self.bot = bot
 
     @commands.command()
-    async def bind(self, ctx, username: Union[discord.Member, str], guild_name: str, highest_lvl: int):
+    async def bind(self, ctx, username: str, guild_name: str, highest_lvl: int):
         if ctx.author.id in Binder.player_list:
             await ctx.channel.send(
                 embed=error_embed('user error',
@@ -23,15 +20,21 @@ class Binder(commands.Cog):  # TODO: finish it
 
         player_name = Player(username)
         if not player_name.found:
-            await ctx.channel.send(f'Player name \"{username}\" was not found')
+            await ctx.channel.send(
+                embed=error_embed('user error',
+                                  description=f'Player name \"{username}\" does not exist'))
             return
 
         if player_name['guild name'] != guild_name:
-            await ctx.channel.send(f'Player \"{player_name}\" is not in guild \"{guild_name}\"')
+            await ctx.channel.send(
+                embed=error_embed('user error',
+                                  description=f'Player \"{username}\" is not in guild \"{guild_name}\"'))
             return
 
         if player_name['highest level combat'] != highest_lvl:
-            await ctx.channel.send(f'Highest level of player {player_name} is not {highest_lvl}')
+            await ctx.channel.send(
+                embed=error_embed('user error',
+                                  description=f'Highest level of {username} is not \"{highest_lvl}\"'))
             return
 
         Binder.player_list[ctx.author.id] = (username, player_name['guild name'], highest_lvl)

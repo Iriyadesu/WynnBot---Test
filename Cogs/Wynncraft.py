@@ -1,3 +1,5 @@
+from typing import Union
+
 from discord.ext import commands
 import discord
 import requests as req
@@ -13,7 +15,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
 
     # ----- player stats -----
     @commands.command(description="Search for players")  # TODO: Need to make it look better
-    async def player(self, ctx, player_name, stat=None):
+    async def player(self, ctx, player_name: Union[discord.Member, str], stat=None):
         """
         Send embed with info on requested player.
         Sends specific stat if requested
@@ -22,13 +24,15 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         :param stat: stat requested; default None
         :return: None
         """
-        """
-        # TODO: prepared for binding
+
+        # TODO: add Bind support
         if isinstance(player_name, discord.Member):
-            await ctx.channel.send(str(player_name) + ' ' + player_name)
+            await ctx.channel.send('Bind is not yet supported')
+            raise NotImplementedError('Bind is not yet supported')
+            # await ctx.channel.send(str(player_name) + ' ' + player_name)
         else:
-            await ctx.channel.send('No name ' + player_name + ' ' + player_name)
-        """
+            # await ctx.channel.send('No name ' + player_name + ' ' + player_name)
+            pass
 
         player = Player(player_name)
         if not player.found:
@@ -51,8 +55,10 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         player_embed.add_field(name="Rank: ", value=player['rank'], inline=False)
         player_embed.add_field(name="Online: ", value=player['location'] if player['location'] else 'no', inline=True)
         player_embed.add_field(name=chr(173), value=chr(173))
-        player_embed.add_field(name="Guild name: ", value=player['guild name'] if player['guild name'] else 'none', inline=True)
-        player_embed.add_field(name="Guild rank: ", value=player['guild rank'].lower() if player['guild rank'] else 'none',
+        player_embed.add_field(name="Guild name: ",
+                               value=player['guild name'] if player['guild name'] else 'none', inline=True)
+        player_embed.add_field(name="Guild rank: ",
+                               value=player['guild rank'].lower() if player['guild rank'] else 'none',
                                inline=True)
         player_embed.add_field(name="Guild prefix: ", value=player['guild instance']['prefix'], inline=True)
         player_embed.add_field(name="Playtime: ", value=f"{player['total playtime']} hours", inline=False)
@@ -100,7 +106,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         """
         terr = Territory(territory_name)
         if not terr.found:
-            await ctx.channel.send(embed=bd.error_embed('API error', 'Requested territory not found.'))
+            await ctx.channel.send(embed=bd.error_embed('API error', description='Requested territory not found.'))
             return
 
         # ----- create the embed -----
@@ -108,14 +114,15 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         territory_embed.add_field(name='Name:', value=territory_name)
         territory_embed.add_field(name='Owner:', value=terr['owner'])
         territory_embed.add_field(name=chr(173), value=chr(173))
-        territory_embed.add_field(name='Start coords:', value=f'{terr["location"]["startX"]} {terr["location"]["startZ"]}')
+        territory_embed.add_field(name='Start coords:',
+                                  value=f'{terr["location"]["startX"]} {terr["location"]["startZ"]}')
         territory_embed.add_field(name='End coords:', value=f'{terr["location"]["endX"]} {terr["location"]["endZ"]}')
 
         await ctx.channel.send(embed=territory_embed)
 
     #  ----- item stats -----
-    @commands.command(description="Search for items")  # TODO: Need to finish this
-    async def item(self, ctx, item_name):
+    @commands.command(description="Search for items")  # TODO: Need to implement this
+    async def item(self, ctx, item_name: str):
         # resp = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={item_name}')
         # data = resp.json()
         ctx.channel.send('Command not implemented')

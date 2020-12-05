@@ -41,7 +41,7 @@ embed_colors = {
 }
 
 
-# TODO: maybe improve it?
+# TODO: maybe improve it? Definitely improve it!
 def error_embed(err_type: str = 'No reason provided', *, description: str = ''):
     """
     Returns embed for errors
