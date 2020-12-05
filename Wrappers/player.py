@@ -16,6 +16,7 @@ keys : returned value
 - last join : 2020-08-13T11:11:56.602Z
 - guild name : guild name/None (str/None)
 - guild rank : guild rank/None (str/None)
+- guild : instance of Guild class
 - chests found : (int)
 - mobs killed : (int)
 - total level combat : (int)
@@ -78,8 +79,9 @@ dungeons : dictionary; valid keys: DS, IP, IB, SST, LS, UR, UC, GG, CDS, CSST, F
 
 from requests import get
 
+from Wrappers.guild import Guild
 
-# noinspection PyTypeChecker
+
 class Player:
     """
     Class containing all information for Wynncraft player
@@ -133,6 +135,7 @@ class Player:
             'first join': data['meta']['firstJoin'],
             'last join': data['meta']['lastJoin'],
             # guild
+            'guild instance': Guild(data['guild']['name']),
             'guild name': data['guild']['name'],
             'guild rank': data['guild']['rank'],
             # global

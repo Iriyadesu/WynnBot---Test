@@ -54,6 +54,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         player_embed.add_field(name="Guild name: ", value=player['guild name'] if player['guild name'] else 'none', inline=True)
         player_embed.add_field(name="Guild rank: ", value=player['guild rank'].lower() if player['guild rank'] else 'none',
                                inline=True)
+        player_embed.add_field(name="Guild prefix: ", value=player['guild instance']['prefix'], inline=True)
         player_embed.add_field(name="Playtime: ", value=f"{player['total playtime']} hours", inline=False)
         player_embed.add_field(name="Highest Level: ", value=player['highest level combat'], inline=False)
         player_embed.add_field(name="Joined: ", value=player['first join'][:10], inline=True)

@@ -53,7 +53,7 @@ class GMember:
     Class containing all information about guild member
     """
     def __init__(self, data, owner):
-        print(data, owner)
+        # print(data, owner)
 
         self._owner = owner
         self._data = data
@@ -80,4 +80,4 @@ class GMember:
 
 if __name__ == '__main__':
     g = Guild('BOOF')
-    print(g['memberso'])
+    print(g['members'])
