@@ -24,7 +24,7 @@ name = dt.datetime.utcnow().strftime('%Y_%m_%d-%H_%M_%S') + '.log'
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 if TOKEN is None:
-    with open('../pas.txt', 'r') as f:
+    with open('../token.txt', 'r') as f:
         TOKEN = f.read()
 
 intents = discord.Intents.default()
