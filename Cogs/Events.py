@@ -14,10 +14,10 @@ class Events(commands.Cog):  # TODO: Add proper documentation to the class + met
 
     @commands.Cog.listener()
     async def on_ready(self):
+        log.info('Bot ready')
+        print('Bot ready')
         await self.bot.change_presence(activity=discord.Game(name="on developer's nerves"))
         # await self.bot.get_channel(781492333967179821).send('Bot successfully started')
-
-        print('Bot successfully started')
 
     # ----- Handling errors -----
     @commands.Cog.listener()

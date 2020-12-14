@@ -45,7 +45,8 @@ if __name__ == '__main__':
 
     # ---------- run the bot ----------
     try:
-        log.info('Bot successfully started')
+        print('Bot runs')
+        log.info('Bot runs')
         bot.run(TOKEN)
     except Exception as e:
         print(e)
