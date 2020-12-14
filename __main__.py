@@ -21,11 +21,25 @@ name = dt.datetime.utcnow().strftime('%Y_%m_%d-%H_%M_%S') + '.log'
 
 
 # ----- Handling discord TOKEN and PREFIX -----
+# FriendlyPudding's way
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+if TOKEN is not None:
+    log.debug('Token acquired from .env file')
+
+# TrapinchO's way
 if TOKEN is None:
-    with open('../token.txt', 'r') as f:
-        TOKEN = f.read()
+    try:
+        # Running it from outside (using "py WynnBot---Test")
+        with open('../discord_token.txt', 'r') as f:
+            TOKEN = f.read()
+    # Running using .bat script
+    except FileNotFoundError as e:
+        log.debug('File not found, looking into second folder')
+        print('File not found, looking into second folder')
+
+        with open('../../discord_token.txt', 'r') as f:
+            TOKEN = f.read()
 
 intents = discord.Intents.default()
 intents.members = True
@@ -52,9 +66,13 @@ if __name__ == '__main__':
         print(e)
     finally:
         # move the log into "logs" folder
-        move_log = f'Old log was moved and renamed as \'{name}\''
-        print(move_log)
-        log.info(move_log)
-        log.shutdown()
+        print(f'Old log was moved and renamed as \'{name}\'')
+        log.info(f'Old log was moved and renamed as \'{name}\'')
+        log.shutdown()  # end the logging
+
+        # rename and move log
         os.rename('bot.log', name)
-        shutil.move(name, './logs')
+        try:
+            shutil.move(name, './WynnBot---Test/logs')
+        except FileNotFoundError:
+            shutil.move(name, './logs')

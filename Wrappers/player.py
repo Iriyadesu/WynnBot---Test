@@ -83,6 +83,7 @@ from Wrappers.guild import Guild
 
 
 class Player:
+    # TODO: Fix "KeyError: 'name'" exception
     """
     Class containing all information for Wynncraft player
     """

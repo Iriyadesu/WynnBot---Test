@@ -1,2 +1,2 @@
 echo Script started
-py main.py
+py __main__.py
