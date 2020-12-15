@@ -4,7 +4,7 @@ from Wrappers.player import Player
 from bot_data import error_embed
 
 
-class Binder(commands.Cog):  # TODO: finish it
+class Binder(commands.Cog):
     player_list = {}
 
     def __init__(self, bot):
@@ -12,33 +12,50 @@ class Binder(commands.Cog):  # TODO: finish it
 
     @commands.command()
     async def bind(self, ctx, username: str, guild_name: str, highest_lvl: int):
+        Binder.player_list = Binder.get_binds()  # Update the list; No, I don't have a better alternative
+
         if ctx.author.id in Binder.player_list:
             await ctx.channel.send(
-                embed=error_embed('user error',
-                                  description=f'User {ctx.author.mention} is already bound'))
+                embed=error_embed('user error', description=f'Member \"{ctx.author.mention}\" is already bound'))
             return
 
-        player_name = Player(username)
-        if not player_name.found:
+        player_data = Player(username)  # get the data from wynncraft API
+        if not player_data.found:  # if the player doesn't exist -> error
             await ctx.channel.send(
-                embed=error_embed('user error',
-                                  description=f'Player name \"{username}\" does not exist'))
+                embed=error_embed('user error', description=f'Player name \"{username}\" does not exist'))
             return
 
-        if player_name['guild name'] != guild_name:
+        if player_data['guild name'] != guild_name:  # if incorrect guild -> error
             await ctx.channel.send(
-                embed=error_embed('user error',
-                                  description=f'Player \"{username}\" is not in guild \"{guild_name}\"'))
+                embed=error_embed('user error', description=f'Player \"{username}\" is not in guild \"{guild_name}\"'))
             return
 
-        if player_name['highest level combat'] != highest_lvl:
+        if player_data['highest level combat'] != highest_lvl:  # if incorrect highest level -> error
             await ctx.channel.send(
-                embed=error_embed('user error',
-                                  description=f'Highest level of {username} is not \"{highest_lvl}\"'))
+                embed=error_embed('user error', description=f'Highest level of {username} is not \"{highest_lvl}\"'))
             return
 
-        Binder.player_list[ctx.author.id] = (username, player_name['guild name'], highest_lvl)
-        await ctx.channel.send(Binder.player_list)
+        Binder.player_list[ctx.author.id] = username  # add player to the list
+        Binder.set_binds()  # save the new bind
+
+        await ctx.channel.send(f'Member {ctx.author.mention} was bound to name {username}')
+        await ctx.channel.send(str(Binder.player_list))
+
+    @classmethod
+    def get_binds(cls) -> dict:
+        """
+        Gets the list of bound members and returns it
+        """
+        with open('player_bind.txt', 'r') as f:
+            return eval(f.read())
+
+    @classmethod
+    def set_binds(cls):
+        """
+        Updates the file with the list of bound members
+        """
+        with open('player_bind.txt', 'w') as f:  # write it into a file
+            f.write(str(Binder.player_list).replace('\'', '\"'))
 
 
 def setup(bot):

@@ -3,10 +3,11 @@ from typing import Union
 from discord.ext import commands
 import discord
 import requests as req
-import bot_data as bd
 
+import bot_data as bd
 from Wrappers.player import Player
 from Wrappers.territory import Territory
+from Cogs.Binder import Binder
 
 
 class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + methods
@@ -25,21 +26,18 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         :return: None
         """
 
-        # TODO: add Bind support
+        # ----- bind support -----
         if isinstance(player_name, discord.Member):
-            await ctx.channel.send('Bind is not yet supported')
-            raise NotImplementedError('Bind is not yet supported')
-            # await ctx.channel.send(str(player_name) + ' ' + player_name)
-        else:
-            # await ctx.channel.send('No name ' + player_name + ' ' + player_name)
-            pass
+            await ctx.channel.send('Bind is not yet fully supported')
 
-        player = Player(player_name)
-        if not player.found:
+            player_name = Binder.get_binds()[player_name.id]
+
+        player = Player(player_name)  # get the info
+        if not player.found:  # if the player doesn't exist send error
             await ctx.channel.send(embed=bd.error_embed('API error', description='Requested player not found.'))
             return
 
-        if stat is not None:
+        if stat is not None:  # if stats was not found
             try:
                 player_embed = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
                 player_embed.add_field(name=stat, value=player[stat])
