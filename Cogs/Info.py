@@ -81,14 +81,13 @@ class Info(commands.Cog):  # TODO: Add proper documentation to the class + metho
             await ctx.send("Correct syntax: `!poll <create/end>`")
 
     @commands.command(pass_context=True, description="TOD0TODOTODOTODO")
-    async def todo(self, ctx):  # TODO: improve print
+    async def todo(self, ctx):
         todo_str = """
         TODO:
         - settings?
         - maybe some moderation? (f-words etc.)
         - bind user to MC account
         - store all these things in JSON
-        (maybe YAML if it could work? idk, didn't work with it)
         - mute command = drastically improve it. Works, but badly
         - test everything on you new friend
         - guild API wrapper
@@ -98,7 +97,7 @@ class Info(commands.Cog):  # TODO: Add proper documentation to the class + metho
         - uncomment perms requirements
         """
 
-        embed = discord.Embed(title='TODO:')
+        embed = discord.Embed(title='TODO:', color=bd.embed_colors['info'])
         embed.add_field(name='todo', value=todo_str)
         # for i in todo_str.split('\n'):
         #     embed.add_field(name='-', value=f"- {i if i else '.'}", inline=False)

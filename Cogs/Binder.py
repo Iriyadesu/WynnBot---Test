@@ -41,16 +41,16 @@ class Binder(commands.Cog):
         await ctx.channel.send(f'Member {ctx.author.mention} was bound to name {username}')
         await ctx.channel.send(str(Binder.player_list))
 
-    @classmethod
-    def get_binds(cls) -> dict:
+    @staticmethod
+    def get_binds() -> dict:
         """
         Gets the list of bound members and returns it
         """
         with open('player_bind.txt', 'r') as f:
             return eval(f.read())
 
-    @classmethod
-    def set_binds(cls):
+    @staticmethod
+    def set_binds():
         """
         Updates the file with the list of bound members
         """
