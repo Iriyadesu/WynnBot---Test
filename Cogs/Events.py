@@ -82,9 +82,9 @@ class Events(commands.Cog):  # TODO: Add proper documentation to the class + met
             return
         if message.author.bot:
             return
-        for role in message.author.roles:
-            if role.name == 'muted':
-                await message.delete()
+        #for role in message.author.roles:
+        #    if role.name == 'muted': # TODO: create a proper mute
+        #        await message.delete()
 
         temp = message.content.split(" ")
         message.content = str(temp[0].lower())

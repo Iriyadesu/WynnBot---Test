@@ -10,8 +10,8 @@ class Moderation(commands.Cog):
 
     # ----- mute -----
     @commands.command(description="kicks someone")
-    #@commands.has_permissions(kick_members=True)
-    async def mute(self, ctx, user: discord.Member, *, reason='No reason provided'):
+    # @commands.has_permissions(kick_members=True)
+    async def mute(self, ctx, user: discord.Member, *, reason: str = 'No reason provided'):
         """
         Used to mute players.
         Requires "kick" permission.
@@ -26,23 +26,25 @@ class Moderation(commands.Cog):
         try:
             await ctx.message.delete()
             await user.add_roles(discord.utils.get(user.guild.roles, name='muted'))
-            await self.bot.get_channel(782625707963842600).send(
-                    embed=log_embed('Mute', ctx.author, user, reason))
+            await self.bot.get_channel(782625707963842600).send(embed=log_embed('Mute', ctx.author, user, reason))
+            await ctx.channel.send(embed=action_embed('Muted', ctx, user, reason))
         except Exception as e:  # TODO: get what exception is raised
-            print('Cannot assign role. Error: ' + str(type(e)))
+            await ctx.channel.send('Cannot assign role. Error: ' + str(type(e)))
 
     # ----- unmute -----
-    async def unmute(self, ctx, user: discord.Member):
+    @commands.command(description="mutes someone")
+    # @commands.has_permissions(kick_members=True)
+    async def unmute(self, ctx, user: discord.Member, reason: str = 'No reason provided'):
         l.info(f'Unmuted user {user.name}.')
         try:
             await ctx.message.delete()
             await user.remove_roles(discord.utils.get(user.guild.roles, name='muted'))
         except Exception as e:  # TODO: get what exception is raised
-            print('Cannot unmute them. Error:\n' + str(e))
+            await ctx.channel.send('Cannot unmute them. Error:\n' + str(type(e)))
 
     # ----- kick -----
     @commands.command(description="kicks someone")
-    #@commands.has_permissions(kick_members=True)
+    # @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, user: discord.Member, *, reason="No reason provided"):
         """
         Used to kick players.
