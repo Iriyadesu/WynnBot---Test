@@ -37,12 +37,12 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
             await ctx.channel.send(embed=bd.error_embed('API error', description='Requested player not found.'))
             return
 
-        if stat is not None:  # if stats was not found
+        if stat is not None:  # if stats was provided
             try:
                 player_embed = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
                 player_embed.add_field(name=stat, value=player[stat])
                 await ctx.channel.send(embed=player_embed)
-            except:  # TODO: get type of raised exception
+            except KeyError:  # if stats was not found
                 await ctx.channel.send(embed=bd.error_embed('API error', description='Requested stat not found.'))
             return
 
