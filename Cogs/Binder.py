@@ -60,3 +60,4 @@ class Binder(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Binder(bot))
+
