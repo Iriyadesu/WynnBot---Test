@@ -4,7 +4,8 @@ from Wrappers.player import Player
 from bot_data import error_embed
 
 
-class Binder(commands.Cog):
+# TODO: Check how well it works
+class Binder(commands.Cog):  # TODO: Documentation
     player_list = {}
 
     def __init__(self, bot):

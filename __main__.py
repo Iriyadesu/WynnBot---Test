@@ -1,4 +1,29 @@
-# bot.py
+"""
+This is the main module for the bot.
+It can be run several ways:
+- __main__.py = just running the script
+- start.bad = used because PyCharm seems to be idiotic sometimes
+- running the entire folder = why not
+
+What it does:
+- import modules
+- sets up logging
+- loads token
+- states intents (+ creates bot instance)
+- adds other modules to the bot
+- runs the bot
+  try:
+    - logs it
+    - runs it
+  excpet:
+    - print the exception
+  finally:
+    - rename the log
+    - end logging
+    - move the log
+
+"""
+
 # ---------- IMPORTS ----------
 import os
 import shutil

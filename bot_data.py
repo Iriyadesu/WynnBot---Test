@@ -1,3 +1,11 @@
+"""
+This module should contain all data used by the bot
+Currently contains:
+- colors
+- error embed function
+- help embed = not sure whether it is used
+"""
+
 import discord
 
 # TODO: move here as much data as possible
@@ -57,7 +65,7 @@ def error_embed(err_type: str = 'No reason provided',
     return embed
 
 
-help_embed = {
+help_embed = {  # TODO: Is this even used?
     'Moderation': {
         'ban': {'syntax': '!ban <user> [reason]', 'info': 'bans the user'},
         'kick': {'syntax': '!mute <user> [reason]', 'info': 'kicks the user'},
