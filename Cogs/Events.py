@@ -8,22 +8,56 @@ import discord
 
 
 class Events(commands.Cog):  # TODO: Add proper documentation to the class + methods
+    """
+    This class works with events (e.g. someone sends a message)
+    Current events:
+    - bot is done with initialisation
+    - new member joins
+    - message sent
+    - reaction added
+    """
     def __init__(self, bot):
         self.bot = bot
         self.safe_block = False
 
     @commands.Cog.listener()
+    async def on_connect(self):
+        """
+        Called when bot is connected
+        - log it
+        """
+        print('Bot connected')
+        log.info('Bot connected')
+
+    @commands.Cog.listener()
     async def on_ready(self):
-        log.info('Bot ready')
+        """
+        Called when the bot is ready
+        - log it
+        - change status
+        """
         print('Bot ready')
+        log.info('Bot ready')
         await self.bot.change_presence(activity=discord.Game(name="on developer's nerves"))
         # await self.bot.get_channel(781492333967179821).send('Bot successfully started')
 
+    @commands.Cog.listener()
+    async def on_disconnect(self):
+        """
+        Called when bot is disconnected
+        - log it
+        """
+        print('Bot disconnected')
+        log.info('Bot disconnected')
+
     # ----- Handling errors -----
     @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
+    async def on_command_error(self, ctx: commands.Context, error):
         """
         Called when an error occurs during a processing of a command
+        - get type of the error
+        - send appropriate embed
+
         :param ctx: channel where the command was used
         :param error: type of error
         :return: none
@@ -43,8 +77,10 @@ class Events(commands.Cog):  # TODO: Add proper documentation to the class + met
     @commands.Cog.listener()
     async def on_member_join(self, member):
         """
-        When a member joins give him the "Guest" role
-        and send him welcome message into DMs.
+        Called when a member joins
+        - give them role "Guest"
+        - send them DM
+
         :param member: member that joined
         :return: None
         """
@@ -67,7 +103,10 @@ class Events(commands.Cog):  # TODO: Add proper documentation to the class + met
     @commands.Cog.listener()
     async def on_message(self, message):
         """
-        What to do when any message is sent.
+        Called when a message was sent
+        - prevent bot reacting to their own messages
+        - prepare message for eventual command evaluation
+
         :param message: message sent
         :return: None
         """
@@ -95,7 +134,27 @@ class Events(commands.Cog):  # TODO: Add proper documentation to the class + met
             await message.channel.send("ahoj")
 
     @commands.Cog.listener()
-    async def on_raw_reaction_add(self, payload):  # TODO: either remove or do something with it
+    async def on_typing(self, channel: discord.TextChannel, user: discord.User, when):
+        """
+        Test/joke function
+        """
+        await channel.send(f'{user.mention} IS TYPING')
+
+    @commands.Cog.listener()
+    async def on_member_remove(self, member: discord.Member):
+        """
+        Test/joke function
+        """
+        await self.bot.get_user(552883527147061249).send(f'WHY ARE YOU GONE')
+
+    @commands.Cog.listener()
+    async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent):  # TODO: either remove or do something with it
+        """
+        Called when any reaction was added
+        - does nothing
+
+        :param payload: Idk
+        """
         # channel = await self.bot.fetch_channel(payload.channel_id)
         # message = await channel.fetch_message(payload.message_id)
         # user = await self.bot.fetch_user(payload.user_id)
@@ -104,6 +163,9 @@ class Events(commands.Cog):  # TODO: Add proper documentation to the class + met
 
     @commands.command()
     async def failsafe(self, ctx, code: str):
+        """
+        A command
+        """
         if ctx.author.id != 552883527147061249 and ctx.author.id != 345167339693670430:
             await ctx.send('Inappropriate user')
             return
@@ -127,4 +189,7 @@ class Events(commands.Cog):  # TODO: Add proper documentation to the class + met
 
 
 def setup(bot):  # TODO: what documentation to add here?
+    """
+    Add the "Events" class to the bot
+    """
     bot.add_cog(Events(bot))

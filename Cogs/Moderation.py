@@ -64,7 +64,7 @@ class Moderation(commands.Cog):
 
         kick_embed.title = 'You were kicked!'
         await user.send(
-            'Seems like you were not behaving properly.\nNext please do not break the rules.',
+            'Seems like you were not behaving properly.\nNext time please do not break the rules.',
             embed=kick_embed)  # send it to the user's DMs
 
         await self.bot.get_channel(782625707963842600).send(

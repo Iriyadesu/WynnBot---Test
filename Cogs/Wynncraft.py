@@ -16,7 +16,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
 
     # ----- player stats -----
     @commands.command(description="Search for players")  # TODO: Need to make it look better
-    async def player(self, ctx, player_name: Union[discord.Member, str], stat=None):
+    async def player(self, ctx: commands.Context, player_name: Union[discord.Member, str], stat=None):
         """
         Send embed with info on requested player.
         Sends specific stat if requested
@@ -32,7 +32,9 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
 
             player_name = Binder.get_binds()[player_name.id]
 
-        player = Player(player_name)  # get the info
+        async with ctx.typing():
+            player = Player(player_name)  # get the info
+
         if not player.found:  # if the player doesn't exist send error
             await ctx.channel.send(embed=bd.error_embed('API error', description='Requested player not found.'))
             return
@@ -66,7 +68,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
     
     #  ----- guild stats -----
     @commands.command(description="Let's you search for guilds.")  # TODO: Need to make it look better
-    async def guild(self, ctx, guild_name):
+    async def guild(self, ctx: commands.Context, guild_name):
         """
         Send embed with info on requested guild.
         :param ctx: channel where the command was used
@@ -74,7 +76,8 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         :return: None
         """
         # TODO: Create the API wrapper
-        resp = req.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={guild_name}')
+        async with ctx.typing():
+            resp = req.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={guild_name}')
 
         data = resp.json()
 
@@ -95,14 +98,15 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
 
     #  ----- territory stats -----
     @commands.command(description='Sends info about requested guild\nUse `\"name\"` for more-word names.')
-    async def territory(self, ctx, territory_name):
+    async def territory(self, ctx: commands.Context, territory_name):
         """
         Send embed with info on requested territory.
         :param ctx: channel where the command was used
         :param territory_name: name of the requested player
         :return: None
         """
-        terr = Territory(territory_name)
+        async with ctx.typing():
+            terr = Territory(territory_name)
         if not terr.found:
             await ctx.channel.send(embed=bd.error_embed('API error', description='Requested territory not found.'))
             return
@@ -120,7 +124,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
 
     #  ----- item stats -----
     @commands.command(description="Search for items")  # TODO: Need to implement this
-    async def item(self, ctx, item_name: str):
+    async def item(self, ctx: commands.Context, item_name: str):
         # resp = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={item_name}')
         # data = resp.json()
         ctx.channel.send('Command not implemented')
