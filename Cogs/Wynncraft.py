@@ -20,6 +20,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         """
         Send embed with info on requested player.
         Sends specific stat if requested
+
         :param ctx: channel where the command was used
         :param player_name: name of the requested player
         :param stat: stat requested; default None
@@ -27,12 +28,12 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         """
 
         # ----- bind support -----
-        if isinstance(player_name, discord.Member):
+        if isinstance(player_name, discord.Member):  # if a discord member was used
             await ctx.channel.send('Bind is not yet fully supported')
 
             player_name = Binder.get_binds()[player_name.id]
 
-        async with ctx.typing():
+        async with ctx.typing():  # make it do something while it gets the info
             player = Player(player_name)  # get the info
 
         if not player.found:  # if the player doesn't exist send error
@@ -124,12 +125,17 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
 
     #  ----- item stats -----
     @commands.command(description="Search for items")  # TODO: Need to implement this
-    async def item(self, ctx: commands.Context, item_name: str):
-        # resp = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={item_name}')
-        # data = resp.json()
+    async def item(self, ctx: commands.Context, item_name: str):  # TODO: Create a wrapper
+        async with ctx.typing():
+            # resp = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={item_name}')
+            # data = resp.json()
+            pass
         ctx.channel.send('Command not implemented')
         raise NotImplementedError('Command not implemented')
 
 
 def setup(bot):
+    """
+    Add the "Events" class to the bot
+    """
     bot.add_cog(Wynncraft(bot))
