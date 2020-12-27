@@ -41,10 +41,11 @@ embed_colors = {
 }
 
 
-# TODO: maybe improve it? Definitely improve it!
-def error_embed(err_type: str = 'No reason provided', *, description: str = ''):
+def error_embed(err_type: str = 'No reason provided',
+                *, description: str = '') -> discord.Embed:  # TODO: maybe improve it? Definitely improve it!
     """
     Returns embed for errors
+
     :param err_type: type of the error
     :param description: description of the embed
     :return: discord.Embed

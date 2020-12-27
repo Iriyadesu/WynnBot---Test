@@ -28,23 +28,25 @@ if TOKEN is not None:
     log.debug('Token acquired from .env file')
 
 # TrapinchO's way
-if TOKEN is None:
+if TOKEN is None:  # TODO: Decide whether to keep it or not
     try:
         # Running it from outside (using "py WynnBot---Test")
         with open('../discord_token.txt', 'r') as f:
             TOKEN = f.read()
-    # Running using .bat script
-    except FileNotFoundError as e:
+    except FileNotFoundError as e:  # Running using .bat script
         log.debug('File not found, looking into second folder')
         print('File not found, looking into second folder')
 
         with open('../../discord_token.txt', 'r') as f:
             TOKEN = f.read()
 
+
+# ----- bot intents -----
 intents = discord.Intents.default()
 intents.members = True
 
 bot = commands.Bot(command_prefix='!', intents=intents, case_insensitive=True)
+
 
 # ---------- registering commands ----------
 
@@ -52,27 +54,25 @@ bot.remove_command('help')
 
 extensions = ['Cogs.Moderation', 'Cogs.Wynncraft', 'Cogs.Events', 'Cogs.Info', 'Cogs.Binder']
 
-
+# ---------- running the script ----------
 if __name__ == '__main__':
     for ext in extensions:
         bot.load_extension(ext)
 
     # ---------- run the bot ----------
     try:
-        print('Bot runs')
-        log.info('Bot runs')
-        bot.run(TOKEN)
-    except Exception as e:
+        print('Bot script started')
+        log.info('Bot script started')
+        bot.run(TOKEN)  # run the bot
+    except Exception as e:  # something happened - print the exception
         print(e)
     finally:
-        # move the log into "logs" folder
         print(f'Old log was moved and renamed as \'{name}\'')
-        log.info(f'Old log was moved and renamed as \'{name}\'')
+        log.info(f'Old log was moved and renamed as \'{name}\'')  # log "bot.log" handling
         log.shutdown()  # end the logging
 
-        # rename and move log
-        os.rename('bot.log', name)
+        os.rename('bot.log', name)  # rename and move log
         try:
-            shutil.move(name, './WynnBot---Test/logs')
+            shutil.move(name, './WynnBot---Test/logs')  # if run using "py Wynnbot---Test"
         except FileNotFoundError:
-            shutil.move(name, './logs')
+            shutil.move(name, './logs')  # if run normally
