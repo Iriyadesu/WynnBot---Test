@@ -5,16 +5,28 @@ import bot_data as bd
 
 
 class Moderation(commands.Cog):
+    """
+    This class handles moderation commands
+    Current features:
+    - mute
+    - unmute
+    - kick
+    - ban
+    - say
+
+    FOR TESTING PURPOSES permissions are not required
+    """
     def __init__(self, bot):
         self.bot = bot
 
     # ----- mute -----
     @commands.command(description="kicks someone")
     # @commands.has_permissions(kick_members=True)
-    async def mute(self, ctx, user: discord.Member, *, reason: str = 'No reason provided'):
+    async def mute(self, ctx: commands.Context, user: discord.Member, *, reason: str = 'No reason provided'):
         """
         Used to mute players.
         Requires "kick" permission.
+
         :param ctx: channel where the command was used
         :param user: who was muted
         :param reason: reason for the mute
@@ -34,7 +46,7 @@ class Moderation(commands.Cog):
     # ----- unmute -----
     @commands.command(description="mutes someone")
     # @commands.has_permissions(kick_members=True)
-    async def unmute(self, ctx, user: discord.Member, reason: str = 'No reason provided'):
+    async def unmute(self, ctx: commands.Context, user: discord.Member, reason: str = 'No reason provided'):
         l.info(f'Unmuted user {user.name}.')
         try:
             await ctx.message.delete()
@@ -45,10 +57,11 @@ class Moderation(commands.Cog):
     # ----- kick -----
     @commands.command(description="kicks someone")
     # @commands.has_permissions(kick_members=True)
-    async def kick(self, ctx, user: discord.Member, *, reason="No reason provided"):
+    async def kick(self, ctx: commands.Context, user: discord.Member, *, reason="No reason provided"):
         """
         Used to kick players.
         Requires "kick" permission.
+
         :param ctx: channel where the command was used
         :param user: who was kicked
         :param reason: reason for the kick
@@ -74,10 +87,11 @@ class Moderation(commands.Cog):
     #  ----- ban -----
     @commands.command(description="Bans someone")
     #@commands.has_permissions(ban_members=True)
-    async def ban(self, ctx, user: discord.Member, *, reason="No reason provided"):
+    async def ban(self, ctx: commands.Context, user: discord.Member, *, reason="No reason provided"):
         """
         Used to ban players.
         Requires "ban" permission.
+
         :param ctx: channel where the command was used
         :param user: who was banned
         :param reason: reason for the ban
@@ -102,17 +116,18 @@ class Moderation(commands.Cog):
 
     # ----- repeat -----
     @commands.command(description="speak beep boop")
-    @commands.has_permissions(administrator=True)
-    async def say(self, ctx, *, arg="Nothing"):
+    @commands.has_permissions(administrator=True)  # Why TF this requires admin...
+    async def say(self, ctx: commands.Context, *, arg="Nothing"):
         try: 
             await ctx.channel.send(str(arg))
         except Exception as e:
             await ctx.channel.send('Cannot assign role. Error: ' + str(e))
 
 
-def log_embed(action, author: discord.Member, user: discord.Member, reason: str) -> discord.Embed:
+def log_embed(action: str, author: discord.Member, user: discord.Member, reason: str) -> discord.Embed:
     """
     Used to save some code
+
     :param action: action taken; currently ['ban', 'kick', 'mute']
     :param author: who used that command
     :param user: again who was the action taken (e.g. who was banned)
@@ -129,9 +144,10 @@ def log_embed(action, author: discord.Member, user: discord.Member, reason: str)
     return embed
 
 
-def action_embed(action: str, ctx, user: discord.Member, reason: str) -> discord.Embed:
+def action_embed(action: str, ctx: commands.Context, user: discord.Member, reason: str) -> discord.Embed:
     """
     Function for generating moderator embeds
+
     :param action: action taken
     :param ctx: channel where the command was used
     :param user: again who was the action taken (e.g. who was banned)
@@ -149,4 +165,7 @@ def action_embed(action: str, ctx, user: discord.Member, reason: str) -> discord
 
 
 def setup(bot):
+    """
+    Add the "Events" class to the bot
+    """
     bot.add_cog(Moderation(bot))
