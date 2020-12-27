@@ -4,12 +4,19 @@ from discord.ext import commands
 import discord
 
 
-class Info(commands.Cog):  # TODO: Add proper documentation to the class + methods
+class Info(commands.Cog):
+    """
+    This class handles informational commands
+    Current commands:
+    - help
+    - poll
+    - too
+    """
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command()
-    async def help(self, ctx):  # TODO: add documentation
+    async def help(self, ctx: commands.Context):  # TODO: add documentation
         embed = discord.Embed(title='Help')
         for category in bd.help_embed:
             s = ''
@@ -26,9 +33,16 @@ class Info(commands.Cog):  # TODO: Add proper documentation to the class + metho
         await ctx.send(embed=embed)
 
     @commands.command(pass_context=True, description="Manages polls")
-    async def poll(self, ctx, cord: str, var, *options: str):  # TODO: add documentation, a lot of it
+    async def poll(self, ctx: commands.Context, cord: str, var, *options: str):  # TODO: add documentation, a lot of it
         """
-        Creates a poll.
+        Manages a poll.
+        - create
+          - !poll create <question> <options separated by space>
+        - end
+          - !poll end <poll id>
+
+        FriendlyPudding shall document it themself
+
         :param ctx: channel where the command was used
         :param cord: whether to create or end poll
         :param var: The (Ultimate) question (of Life, the Universe, and Everything)
@@ -106,4 +120,7 @@ class Info(commands.Cog):  # TODO: Add proper documentation to the class + metho
 
 
 def setup(bot):
+    """
+    Add the "Events" class to the bot
+    """
     bot.add_cog(Info(bot))

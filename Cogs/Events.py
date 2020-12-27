@@ -7,7 +7,7 @@ from discord.ext import commands
 import discord
 
 
-class Events(commands.Cog):  # TODO: Add proper documentation to the class + methods
+class Events(commands.Cog):
     """
     This class works with events (e.g. someone sends a message)
     Current events:
