@@ -1,83 +1,56 @@
 """
 uh
 """
+from typing import Union
 
-from requests import get
+import requests as r
+
+
+def guild(name: str) -> Union[dict, None]:
+    """
+    1) gets data
+    2) checks for errors (codes 400, 429, anything except 200)
+    2a) if the player was not found (code 400) return None
+    3) decodes json and assigns data to 'data' variable
+    5) returns dictionary containing all data
+    """
+    # sends request
+    res = r.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={name}').json()
+
+    if res.status_code == 400:
+        # if status code is 400 (non-existing name)
+        return
+
+    elif res.status_code == 429:
+        # if too many requests are sent (exceeded the limit)(750/30min/ip)
+        raise Exception('Too many requests!')
+
+    elif res.status_code != 200:
+        # other errors
+        raise Exception(f'Cannot proced. Status code: {res.status_code}')
+
+    else:
+        # status code is 200
+        # gets the json
+        res_data = res.json()['data'][0]
+
+    guild_data = {
+        'name': res_data['name'],
+        'prefix': res_data['prefix'],
+        'level': res_data['level'],
+        'xp': res_data['xp'],
+        'created': res_data['created'],
+        'territories': res_data['territories'],
+        'banner tier': res_data['banner']['tier'],
+        'banner': res_data['banner'],
+        'members': [_guild_member(member) for member in res_data['members']]
+    }
+
+    return guild_data
+
 
 # TODO: finish it
 # TODO: add documentation
-class Guild:
-    """
-    Class containing all information about a guild
-    """
-    def __init__(self, name: str):
-        res = get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={name}')
-        data = res.json()
-
-        self._data = {
-            'name': data['name'],
-            'prefix': data['prefix'],
-            'level': data['level'],
-            'xp': data['xp'],
-            'created': data['created'],
-            'territories': data['territories'],
-            'banner tier': data['banner']['tier'],
-            'banner': data['banner'],
-            'members': [GMember(i, data['name']) for i in data['members']]
-        }
-
-    def update(self):
-        """Updates the information. Basically it initialises itself again."""
-        self.__init__(self['name'])
-
-    def __getitem__(self, key):
-        """
-        Allows to access data by doing object[key].
-        try:
-            return self.data[key]
-        except KeyError:
-            raise KeyError('Guild %s doesn't have \'%s\' stat' %(self['username'], property))
-        """
-        try:
-            # print(self.data[key])
-            return self._data[key]
-        except KeyError:
-            raise KeyError(f'Guild {self["name"]} doesn\'t have \'{key}\' property')
-
-    def __repr__(self):
-        return f'<Guild {self["name"]}>'
-
-
-class GMember:
-    """
-    Class containing all information about guild member
-    """
-    def __init__(self, data, owner):
-        # print(data, owner)
-
-        self._owner = owner
-        self._data = data
-
-        self._data['joined friendly'] = self._data['joinedFriendly']
-        del self._data['joinedFriendly']
-
-    def __getitem__(self, key):
-        """
-        Allows to access data by doing object[key].
-        try:
-            return self.data[key]
-        except KeyError:
-            raise KeyError('Guild %s doesn't have \'%s\' stat' %(self['username'], property))
-        """
-        try:
-            return self._data[key]
-        except KeyError:
-            raise KeyError(f'Guild member of {self["name"]} doesn\'t have \'{key}\' property')
-
-    def __repr__(self):
-        return f'<{self["name"]}, {self["rank"]} of {self._owner}>'
-
-
-if __name__ == '__main__':
-    g = Guild('BOOF')
-    print(g['members'])
+def _guild_member(data) -> dict:
+    data['joined friendly'] = data['joinedFriendly']
+    del data['joinedFriendly']

@@ -93,8 +93,8 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         guild_embed.add_field(name="Level: ", value=data['level'], inline=False)
         guild_embed.add_field(name="Members: ", value=str(len(data['members'])), inline=False)
         guild_embed.add_field(name="Territories: ", value=data['territories'], inline=False)
-        # embedVar.add_field(name="Playtime: ", value=f"{json['data'][0]['meta']['playtime'] /60} hours.", inline=False)
         guild_embed.add_field(name="Created at: ", value=data['createdFriendly'], inline=False)
+
         await ctx.channel.send(embed=guild_embed)  # send the embed
 
     #  ----- territory stats -----

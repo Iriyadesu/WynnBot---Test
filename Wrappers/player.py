@@ -80,9 +80,9 @@ dungeons : dictionary; valid keys: DS, IP, IB, SST, LS, UR, UC, GG, CDS, CSST, F
 """
 from typing import Union
 
-from requests import get
+import requests as r
 
-from Wrappers.guild import Guild
+from Wrappers.guild import guild
 
 
 def player(name: str) -> Union[dict, None]:
@@ -94,7 +94,7 @@ def player(name: str) -> Union[dict, None]:
     5) returns dictionary containing all data
     """
     # sends request
-    res = get(f'https://api.wynncraft.com/v2/player/{name}/stats')
+    res = r.get(f'https://api.wynncraft.com/v2/player/{name}/stats')
 
     if res.status_code == 400:
         # if status code is 400 (non-existing name)
@@ -106,7 +106,7 @@ def player(name: str) -> Union[dict, None]:
 
     elif res.status_code != 200:
         # other errors
-        raise Exception(f'Cannot procede. Status code: {res.status_code}')
+        raise Exception(f'Cannot proced. Status code: {res.status_code}')
 
     else:
         # status code is 200
@@ -128,7 +128,7 @@ def player(name: str) -> Union[dict, None]:
         'first join': res_data['meta']['firstJoin'],
         'last join': res_data['meta']['lastJoin'],
         # guild
-        'guild instance': Guild(res_data['guild']['name']),
+        'guild instance': guild(res_data['guild']['name']),
         'guild name': res_data['guild']['name'],
         'guild rank': res_data['guild']['rank'],
         # global
@@ -141,7 +141,7 @@ def player(name: str) -> Union[dict, None]:
         'deaths': res_data['global']['deaths'],
         'pvp kills': res_data['global']['pvp']['kills'],
         'pvp deaths': res_data['global']['pvp']['deaths'],
-        'classes': [wclass(cls, res_data['uuid']) for cls in res_data['classes']]
+        'classes': [_player_class(cls, res_data['uuid']) for cls in res_data['classes']]
     }
 
     highest_level = 0
@@ -153,7 +153,7 @@ def player(name: str) -> Union[dict, None]:
     return player_data
 
 
-def wclass(data: dict, owner: str) -> dict:
+def _player_class(data: dict, owner: str) -> dict:
     _owner = owner
     class_names = ['archer', 'hunter',
                    'assassin', 'ninja',
