@@ -2,6 +2,7 @@ import sys
 import logging as log
 import hashlib as h
 import bot_data as bd
+from bot_data import bad_words
 
 from discord.ext import commands
 import discord
@@ -110,17 +111,23 @@ class Events(commands.Cog):
         :param message: message sent
         :return: None
         """
+        if message.author == self.bot.user:
+            return
+        if message.author.bot:
+            return
 
+        if any(word in message.content for word in bad_words): #TODO: make it work for all bad words
+            await message.channel.send(f"Please refrain from using inappropriate words in the server. For more information click here: https://discord.com/channels/781492333967179817/781492333967179821/795565283895934976")
+            await self.bot.get_channel(782625707963842600).send(
+            f'{message.author} used a nono word, here\'s the message: {message.content}'
+            )
         if self.safe_block and message.content[0] == '!':
             await self.bot.get_user(552883527147061249).send('Failsafe activated')
             print('Failsafe activated.')
             log.warning('Failsafe activated.')
             log.shutdown()
             sys.exit('Command sent')
-        if message.author == self.bot.user:
-            return
-        if message.author.bot:
-            return
+
         #for role in message.author.roles:
         #    if role.name == 'muted': # TODO: create a proper mute
         #        await message.delete()

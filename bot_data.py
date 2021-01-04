@@ -4,6 +4,7 @@ Currently contains:
 - colors
 - error embed function
 - help embed = not sure whether it is used
+- nono words
 """
 
 import discord
@@ -83,3 +84,6 @@ help_embed = {  # TODO: Is this even used?
         'help': {'syntax': '!help', 'info': 'displays this message'}
     }
 }
+
+
+bad_words =  ['fuck', 'shit']
