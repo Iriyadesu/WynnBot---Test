@@ -126,10 +126,15 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
     #  ----- item stats -----
     @commands.command(description="Search for items")  # TODO: Need to implement this
     async def item(self, ctx: commands.Context, item_name: str):  # TODO: Create a wrapper
+        """
+        Raises NotImplemented error
+        """
+        """
         async with ctx.typing():
-            # resp = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={item_name}')
-            # data = resp.json()
+            resp = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={item_name}')
+            data = resp.json()
             pass
+        """
         ctx.channel.send('Command not implemented')
         raise NotImplementedError('Command not implemented')
 
