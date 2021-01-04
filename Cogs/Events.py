@@ -116,11 +116,13 @@ class Events(commands.Cog):
         if message.author.bot:
             return
 
-        if any(word in message.content for word in bad_words): #TODO: make it work for all bad words
+        if any(word in message.content.lower() for word in bad_words): #TODO: make it work for all bad words
             await message.channel.send(f"Please refrain from using inappropriate words in the server. For more information click here: https://discord.com/channels/781492333967179817/781492333967179821/795565283895934976")
             await self.bot.get_channel(782625707963842600).send(
-            f'{message.author} used a nono word, here\'s the message: {message.content}'
+            f'{message.author} used a nono word, here\'s the message: ``{message.content}``'
             )
+
+
         if self.safe_block and message.content[0] == '!':
             await self.bot.get_user(552883527147061249).send('Failsafe activated')
             print('Failsafe activated.')
@@ -140,12 +142,12 @@ class Events(commands.Cog):
         if message.content == "cktq:4":
             await message.channel.send("ahoj")
 
-    @commands.Cog.listener()
-    async def on_typing(self, channel: discord.TextChannel, user: discord.User, when):
-        """
-        Test/joke function
-        """
-        await channel.send(f'{user.mention} IS TYPING')
+    # @commands.Cog.listener()
+    # async def on_typing(self, channel: discord.TextChannel, user: discord.User, when):
+    #     """
+    #     Test/joke function
+    #     """
+    #     await channel.send(f'{user.mention} IS TYPING')
 
     @commands.Cog.listener()
     async def on_member_remove(self, member: discord.Member):
