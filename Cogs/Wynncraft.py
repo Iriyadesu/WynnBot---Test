@@ -6,6 +6,7 @@ import requests as req
 
 import bot_data as bd
 from Wrappers.player import player
+from Wrappers.guild import guild
 from Wrappers.territory import Territory
 from Cogs.Binder import Binder
 
@@ -78,22 +79,20 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         """
         # TODO: Create the API wrapper
         async with ctx.typing():
-            resp = req.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={guild_name}')
+            guild_data = guild(guild_name)
 
-        data = resp.json()
-
-        if "error" in data:
+        if "error" in guild_data:
             await ctx.channel.send(embed=bd.error_embed('API error', description='Requested guild not found.'))
             return
 
         # ----- create the embed -----
         guild_embed = discord.Embed(title=guild_name, color=0xFF0000)
-        guild_embed.add_field(name="Name: ", value=data['name'], inline=False)
-        guild_embed.add_field(name="Prefix: ", value=data['prefix'], inline=False)
-        guild_embed.add_field(name="Level: ", value=data['level'], inline=False)
-        guild_embed.add_field(name="Members: ", value=str(len(data['members'])), inline=False)
-        guild_embed.add_field(name="Territories: ", value=data['territories'], inline=False)
-        guild_embed.add_field(name="Created at: ", value=data['createdFriendly'], inline=False)
+        guild_embed.add_field(name="Name: ", value=guild_data['name'], inline=False)
+        guild_embed.add_field(name="Prefix: ", value=guild_data['prefix'], inline=False)
+        guild_embed.add_field(name="Level: ", value=guild_data['level'], inline=False)
+        guild_embed.add_field(name="Members: ", value=str(len(guild_data['members'])), inline=False)
+        guild_embed.add_field(name="Territories: ", value=guild_data['territories'], inline=False)
+        guild_embed.add_field(name="Created at: ", value=guild_data['created friendly'], inline=False)
 
         await ctx.channel.send(embed=guild_embed)  # send the embed
 

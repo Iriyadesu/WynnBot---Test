@@ -15,7 +15,7 @@ def guild(name: str) -> Union[dict, None]:
     5) returns dictionary containing all data
     """
     # sends request
-    res = r.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={name}').json()
+    res = r.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={name}')
 
     if res.status_code == 400:
         # if status code is 400 (non-existing name)
@@ -32,7 +32,7 @@ def guild(name: str) -> Union[dict, None]:
     else:
         # status code is 200
         # gets the json
-        res_data = res.json()['data'][0]
+        res_data = res.json()
 
     guild_data = {
         'name': res_data['name'],
@@ -40,6 +40,7 @@ def guild(name: str) -> Union[dict, None]:
         'level': res_data['level'],
         'xp': res_data['xp'],
         'created': res_data['created'],
+        'created friendly': res_data['createdFriendly'],
         'territories': res_data['territories'],
         'banner tier': res_data['banner']['tier'],
         'banner': res_data['banner'],
@@ -49,8 +50,11 @@ def guild(name: str) -> Union[dict, None]:
     return guild_data
 
 
-# TODO: finish it
-# TODO: add documentation
-def _guild_member(data) -> dict:
+def _guild_member(data: dict) -> dict:
+    """
+    Helper function, will be probably removed
+    """
     data['joined friendly'] = data['joinedFriendly']
     del data['joinedFriendly']
+
+    return data
