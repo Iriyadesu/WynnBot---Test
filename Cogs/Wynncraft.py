@@ -7,6 +7,7 @@ import bot_data as bd
 from Wrappers.player import player
 from Wrappers.guild import guild
 from Wrappers.territory import territory
+from Wrappers.network import player_sum, players_on_worlds
 from Cogs.Binder import Binder
 
 
@@ -119,6 +120,54 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         territory_embed.add_field(name='End coords:', value=f'{territory_data["location"]["endX"]} {territory_data["location"]["endZ"]}')
 
         await ctx.channel.send(embed=territory_embed)
+
+    #  ----- sum of all online players -----
+    @commands.command()
+    async def network(self, ctx: commands.Context, action: str, name: str = ''):
+        """
+        Capabilities:
+        - get sum of all online players on Wynncraft (sum)
+        - get sum of all players on each world (worlds)
+        - find a world of specific player (find <name>)
+        
+        :param ctx: channel where the command was used
+        :param action: action you want to take
+        :param name: only used when using "find" action
+        :return: None
+
+        """
+        if action == 'sum':
+            embed = discord.Embed(color=bd.embed_colors['normal'])
+            embed.add_field(name='Online players:', value=player_sum())
+            await ctx.channel.send(embed=embed)
+
+        elif action == 'worlds':
+            embed = discord.Embed(color=bd.embed_colors['normal'])
+            world_dict = players_on_worlds()
+            for world in world_dict:
+                embed.add_field(name=world, value=len(world_dict[world]))
+            await ctx.channel.send(embed=embed)
+
+        elif action == 'find':
+            if name == '':
+                await ctx.channel.send(embed=bd.error_embed(f'Argument error', description='Not enough parameters passed'))
+                return
+
+            world_dict = players_on_worlds()
+            for world in world_dict:
+                if name in world_dict[world]:
+                    embed = discord.Embed(title=f'Player {name} found',
+                                          color=bd.embed_colors['normal'])
+                    embed.add_field(name='World:', value=world)
+                    await ctx.channel.send(embed=embed)
+                    return
+            else:
+                embed = discord.Embed(color=bd.embed_colors['error'])
+                embed.add_field(name='.', value=f'Player \"{name}\" not found')
+                await ctx.channel.send(embed=embed)
+
+        else:
+            await ctx.channel.send(embed=bd.error_embed(f'Argument error', description='Unknown parameters passed'))
 
     #  ----- item stats -----
     @commands.command(description="provides info on requested item\n**~~__note__:**: put more word names between double quotes `\"`", usage="!item <item name>")  # TODO: Need to implement this

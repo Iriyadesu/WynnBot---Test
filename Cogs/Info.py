@@ -103,10 +103,10 @@ class Info(commands.Cog):
         -? maybe some moderation (f-words etc.)
         - bind user to MC account
         - store all these things in JSON
-        - mute command = drastically improve it. Works, but badly
-        - test everything on you new friend
-        - recheck documentation (both back- and front- end)
-        - update API wrapper documentation
+        - mute command - drastically improve it. Works, but badly
+        - test everything on our new friend
+        -! recheck documentation (both back- and front- end)
+        -! update API wrapper documentation
         -? maybe add more Wynn API commands?
         -? - like leaderboards etc
         
