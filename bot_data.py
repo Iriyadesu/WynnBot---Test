@@ -86,4 +86,4 @@ help_embed = {  # TODO: Is this even used?
 }
 
 
-bad_words =  ['fuck', 'shit']
+bad_words = ['fuck', 'shit', 'lari smart']

@@ -64,4 +64,3 @@ def setup(bot):
     Add the "Events" class to the bot
     """
     bot.add_cog(Binder(bot))
-

@@ -2,7 +2,6 @@ import sys
 import logging as log
 import hashlib as h
 import bot_data as bd
-from bot_data import bad_words
 
 from discord.ext import commands
 import discord
@@ -116,12 +115,14 @@ class Events(commands.Cog):
         if message.author.bot:
             return
 
-        if any(word in message.content.lower() for word in bad_words): #TODO: make it work for all bad words
-            await message.channel.send(f"Please refrain from using inappropriate words in the server. For more information click here: https://discord.com/channels/781492333967179817/781492333967179821/795565283895934976")
-            await self.bot.get_channel(782625707963842600).send(
-            f'{message.author} used a nono word, here\'s the message: ``{message.content}``'
-            )
-
+        for word in bd.bad_words: #TODO: make it work for all bad words
+            if word in message.content.lower():
+                await message.channel.send(f"Please refrain from using inappropriate words in the server. For more information click here: https://discord.com/channels/781492333967179817/781492333967179821/795565283895934976")
+                log_embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])
+                log_embed.add_field(name='Author:', value=message.author.mention)
+                log_embed.add_field(name='Word(s):', value=word)
+                log_embed.add_field(name='Message:', value=message.content)
+                await self.bot.get_channel(782625707963842600).send(embed=log_embed)
 
         if self.safe_block and message.content[0] == '!':
             await self.bot.get_user(552883527147061249).send('Failsafe activated')
