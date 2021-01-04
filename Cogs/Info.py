@@ -98,15 +98,17 @@ class Info(commands.Cog):
     async def todo(self, ctx):
         todo_str = """
         TODO:
-        - settings?
-        - - maybe for how much moderation do you want?
-        - maybe some moderation? (f-words etc.)
+        -? settings
+        -? - maybe for how much moderation do you want?
+        -? maybe some moderation (f-words etc.)
         - bind user to MC account
         - store all these things in JSON
         - mute command = drastically improve it. Works, but badly
         - test everything on you new friend
-        - guild API wrapper
         - recheck documentation (both back- and front- end)
+        - update API wrapper documentation
+        -? maybe add more Wynn API commands?
+        -? - like leaderboards etc
         
         WHEN DONE:
         - uncomment perms requirements

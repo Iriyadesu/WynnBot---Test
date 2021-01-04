@@ -1,11 +1,10 @@
 
 """
-Class 'Player' info:
 
-All information can be accessed by self[key] where 'self' is instance of Player and key is string.
-
-All valid keys
-keys : returned value
+Dict returned by "player" function:
+All valid keys:
+keys : returned value (type)
+--------------------
 - username : username (str)
 - position : position (str; default is Normal; e.g. Admin, Moderator, Media etc.)
 - rank : donor rank (str; VIP/VIP+/HERO)
@@ -28,14 +27,10 @@ keys : returned value
 - pvp deaths : (int)
 - classes : list of WClass instances
 
-
-Class 'WClass' info:
-
-All information can be accessed by self[key] where 'self' is instance of Player and key is string.
-
+Classes:
 All valid keys
 key  : returned value (type)
------------------------
+--------------------
 class : class type (str)
 chests found : (int)
 mob killed : (int)
