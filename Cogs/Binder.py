@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from Wrappers.player import Player
+from Wrappers.player import player
 from bot_data import error_embed
 
 
@@ -20,8 +20,8 @@ class Binder(commands.Cog):  # TODO: Documentation
                 embed=error_embed('user error', description=f'Member \"{ctx.author.mention}\" is already bound'))
             return
 
-        player_data = Player(username)  # get the data from wynncraft API
-        if not player_data.found:  # if the player doesn't exist -> error
+        player_data = player(username)  # get the data from wynncraft API
+        if player is None:  # if the player doesn't exist -> error
             await ctx.channel.send(
                 embed=error_embed('user error', description=f'Player name \"{username}\" does not exist'))
             return

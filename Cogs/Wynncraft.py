@@ -5,7 +5,7 @@ import discord
 import requests as req
 
 import bot_data as bd
-from Wrappers.player import Player
+from Wrappers.player import player
 from Wrappers.territory import Territory
 from Cogs.Binder import Binder
 
@@ -34,16 +34,16 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
             player_name = Binder.get_binds()[player_name.id]
 
         async with ctx.typing():  # make it do something while it gets the info
-            player = Player(player_name)  # get the info
+            player_data = player(player_name)  # get the info
 
-        if not player.found:  # if the player doesn't exist send error
+        if player_data is None:  # if the player doesn't exist send error
             await ctx.channel.send(embed=bd.error_embed('API error', description='Requested player not found.'))
             return
 
         if stat is not None:  # if stats was provided
             try:
                 player_embed = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
-                player_embed.add_field(name=stat, value=player[stat])
+                player_embed.add_field(name=stat, value=player_data[stat])
                 await ctx.channel.send(embed=player_embed)
             except KeyError:  # if stats was not found
                 await ctx.channel.send(embed=bd.error_embed('API error', description='Requested stat not found.'))
@@ -51,20 +51,20 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
 
         # ----- create the embed -----
         player_embed = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
-        player_embed.add_field(name="UserName: ", value=player['username'], inline=True)
+        player_embed.add_field(name="UserName: ", value=player_data['username'], inline=True)
         player_embed.add_field(name=chr(173), value=chr(173))
-        player_embed.add_field(name="Rank: ", value=player['rank'], inline=False)
-        player_embed.add_field(name="Online: ", value=player['location'] if player['location'] else 'no', inline=True)
+        player_embed.add_field(name="Rank: ", value=player_data['rank'], inline=False)
+        player_embed.add_field(name="Online: ", value=player_data['location'] if player_data['location'] else 'no', inline=True)
         player_embed.add_field(name=chr(173), value=chr(173))
         player_embed.add_field(name="Guild name: ",
-                               value=player['guild name'] if player['guild name'] else 'none', inline=True)
+                               value=player_data['guild name'] if player_data['guild name'] else 'none', inline=True)
         player_embed.add_field(name="Guild rank: ",
-                               value=player['guild rank'].lower() if player['guild rank'] else 'none',
+                               value=player_data['guild rank'].lower() if player_data['guild rank'] else 'none',
                                inline=True)
-        player_embed.add_field(name="Guild prefix: ", value=player['guild instance']['prefix'], inline=True)
-        player_embed.add_field(name="Playtime: ", value=f"{player['total playtime']} hours", inline=False)
-        player_embed.add_field(name="Highest Level: ", value=player['highest level combat'], inline=False)
-        player_embed.add_field(name="Joined: ", value=player['first join'][:10], inline=True)
+        player_embed.add_field(name="Guild prefix: ", value=player_data['guild instance']['prefix'], inline=True)
+        player_embed.add_field(name="Playtime: ", value=f"{player_data['total playtime']} hours", inline=False)
+        player_embed.add_field(name="Highest Level: ", value=player_data['highest level combat'], inline=False)
+        player_embed.add_field(name="Joined: ", value=player_data['first join'][:10], inline=True)
         await ctx.channel.send(embed=player_embed)  # send the embed
     
     #  ----- guild stats -----

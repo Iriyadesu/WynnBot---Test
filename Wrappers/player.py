@@ -34,7 +34,8 @@ Class 'WClass' info:
 All information can be accessed by self[key] where 'self' is instance of Player and key is string.
 
 All valid keys
-key  : returned value
+key  : returned value (type)
+-----------------------
 class : class type (str)
 chests found : (int)
 mob killed : (int)
@@ -45,7 +46,8 @@ deaths : (int)
 pvp kills : (int)
 quests completed : (int)
 quests list : list of completed quests
-skills : dictionary containing player's skill; valid keys: strength, STR, dexterity, DEX, intelligence, INT, defense, DEF, agility, AGI
+skills : dictionary containing player's skill; valid keys:
+    -strength, STR, dexterity, DEX, intelligence, INT, defense, DEF, agility, AGI
 total level : (int)
 combat level : (int)
 woodcutting level : (int)
@@ -76,240 +78,188 @@ woodworking xp : (float, in %)
 total dungeons : (int)
 dungeons : dictionary; valid keys: DS, IP, IB, SST, LS, UR, UC, GG, CDS, CSST, FF, CIB, CLS, CIP, CUC, EO, CUR
 """
+from typing import Union
 
 from requests import get
 
 from Wrappers.guild import Guild
 
 
-class Player:
-    # TODO: Fix "KeyError: 'name'" exception
+def player(name: str) -> Union[dict, None]:
     """
-    Class containing all information for Wynncraft player
+    1) gets data
+    2) checks for errors (codes 400, 429, anything except 200)
+    2a) if the player was not found (code 400) return None
+    3) decodes json and assigns data to 'data' variable
+    5) returns dictionary containing all data
     """
-    def __init__(self, name: str):
-        """
-        1) gets data
-        2) checks for errors (codes 400, 429, anything except 200)
-        3) decodes json and assigns data to 'data' variable
-        4) creates _name and _uuid attributes
-        5) creates dictionary containing all data
-        """
-        # sends request
-        res = get(f'https://api.wynncraft.com/v2/player/{name}/stats')
+    # sends request
+    res = get(f'https://api.wynncraft.com/v2/player/{name}/stats')
 
-        if res.status_code == 400:
-            # if status code is 400 (non-existing name)
-            self.found = False
-            return
+    if res.status_code == 400:
+        # if status code is 400 (non-existing name)
+        return
 
-        elif res.status_code == 429:
-            # if too many requests are sent (exceeded the limit)(750/30min/ip)
-            raise Exception('Too many requests!')
+    elif res.status_code == 429:
+        # if too many requests are sent (exceeded the limit)(750/30min/ip)
+        raise Exception('Too many requests!')
 
-        elif res.status_code != 200:
-            # other errors
-            raise Exception(f'Cannot procede. Status code: {res.status_code}')
+    elif res.status_code != 200:
+        # other errors
+        raise Exception(f'Cannot procede. Status code: {res.status_code}')
 
-        else:
-            # status code is 200
-            self.found = True
+    else:
+        # status code is 200
+        # gets the json
+        res_data = res.json()['data'][0]
 
-            # gets the json
-            jres = res.json()
-            self._name = name
-            self._uuid = jres['data'][0]['uuid']
+    rank = res_data['rank'] if res_data['rank'] != 'Player' else 'Normal'
+    location = res_data['meta']['location']['server'] if res_data['meta']['location']['online'] is not False else None
 
-        data = jres['data'][0]
-        
-        rank = data['rank'] if data['rank'] != 'Player' else 'Normal'
-        location = data['meta']['location']['server'] if data['meta']['location']['online'] is not False else None
-        
-        self._data = {
-            # meta
-            'username': data['username'],
-            'position': rank if rank != 'Normal' else 'Player',
-            'rank': data['meta']['tag']['value'],
-            'veteran': data['meta']['veteran'],
-            'total playtime': int(data['meta']['playtime']/60*4.7),  # matches web stats, idk why is it that
-            'location': location,
-            'first join': data['meta']['firstJoin'],
-            'last join': data['meta']['lastJoin'],
-            # guild
-            'guild instance': Guild(data['guild']['name']),
-            'guild name': data['guild']['name'],
-            'guild rank': data['guild']['rank'],
-            # global
-            'chests found': data['global']['chestsFound'],
-            'mobs killed': data['global']['mobsKilled'],
-            'total level combat': data['global']['totalLevel']['combat'],
-            'total level professions': data['global']['totalLevel']['profession'],
-            'total level combined': data['global']['totalLevel']['combined'],
-            'logins': data['global']['logins'],
-            'deaths': data['global']['deaths'],
-            'pvp kills': data['global']['pvp']['kills'],
-            'pvp deaths': data['global']['pvp']['deaths'],
-            'classes': [WClass(cls, self._name) for cls in data['classes']]
-            }
+    player_data = {
+        # meta
+        'username': res_data['username'],
+        'uuid': res_data['uuid'],
+        'position': rank if rank != 'Normal' else 'Player',
+        'rank': res_data['meta']['tag']['value'],
+        'veteran': res_data['meta']['veteran'],
+        'total playtime': int(res_data['meta']['playtime'] / 60 * 4.7),  # matches web stats, idk why is it that
+        'location': location,
+        'first join': res_data['meta']['firstJoin'],
+        'last join': res_data['meta']['lastJoin'],
+        # guild
+        'guild instance': Guild(res_data['guild']['name']),
+        'guild name': res_data['guild']['name'],
+        'guild rank': res_data['guild']['rank'],
+        # global
+        'chests found': res_data['global']['chestsFound'],
+        'mobs killed': res_data['global']['mobsKilled'],
+        'total level combat': res_data['global']['totalLevel']['combat'],
+        'total level professions': res_data['global']['totalLevel']['profession'],
+        'total level combined': res_data['global']['totalLevel']['combined'],
+        'logins': res_data['global']['logins'],
+        'deaths': res_data['global']['deaths'],
+        'pvp kills': res_data['global']['pvp']['kills'],
+        'pvp deaths': res_data['global']['pvp']['deaths'],
+        'classes': [wclass(cls, res_data['uuid']) for cls in res_data['classes']]
+    }
 
-        highestlvl = 0
-        for player_class in self._data['classes']:
-            if player_class['combat level'] > highestlvl:
-                highestlvl = player_class['combat level']
-        self._data['highest level combat'] = highestlvl
+    highest_level = 0
+    for player_class in player_data['classes']:
+        if player_class['combat level'] > highest_level:
+            highest_level = player_class['combat level']
+    player_data['highest level combat'] = highest_level
 
-    def update(self):
-        """Updates the information. Basically it initialises itself again."""
-        self.__init__(self._uuid)
-    
-    def __getitem__(self, key):
-        """
-        Allows to access data by doing object[key].
+    return player_data
+
+
+def wclass(data: dict, owner: str) -> dict:
+    _owner = owner
+    class_names = ['archer', 'hunter',
+                   'assassin', 'ninja',
+                   'mage',
+                   'warrior', 'knight',
+                   'shaman', 'skyseer'
+                   ]
+
+    class_data = {}
+
+    # class
+    for j in class_names:
+        if j in data['name']:
+            class_data['class'] = j
+            break
+        elif 'darkwizard' in data['name']:
+            class_data['class'] = 'dark wizard'
+            break
+
+    # stats (general)
+    class_data['chests found'] = data['chestsFound']
+    class_data['mob killed'] = data['mobsKilled']
+    class_data['gamemodes'] = data['gamemode']
+    class_data['playtime'] = data['playtime']
+    class_data['logins'] = data['logins']
+    class_data['deaths'] = data['deaths']
+
+    class_data['pvp kills'] = data['pvp']['kills']
+    class_data['pvp kills'] = data['pvp']['deaths']
+
+    class_data['quests completed'] = data['quests']['completed']
+    class_data['quests list'] = data['quests']['list']
+
+    # skills
+    skills = {
+              'STR': data['skills']['strength'],
+              'DEX': data['skills']['dexterity'],
+              'INT': data['skills']['intelligence'],
+              'DEF': data['skills']['defense'],
+              'AGI': data['skills']['agility'],
+              **data['skills'],
+              }
+    class_data['skills'] = skills
+    del class_data['skills']['defence']
+
+    # stats (combat and profession)
+    class_data['total level'] = data['level']
+
+    class_data['combat level'] = data['professions']['combat']['level']
+    class_data['woodcutting level'] = data['professions']['woodcutting']['level']
+    class_data['mining level'] = data['professions']['mining']['level']
+    class_data['fishing level'] = data['professions']['fishing']['level']
+    class_data['farming level'] = data['professions']['farming']['level']
+    class_data['alchemism level'] = data['professions']['alchemism']['level']
+    class_data['armouring level'] = data['professions']['armouring']['level']
+    class_data['cooking level'] = data['professions']['cooking']['level']
+    class_data['jeweling level'] = data['professions']['jeweling']['level']
+    class_data['scribing level'] = data['professions']['scribing']['level']
+    class_data['tailoring level'] = data['professions']['tailoring']['level']
+    class_data['weaponsmithing level'] = data['professions']['weaponsmithing']['level']
+    class_data['woodworking level'] = data['professions']['woodworking']['level']
+
+    class_data['combat xp'] = data['professions']['combat']['xp']
+    class_data['woodcutting xp'] = data['professions']['woodcutting']['xp']
+    class_data['mining xp'] = data['professions']['mining']['xp']
+    class_data['fishing xp'] = data['professions']['fishing']['xp']
+    class_data['farming xp'] = data['professions']['farming']['xp']
+    class_data['alchemism xp'] = data['professions']['alchemism']['xp']
+    class_data['armouring xp'] = data['professions']['armouring']['xp']
+    class_data['cooking xp'] = data['professions']['cooking']['xp']
+    class_data['jeweling xp'] = data['professions']['jeweling']['xp']
+    class_data['scribing xp'] = data['professions']['scribing']['xp']
+    class_data['tailoring xp'] = data['professions']['tailoring']['xp']
+    class_data['weaponsmithing xp'] = data['professions']['weaponsmithing']['xp']
+    class_data['woodworking xp'] = data['professions']['woodworking']['xp']
+
+    # dungeons
+    class_data['total dungeons'] = data['dungeons']['completed']
+
+    dungeon_dict = {
+        'Decrepit Sewers': 'DS',
+        'Infested Pit': 'IP',
+        'Lost Sanctuary': 'LS',
+        'Underworld Crypt': 'UC',
+        'Sand-Swept Tomb': 'SST',
+        'Ice Barrows': 'IB',
+        'Undergrowth Ruins': 'UR',
+        'Galleon\'s Graveyard': 'GG',
+        'Fallen Factory': 'FF',
+        'Eldritch Outlook': 'EO',
+        'Corrupted Decrepit Sewers': 'CDS',
+        'Corrupted Infested Pit': 'CIP',
+        'Corrupted Lost Sanctuary': 'CLS',
+        'Corrupted Underworld Crypt': 'CUC',
+        'Corrupted Sand-Swept Tomb': 'CSST',
+        'Corrupted Ice Barrows': 'CIB',
+        'Corrupted Undergrowth Ruins': 'CUR',
+        }
+
+    dungeons = {}
+
+    # currently, removed dungeons are not supported
+    for j in data['dungeons']['list']:
         try:
-            return self.data[key]
+            dungeons[dungeon_dict[j['name']]] = j['completed']
         except KeyError:
-            raise KeyError('Player %s doesn't have \'%s\' stat' %(self['username'], key))
-        """
+            pass
 
-        try:
-            return self._data[key]
-        except KeyError:
-            raise KeyError(f'Player {self["username"]} doesn\'t have \'{key}\' stat')
-
-    def __repr__(self):
-        return f'<{self["position"]} {self._name}>'
-
-
-class WClass:
-    """
-    Class for containing information of player's classes
-    """
-    def __init__(self, data, owner):
-
-        self._owner = owner
-        clss = ['archer', 'hunter',
-                'assassin', 'ninja',
-                'mage',
-                'warrior', 'knight',
-                'shaman', 'skyseer']
-
-        cdata = {}
-
-        # class
-        self._name = data['name']
-        for j in clss:
-            if j in data['name']:
-                cdata['class'] = j
-                break
-            elif 'darkwizard' in data['name']:
-                cdata['class'] = 'dark wizard'
-                break
-
-        # stats (general)
-        cdata['chests found'] = data['chestsFound']
-        cdata['mob killed'] = data['mobsKilled']
-        cdata['gamemodes'] = data['gamemode']
-        cdata['playtime'] = data['playtime']
-        cdata['logins'] = data['logins']
-        cdata['deaths'] = data['deaths']
-
-        cdata['pvp kills'] = data['pvp']['kills']
-        cdata['pvp kills'] = data['pvp']['deaths']
-
-        cdata['quests completed'] = data['quests']['completed']
-        cdata['quests list'] = data['quests']['list']
-
-        # skills
-        skills = {
-                  'STR': data['skills']['strength'],
-                  'DEX': data['skills']['dexterity'],
-                  'INT': data['skills']['intelligence'],
-                  'DEF': data['skills']['defense'],
-                  'AGI': data['skills']['agility'],
-                  **data['skills'],
-                  }
-        cdata['skills'] = skills
-        del cdata['skills']['defence']
-        
-        # stats (combat and profession)
-        cdata['total level'] = data['level']
-        
-        cdata['combat level'] = data['professions']['combat']['level']
-        cdata['woodcutting level'] = data['professions']['woodcutting']['level']
-        cdata['mining level'] = data['professions']['mining']['level']
-        cdata['fishing level'] = data['professions']['fishing']['level']
-        cdata['farming level'] = data['professions']['farming']['level']
-        cdata['alchemism level'] = data['professions']['alchemism']['level']
-        cdata['armouring level'] = data['professions']['armouring']['level']
-        cdata['cooking level'] = data['professions']['cooking']['level']
-        cdata['jeweling level'] = data['professions']['jeweling']['level']
-        cdata['scribing level'] = data['professions']['scribing']['level']
-        cdata['tailoring level'] = data['professions']['tailoring']['level']
-        cdata['weaponsmithing level'] = data['professions']['weaponsmithing']['level']
-        cdata['woodworking level'] = data['professions']['woodworking']['level']
-
-        cdata['combat xp'] = data['professions']['combat']['xp']
-        cdata['woodcutting xp'] = data['professions']['woodcutting']['xp']
-        cdata['mining xp'] = data['professions']['mining']['xp']
-        cdata['fishing xp'] = data['professions']['fishing']['xp']
-        cdata['farming xp'] = data['professions']['farming']['xp']
-        cdata['alchemism xp'] = data['professions']['alchemism']['xp']
-        cdata['armouring xp'] = data['professions']['armouring']['xp']
-        cdata['cooking xp'] = data['professions']['cooking']['xp']
-        cdata['jeweling xp'] = data['professions']['jeweling']['xp']
-        cdata['scribing xp'] = data['professions']['scribing']['xp']
-        cdata['tailoring xp'] = data['professions']['tailoring']['xp']
-        cdata['weaponsmithing xp'] = data['professions']['weaponsmithing']['xp']
-        cdata['woodworking xp'] = data['professions']['woodworking']['xp']
-
-        # dungeons
-        cdata['total dungeons'] = data['dungeons']['completed']
-        
-        ddict = {
-            'Decrepit Sewers': 'DS',
-            'Infested Pit': 'IP',
-            'Lost Sanctuary': 'LS',
-            'Underworld Crypt': 'UC',
-            'Sand-Swept Tomb': 'SST',
-            'Ice Barrows': 'IB',
-            'Undergrowth Ruins': 'UR',
-            'Galleon\'s Graveyard': 'GG',
-            'Fallen Factory': 'FF',
-            'Eldritch Outlook': 'EO',
-            'Corrupted Decrepit Sewers': 'CDS',
-            'Corrupted Infested Pit': 'CIP',
-            'Corrupted Lost Sanctuary': 'CLS',
-            'Corrupted Underworld Crypt': 'CUC',
-            'Corrupted Sand-Swept Tomb': 'CSST',
-            'Corrupted Ice Barrows': 'CIB',
-            'Corrupted Undergrowth Ruins': 'CUR',
-            }
-        
-        dungeons = {}
-        
-        # currently, removed dungeons are not supported
-        for j in data['dungeons']['list']:
-            try:
-                dungeons[ddict[j['name']]] = j['completed']
-            except KeyError:
-                pass
-
-        cdata['dungeons'] = dungeons
-
-        self._data = cdata
-
-    def __getitem__(self, key):
-        """
-        Allows to access data by doing object[key].
-        try:
-            return self.data[key]
-        except KeyError:
-            raise KeyError('Player %s doesn't have \'%s\' stat' %(, key))
-        """
-        try:
-            return self._data[key]
-        except KeyError:
-            raise KeyError(f'Player\'s class \'{self._name}\' doesn\'t have \'{key}\' stat')
-
-    def __repr__(self):
-        return f'<{self._owner}\'s {self["class"]}; combat lv.{self["combat level"]}>'
+    return class_data
