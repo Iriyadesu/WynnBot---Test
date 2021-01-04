@@ -15,8 +15,8 @@ class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
-    async def help(self, ctx: commands.Context):  # TODO: add documentation
+    @commands.command(description="displays this message",usage="!help [cog]")
+    async def help(self, ctx: commands.Context,):  # TODO: add documentation
         embed = discord.Embed(title='Help')
         for category in bd.help_embed:
             s = ''
@@ -32,7 +32,7 @@ class Info(commands.Cog):
             url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
         await ctx.send(embed=embed)
 
-    @commands.command(pass_context=True, description="Manages polls")
+    @commands.command(pass_context=True, description="creates/ends poll", usage="!poll <create|end> <name|message id> [options]")
     async def poll(self, ctx: commands.Context, cord: str, var, *options: str):  # TODO: add documentation, a lot of it
         """
         Manages a poll.
@@ -94,7 +94,7 @@ class Info(commands.Cog):
         else:
             await ctx.send("Correct syntax: `!poll <create/end>`")
 
-    @commands.command(pass_context=True, description="TOD0TODOTODOTODO")
+    @commands.command(pass_context=True, description="TOD0TODOTODOTODO",usage="!todo")
     async def todo(self, ctx):
         todo_str = """
         TODO:
@@ -117,6 +117,76 @@ class Info(commands.Cog):
         #     embed.add_field(name='-', value=f"- {i if i else '.'}", inline=False)
 
         await ctx.channel.send(embed=embed)
+
+    @commands.command(name='help2',
+    aliases=['commands', 'command'],description="displays this message",usage="!help [cog]")
+    async def help2(self, ctx, cog='all'):
+        help_embed = discord.Embed(
+            title='Help')
+        help_embed.set_thumbnail(
+            url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
+        help_embed.set_footer(
+            text=f'Requested by {ctx.message.author.name}',
+            icon_url=ctx.message.author.avatar_url)
+
+       # Get a list of all cogs
+        cogs = [c for c in self.bot.cogs.keys()]
+       # If cog is not specified by the user, we list all cogs and commands
+
+        if cog == 'all':
+            for cog in cogs:
+                if cog == "Events":
+                    pass
+                else:
+                    # Get a list of all commands under each cog
+
+                     cog_commands = self.bot.get_cog(cog).get_commands()
+                     commands_list = ""
+                     for comm in cog_commands:
+                         commands_list += f'**{comm.name}**: *{comm.usage}* *=* *{comm.description}*\n'
+                         #- *{comm.description}*
+                    # Add the cog's details to the embed.
+
+                     help_embed.add_field(name=f'__{cog}__',value=commands_list,inline=False)
+
+        else:
+
+           # If the cog was specified
+
+            lower_cogs = [c.lower() for c in cogs]
+
+           # If the cog actually exists.
+            if cog.lower() in lower_cogs:
+
+               # Get a list of all commands in the specified cog
+                commands_list = self.bot.get_cog(cogs[ lower_cogs.index(cog.lower()) ]).get_commands()
+                help_text=''
+
+                for command in commands_list:
+                    help_text += f'```{command.name}```\n' \
+                        f'**{command.description}**\n\n'
+
+                   # Also add aliases, if there are any
+                    if len(command.aliases) > 0:
+                        help_text += f'**Aliases :** `{"`, `".join(command.aliases)}`\n\n\n'
+                    else:
+                       # Add a newline character to keep it pretty
+                       # That IS the whole purpose of custom help
+                        help_text += '\n'
+
+                   # Finally the format
+                    help_text += f'Format:' \
+                        f' {command.usage if command.usage is not None else ""}\n\n\n\n'
+
+                help_embed.description = help_text
+            else:
+               # Notify the user of invalid cog and finish the command
+                await ctx.send('Invalid cog specified.\nUse `help` command to list all cogs.')
+                return
+
+        await ctx.send(embed=help_embed)
+    
+        return
 
 
 def setup(bot):

@@ -20,7 +20,7 @@ class Moderation(commands.Cog):
         self.bot = bot
 
     # ----- mute -----
-    @commands.command(description="kicks someone")
+    @commands.command(description="mutes the user", usage="!mute <user> [reason]")
     # @commands.has_permissions(kick_members=True)
     async def mute(self, ctx: commands.Context, user: discord.Member, *, reason: str = 'No reason provided'):
         """
@@ -44,7 +44,7 @@ class Moderation(commands.Cog):
             await ctx.channel.send('Cannot assign role. Error: ' + str(type(e)))
 
     # ----- unmute -----
-    @commands.command(description="mutes someone")
+    @commands.command(description="unmutes the user", usage="!unmute <user>")
     # @commands.has_permissions(kick_members=True)
     async def unmute(self, ctx: commands.Context, user: discord.Member, reason: str = 'No reason provided'):
         l.info(f'Unmuted user {user.name}.')
@@ -55,7 +55,7 @@ class Moderation(commands.Cog):
             await ctx.channel.send('Cannot unmute them. Error:\n' + str(type(e)))
 
     # ----- kick -----
-    @commands.command(description="kicks someone")
+    @commands.command(description="kicks the user", usage="!kick <user> [reason]")
     # @commands.has_permissions(kick_members=True)
     async def kick(self, ctx: commands.Context, user: discord.Member, *, reason="No reason provided"):
         """
@@ -85,7 +85,7 @@ class Moderation(commands.Cog):
         )
 
     #  ----- ban -----
-    @commands.command(description="Bans someone")
+    @commands.command(description="bans the user", usage="!ban <user> [reason]")
     #@commands.has_permissions(ban_members=True)
     async def ban(self, ctx: commands.Context, user: discord.Member, *, reason="No reason provided"):
         """
@@ -115,7 +115,7 @@ class Moderation(commands.Cog):
             )
 
     # ----- repeat -----
-    @commands.command(description="speak beep boop")
+    @commands.command(description="speak beep boop", usage="!say [args]")
     @commands.has_permissions(administrator=True)  # Why TF this requires admin...
     async def say(self, ctx: commands.Context, *, arg="Nothing"):
         try: 

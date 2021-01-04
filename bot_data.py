@@ -69,7 +69,7 @@ def error_embed(err_type: str = 'No reason provided',
 help_embed = {  # TODO: Is this even used?
     'Moderation': {
         'ban': {'syntax': '!ban <user> [reason]', 'info': 'bans the user'},
-        'kick': {'syntax': '!mute <user> [reason]', 'info': 'kicks the user'},
+        'kick': {'syntax': '!kick <user> [reason]', 'info': 'kicks the user'},
         'mute': {'syntax': '!mute <user> [reason]', 'info': 'mutes the user'},
     },
     'Wynncraft': {

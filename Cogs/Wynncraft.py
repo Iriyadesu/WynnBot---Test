@@ -15,7 +15,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         self.bot = bot
 
     # ----- player stats -----
-    @commands.command(description="Search for players")  # TODO: Need to make it look better
+    @commands.command(description="provides info on requested player", usage="!profile <player name>")  # TODO: Need to make it look better
     async def player(self, ctx: commands.Context, player_name: Union[discord.Member, str], stat=None):
         """
         Send embed with info on requested player.
@@ -68,7 +68,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         await ctx.channel.send(embed=player_embed)  # send the embed
     
     #  ----- guild stats -----
-    @commands.command(description="Let's you search for guilds.")  # TODO: Need to make it look better
+    @commands.command(description="provides info on requested guild", usage="!guild <guild name>")  # TODO: Need to make it look better
     async def guild(self, ctx: commands.Context, guild_name):
         """
         Send embed with info on requested guild.
@@ -98,7 +98,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         await ctx.channel.send(embed=guild_embed)  # send the embed
 
     #  ----- territory stats -----
-    @commands.command(description='Sends info about requested guild\nUse `\"name\"` for more-word names.')
+    @commands.command(description='provides info on requested territory', usage="!territory <territory name>")
     async def territory(self, ctx: commands.Context, territory_name):
         """
         Send embed with info on requested territory.
@@ -124,7 +124,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         await ctx.channel.send(embed=territory_embed)
 
     #  ----- item stats -----
-    @commands.command(description="Search for items")  # TODO: Need to implement this
+    @commands.command(description="provides info on requested item\n**~~__note__:**: put more word names between double quotes `\"`", usage="!item <item name>")  # TODO: Need to implement this
     async def item(self, ctx: commands.Context, item_name: str):  # TODO: Create a wrapper
         """
         Raises NotImplemented error

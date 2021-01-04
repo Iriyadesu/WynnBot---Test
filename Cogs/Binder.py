@@ -11,7 +11,7 @@ class Binder(commands.Cog):  # TODO: Documentation
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(description="????",usage="!bind <username> <guild> <highest_level>")
     async def bind(self, ctx, username: str, guild_name: str, highest_lvl: int):
         Binder.player_list = Binder.get_binds()  # Update the list; No, I don't have a better alternative
 
