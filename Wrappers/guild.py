@@ -3,7 +3,7 @@ uh
 """
 from typing import Union
 
-import requests as r
+from Wrappers.__init__ import api_call
 
 
 def guild(name: str) -> Union[dict, None]:
@@ -15,26 +15,9 @@ def guild(name: str) -> Union[dict, None]:
     5) returns dictionary containing all data
     """
     # sends request
-    res = r.get(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={name}')
-
-    if res.status_code == 400:
-        # if status code is 400 (non-existing name)
+    res_data = api_call(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={name}')
+    if res_data is None:  # if not found
         return
-
-    elif res.status_code == 429:
-        # if too many requests are sent (exceeded the limit)(750/30min/ip)
-        raise Exception('Too many requests!')
-
-    elif res.status_code != 200:
-        # other errors
-        raise Exception(f'Cannot proceed. Status code: {res.status_code}')
-
-    else:
-        # status code is 200
-        # gets the json
-        if 'error' in res.json():  # weird api thing; on error returns code 200
-            return
-        res_data = res.json()
 
     guild_data = {
         'name': res_data['name'],

@@ -2,7 +2,6 @@ from typing import Union
 
 from discord.ext import commands
 import discord
-import requests as req
 
 import bot_data as bd
 from Wrappers.player import player
@@ -62,7 +61,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         player_embed.add_field(name="Guild rank: ",
                                value=player_data['guild rank'].lower() if player_data['guild rank'] else 'none',
                                inline=True)
-        player_embed.add_field(name="Guild prefix: ", value=player_data['guild instance']['prefix'], inline=True)
+        player_embed.add_field(name="Guild prefix: ", value=player_data['guild prefix'], inline=True)
         player_embed.add_field(name="Playtime: ", value=f"{player_data['total playtime']} hours", inline=False)
         player_embed.add_field(name="Highest Level: ", value=player_data['highest level combat'], inline=False)
         player_embed.add_field(name="Joined: ", value=player_data['first join'][:10], inline=True)
@@ -77,7 +76,6 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         :param guild_name: name of the requested player
         :return: None
         """
-        # TODO: Create the API wrapper
         async with ctx.typing():
             guild_data = guild(guild_name)
 
@@ -124,7 +122,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
 
     #  ----- item stats -----
     @commands.command(description="provides info on requested item\n**~~__note__:**: put more word names between double quotes `\"`", usage="!item <item name>")  # TODO: Need to implement this
-    async def item(self, ctx: commands.Context, item_name: str):  # TODO: Create a wrapper
+    async def item(self, ctx: commands.Context, item_name: str):  # TODO: Create a wrapper or remove the command
         """
         Raises NotImplemented error
         """

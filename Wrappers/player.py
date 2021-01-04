@@ -1,4 +1,3 @@
-
 """
 
 Dict returned by "player" function:
@@ -15,7 +14,6 @@ keys : returned value (type)
 - last join : 2020-08-13T11:11:56.602Z
 - guild name : guild name/None (str/None)
 - guild rank : guild rank/None (str/None)
-- guild : instance of Guild class
 - chests found : (int)
 - mobs killed : (int)
 - total level combat : (int)
@@ -75,8 +73,7 @@ dungeons : dictionary; valid keys: DS, IP, IB, SST, LS, UR, UC, GG, CDS, CSST, F
 """
 from typing import Union
 
-import requests as r
-
+from Wrappers.__init__ import api_call
 from Wrappers.guild import guild
 
 
@@ -88,25 +85,13 @@ def player(name: str) -> Union[dict, None]:
     3) decodes json and assigns data to 'data' variable
     5) returns dictionary containing all data
     """
+
     # sends request
-    res = r.get(f'https://api.wynncraft.com/v2/player/{name}/stats')
 
-    if res.status_code == 400:
-        # if status code is 400 (non-existing name)
+    res_data = api_call(f'https://api.wynncraft.com/v2/player/{name}/stats')
+    if res_data is None:  # if not found
         return
-
-    elif res.status_code == 429:
-        # if too many requests are sent (exceeded the limit)(750/30min/ip)
-        raise Exception('Too many requests!')
-
-    elif res.status_code != 200:
-        # other errors
-        raise Exception(f'Cannot proceed. Status code: {res.status_code}')
-
-    else:
-        # status code is 200
-        # gets the json
-        res_data = res.json()['data'][0]
+    res_data = res_data['data'][0]
 
     rank = res_data['rank'] if res_data['rank'] != 'Player' else 'Normal'
     location = res_data['meta']['location']['server'] if res_data['meta']['location']['online'] is not False else None
@@ -123,9 +108,9 @@ def player(name: str) -> Union[dict, None]:
         'first join': res_data['meta']['firstJoin'],
         'last join': res_data['meta']['lastJoin'],
         # guild
-        'guild instance': guild(res_data['guild']['name']),
         'guild name': res_data['guild']['name'],
         'guild rank': res_data['guild']['rank'],
+        'guild prefix': guild(res_data['guild']['name'])['prefix'],
         # global
         'chests found': res_data['global']['chestsFound'],
         'mobs killed': res_data['global']['mobsKilled'],
