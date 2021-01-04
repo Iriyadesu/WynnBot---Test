@@ -1,71 +1,50 @@
-from requests import get
+from typing import Union
+
+import requests as r
 
 
-class Territory:
+def territory(name: str) -> Union[dict, None]:
     """
-    Class containing all information for Wynncraft territory (1.19)
+    1) gets data
+    2) checks for errors (codes 400, 429, anything except 200)
+    3) decodes json and assigns data to 'data' variable
+    5) creates dictionary containing all data
     """
-    def __init__(self, name: str):
-        """
-        1) gets data
-        2) checks for errors (codes 400, 429, anything except 200)
-        3) decodes json and assigns data to 'data' variable
-        5) creates dictionary containing all data
-        """
-        # sends request
-        res = get('https://api.wynncraft.com/public_api.php?action=territoryList')
+    # sends request
+    res = r.get('https://api.wynncraft.com/public_api.php?action=territoryList')
 
-        if res.status_code == 400:
-            # if status code is 400 (non-existing name)
-            raise NameError(f'name was not found')
+    if res.status_code == 400:
+        # if status code is 400 (non-existing name)
+        return
 
-        elif res.status_code == 429:
-            # if too many requests are sent (exceeded the limit)(750/30min/ip)
-            raise Exception('Too many requests!')
+    elif res.status_code == 429:
+        # if too many requests are sent (exceeded the limit)(750/30min/ip)
+        raise Exception('Too many requests!')
 
-        elif res.status_code != 200:
-            # other errors
-            raise Exception(f'Cannot procede. Status code: {res.status_code}')
+    elif res.status_code != 200:
+        # other errors
+        raise Exception(f'Cannot proceed. Status code: {res.status_code}')
 
-        else:
-            # status code is 200
+    else:
+        # status code is 200
 
-            # gets the json
-            jres = res.json()
+        # gets the json
+        res_data = res.json()['territories']
 
-        data = jres['territories']
-        if name not in data:
-            self.found = False
-            return
-        else:
-            self.found = True
-        terr = data[name]
+    if name not in res_data:
+        return
 
-        self._data = {
-            'name': name,
-            'owner': terr['guild'],
-            'acquired': terr['acquired'],
-            'location': {
-                'startX': terr['location']['startX'],
-                'startZ': terr['location']['startY'],
-                'endX': terr['location']['endX'],
-                'endZ': terr['location']['endY']
-            }
+    terr = res_data[name]
+
+    territory_data = {
+        'name': name,
+        'owner': terr['guild'],
+        'acquired': terr['acquired'],
+        'location': {
+            'startX': terr['location']['startX'],
+            'startZ': terr['location']['startY'],
+            'endX': terr['location']['endX'],
+            'endZ': terr['location']['endY']
         }
-
-    def __getitem__(self, key):
-        """
-        Allows to access data by doing object[key].
-        try:
-            return self.data[key]
-        except KeyError:
-            raise KeyError('Player %s doesn't have \'%s\' stat' %(self['username'], key))
-        """
-
-        try:
-            return self._data[key]
-        except KeyError:
-            raise KeyError(f'Property \"{key}\" was not found in {self["name"]}')
-
-    def __repr__(self):
-        return f'<territory {self["name"]}>'
+    }
+    return territory_data

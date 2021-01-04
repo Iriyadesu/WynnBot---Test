@@ -106,7 +106,7 @@ def player(name: str) -> Union[dict, None]:
 
     elif res.status_code != 200:
         # other errors
-        raise Exception(f'Cannot proced. Status code: {res.status_code}')
+        raise Exception(f'Cannot proceed. Status code: {res.status_code}')
 
     else:
         # status code is 200

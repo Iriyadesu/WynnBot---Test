@@ -27,11 +27,13 @@ def guild(name: str) -> Union[dict, None]:
 
     elif res.status_code != 200:
         # other errors
-        raise Exception(f'Cannot proced. Status code: {res.status_code}')
+        raise Exception(f'Cannot proceed. Status code: {res.status_code}')
 
     else:
         # status code is 200
         # gets the json
+        if 'error' in res.json():  # weird api thing; on error returns code 200
+            return
         res_data = res.json()
 
     guild_data = {

@@ -7,7 +7,7 @@ import requests as req
 import bot_data as bd
 from Wrappers.player import player
 from Wrappers.guild import guild
-from Wrappers.territory import Territory
+from Wrappers.territory import territory
 from Cogs.Binder import Binder
 
 
@@ -81,7 +81,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         async with ctx.typing():
             guild_data = guild(guild_name)
 
-        if "error" in guild_data:
+        if guild_data is None:
             await ctx.channel.send(embed=bd.error_embed('API error', description='Requested guild not found.'))
             return
 
@@ -106,19 +106,19 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         :return: None
         """
         async with ctx.typing():
-            terr = Territory(territory_name)
-        if not terr.found:
+            territory_data = territory(territory_name)
+        if territory_data is None:
             await ctx.channel.send(embed=bd.error_embed('API error', description='Requested territory not found.'))
             return
 
         # ----- create the embed -----
         territory_embed = discord.Embed(title=territory_name, color=0x00FF00)
         territory_embed.add_field(name='Name:', value=territory_name)
-        territory_embed.add_field(name='Owner:', value=terr['owner'])
+        territory_embed.add_field(name='Owner:', value=territory_data['owner'])
         territory_embed.add_field(name=chr(173), value=chr(173))
         territory_embed.add_field(name='Start coords:',
-                                  value=f'{terr["location"]["startX"]} {terr["location"]["startZ"]}')
-        territory_embed.add_field(name='End coords:', value=f'{terr["location"]["endX"]} {terr["location"]["endZ"]}')
+                                  value=f'{territory_data["location"]["startX"]} {territory_data["location"]["startZ"]}')
+        territory_embed.add_field(name='End coords:', value=f'{territory_data["location"]["endX"]} {territory_data["location"]["endZ"]}')
 
         await ctx.channel.send(embed=territory_embed)
 
