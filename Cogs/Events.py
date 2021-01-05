@@ -115,14 +115,17 @@ class Events(commands.Cog):
         if message.author.bot:
             return
 
-        for word in bd.bad_words: #TODO: make it work for all bad words
-            if word in message.content.lower():
-                await message.channel.send(f"Please refrain from using inappropriate words in the server. For more information click here: https://discord.com/channels/781492333967179817/781492333967179821/795565283895934976")
-                log_embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])
-                log_embed.add_field(name='Author:', value=message.author.mention)
-                log_embed.add_field(name='Word(s):', value=word)
-                log_embed.add_field(name='Message:', value=message.content)
-                await self.bot.get_channel(782625707963842600).send(embed=log_embed)
+        if any(word in message.content.lower() for word in bd.bad_words): #TODO: make it work for all bad words
+            used = ''
+            await message.channel.send(f"Please refrain from using inappropriate words in the server. For more information click here: https://discord.com/channels/781492333967179817/781492333967179821/795565283895934976")
+            log_embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])
+            log_embed.add_field(name='Author:', value=message.author.mention)
+            for word in bd.bad_words: 
+                if word in message.content.lower():
+                    used += f'{word} '        
+            log_embed.add_field(name='Word(s):', value=used)
+            log_embed.add_field(name='Message:', value=message.content)
+            await self.bot.get_channel(782625707963842600).send(embed=log_embed)
 
         if self.safe_block and message.content[0] == '!':
             await self.bot.get_user(552883527147061249).send('Failsafe activated')
