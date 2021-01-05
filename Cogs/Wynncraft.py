@@ -55,7 +55,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         player_embed.add_field(name="UserName: ", value=player_data['username'], inline=True)
         player_embed.add_field(name=chr(173), value=chr(173))
         player_embed.add_field(name="Rank: ", value=player_data['rank'], inline=False)
-        player_embed.add_field(name="Online: ", value=player_data['location'] if player_data['location'] else 'no', inline=True)
+        player_embed.add_field(name="Online: ", value=player_data['location'] if player_data['location'] else 'no')
         player_embed.add_field(name=chr(173), value=chr(173))
         player_embed.add_field(name="Guild name: ",
                                value=player_data['guild name'] if player_data['guild name'] else 'none', inline=True)
@@ -150,7 +150,8 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
 
         elif action == 'find':
             if name == '':
-                await ctx.channel.send(embed=bd.error_embed(f'Argument error', description='Not enough parameters passed'))
+                await ctx.channel.send(embed=bd.error_embed(f'Argument error',
+                                                            description='Not enough parameters passed'))
                 return
 
             world_dict = players_on_worlds()
@@ -170,18 +171,20 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
             await ctx.channel.send(embed=bd.error_embed(f'Argument error', description='Unknown parameters passed'))
 
     #  ----- item stats -----
-    @commands.command(description="provides info on requested item\n**~~__note__:**: put more word names between double quotes `\"`", usage="!item <item name>")  # TODO: Need to implement this
+    @commands.command(description="provides info on requested item\n**~~__note__:**: put more word names between double quotes `\"`",
+                      usage="!item <item name>")  # TODO: Need to implement this
     async def item(self, ctx: commands.Context, item_name: str):  # TODO: Create a wrapper or remove the command
         """
         Raises NotImplemented error
         """
         """
+        from Wrappers.__init__ import api_call
         async with ctx.typing():
-            resp = req.get(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={item_name}')
+            resp = api_call(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={item_name}')
             data = resp.json()
             pass
         """
-        ctx.channel.send('Command not implemented')
+        ctx.channel.send(bd.error_embed('Implementation error', description='Command not implemented'))
         raise NotImplementedError('Command not implemented')
 
 

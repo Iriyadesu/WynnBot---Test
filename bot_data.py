@@ -85,5 +85,23 @@ help_embed = {  # TODO: Is this even used?
     }
 }
 
-
 bad_words = ['fuck', 'shit', 'lari smart']
+
+todo_str = """
+TODO:
+-? settings
+-? - maybe for how much moderation do you want?
+- maybe some moderation (f-words etc.)
+-  -? levels of bad words. E.g. sh** would just log it, not remove the message, while f*** would do both
+- bind user to MC account
+- store all these things in JSON
+- mute command - drastically improve it. Works, but badly
+- test everything on our new friend
+-! recheck documentation (both back- and front- end)
+-! update API wrapper documentation
+-? maybe add more Wynn API commands?
+-? - like leaderboards etc
+
+WHEN DONE:
+- uncomment perms requirements
+"""

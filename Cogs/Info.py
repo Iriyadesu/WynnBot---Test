@@ -32,7 +32,8 @@ class Info(commands.Cog):
             url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
         await ctx.send(embed=embed)
 
-    @commands.command(pass_context=True, description="creates/ends poll", usage="!poll <create|end> <name|message id> [options]")
+    @commands.command(pass_context=True, description="creates/ends poll",
+                      usage="!poll <create|end> <name|message id> [options]")
     async def poll(self, ctx: commands.Context, cord: str, var, *options: str):  # TODO: add documentation, a lot of it
         """
         Manages a poll.
@@ -96,28 +97,8 @@ class Info(commands.Cog):
 
     @commands.command(pass_context=True, description="TOD0TODOTODOTODO", usage="!todo")
     async def todo(self, ctx):
-        todo_str = """
-        TODO:
-        -? settings
-        -? - maybe for how much moderation do you want?
-        -? maybe some moderation (f-words etc.)
-        - bind user to MC account
-        - store all these things in JSON
-        - mute command - drastically improve it. Works, but badly
-        - test everything on our new friend
-        -! recheck documentation (both back- and front- end)
-        -! update API wrapper documentation
-        -? maybe add more Wynn API commands?
-        -? - like leaderboards etc
-        
-        WHEN DONE:
-        - uncomment perms requirements
-        """
-
         embed = discord.Embed(title='TODO:', color=bd.embed_colors['info'])
-        embed.add_field(name='todo', value=todo_str)
-        # for i in todo_str.split('\n'):
-        #     embed.add_field(name='-', value=f"- {i if i else '.'}", inline=False)
+        embed.add_field(name='todo', value=bd.todo_str)
 
         await ctx.channel.send(embed=embed)
 
@@ -147,7 +128,7 @@ class Info(commands.Cog):
                     commands_list = ""
                     for comm in cog_commands:
                         commands_list += f'**{comm.name}**: *{comm.usage}* *=* *{comm.description}*\n'
-                        #- *{comm.description}*
+                        # - *{comm.description}*
                     # Add the cog's details to the embed.
 
                     help_embed.add_field(name=f'__{cog}__', value=commands_list, inline=False)
