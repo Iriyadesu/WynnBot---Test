@@ -8,7 +8,7 @@ from bot_data import error_embed
 class Binder(commands.Cog):  # TODO: Documentation
     player_list = {}
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @commands.command(description="????",usage="!bind <username> <guild> <highest_level>")

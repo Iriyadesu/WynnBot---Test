@@ -12,7 +12,7 @@ from Cogs.Binder import Binder
 
 
 class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + methods
-    def __init__(self, bot):
+    def __init__(self, bot: discord.ext.commands.Bot):
         self.bot = bot
 
     # ----- player stats -----

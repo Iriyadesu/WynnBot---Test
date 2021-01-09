@@ -12,7 +12,7 @@ class Info(commands.Cog):
     - poll
     - too
     """
-    def __init__(self, bot):
+    def __init__(self, bot: discord.ext.commands.Bot):
         self.bot = bot
 
     @commands.command(description="displays this message", usage="!help [cog]")

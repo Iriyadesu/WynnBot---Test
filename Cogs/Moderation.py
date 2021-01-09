@@ -114,10 +114,30 @@ class Moderation(commands.Cog):
             embed=log_embed('Ban', ctx.author, user, reason)
             )
 
+    @staticmethod
+    async def censor(bot: discord.ext.commands.Bot, message: discord.Message):
+        await message.channel.send(
+            f"Please refrain from using inappropriate words in the server. For more information click here: https://discord.com/channels/781492333967179817/781492333967179821/795565283895934976")
+        embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])
+        embed.add_field(name='Author:', value=message.author.mention)
+        bad_word_list = []
+        for word in bd.bad_words:
+            if word in message.content.lower():
+                bad_word_list.append(f'\"{word}\"')
+
+        embed.add_field(name='Word(s):', value=', '.join(bad_word_list))
+        embed.add_field(name='Message:', value=message.content)
+        await bot.get_channel(782625707963842600).send(embed=embed)
+
     # ----- repeat -----
     @commands.command(description="speak beep boop", usage="!say [args]")
-    @commands.has_permissions(administrator=True)  # Why TF this requires admin...
     async def say(self, ctx: commands.Context, *, arg="Nothing"):
+        """
+        Friendly pudding's favourite command. Cannot be removed nor changed
+        :param ctx:
+        :param arg:
+        :return:
+        """
         try: 
             await ctx.channel.send(str(arg))
         except Exception as e:
