@@ -85,7 +85,14 @@ help_embed = {  # TODO: Is this even used?
     }
 }
 
-bad_words = ['fuck', 'shit', 'lari smart']
+bad_words = {
+    'minor': ('shit', 'lari smart'),
+    'mid': ('fuck', 'idiot', 'asshole'),
+    'major': ('zadadadadadadada', )
+}
+bad_words_list = []
+for word in [category for category in bad_words.values()]:
+    bad_words_list.extend(word)
 
 todo_str = """
 TODO:

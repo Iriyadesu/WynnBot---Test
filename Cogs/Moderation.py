@@ -116,18 +116,32 @@ class Moderation(commands.Cog):
 
     @staticmethod
     async def censor(bot: discord.ext.commands.Bot, message: discord.Message):
-        await message.channel.send(
-            f"Please refrain from using inappropriate words in the server. For more information click here: https://discord.com/channels/781492333967179817/781492333967179821/795565283895934976")
-        embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])
-        embed.add_field(name='Author:', value=message.author.mention)
-        bad_word_list = []
-        for word in bd.bad_words:
-            if word in message.content.lower():
-                bad_word_list.append(f'\"{word}\"')
+        chat_embed = discord.Embed(title='AutoMod2021', color=bd.embed_colors['moderation'])
+        chat_embed.add_field(name='User:', value=message.author.mention)
+        chat_embed.add_field(name='Note:', value='Please refrain from using offensive words on this server.')
+        await message.channel.send(embed=chat_embed)
 
-        embed.add_field(name='Word(s):', value=', '.join(bad_word_list))
-        embed.add_field(name='Message:', value=message.content)
-        await bot.get_channel(782625707963842600).send(embed=embed)
+        mod_embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])
+        mod_embed.add_field(name='Author:', value=message.author.mention)
+
+        bad_word_list = []
+        text = ''
+        for category in bd.bad_words:
+            for word in bd.bad_words[category]:
+                if word in message.content.lower():
+                    bad_word_list.append(f'\"{word}\"')
+
+                    if category == 'minor':
+                        pass
+                    elif category == 'mid':
+                        await message.delete()
+                    elif category == 'major':
+                        await message.delete()
+                        text += '@Moderator'
+
+        mod_embed.add_field(name='Word(s):', value=', '.join(bad_word_list))
+        mod_embed.add_field(name='Message:', value=message.content)
+        await bot.get_channel(782625707963842600).send(text, embed=mod_embed)
 
     # ----- repeat -----
     @commands.command(description="speak beep boop", usage="!say [args]")
