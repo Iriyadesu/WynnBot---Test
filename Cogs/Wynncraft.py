@@ -122,7 +122,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         await ctx.channel.send(embed=territory_embed)
 
     #  ----- sum of all online players -----
-    @commands.command()
+    @commands.command(description="network stuff ig",usage="!network <action> [name]")
     async def network(self, ctx: commands.Context, action: str, name: str = ''):
         """
         Capabilities:
