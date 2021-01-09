@@ -137,7 +137,7 @@ class Moderation(commands.Cog):
                         await message.delete()
                     elif category == 'major':
                         await message.delete()
-                        text += '@Moderator'
+                        text += '@Moderato'  # TODO: Mention all moderators
 
         mod_embed.add_field(name='Word(s):', value=', '.join(bad_word_list))
         mod_embed.add_field(name='Message:', value=message.content)
