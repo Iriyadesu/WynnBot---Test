@@ -55,7 +55,6 @@ class Moderation(commands.Cog):
         :param user: who was muted
         :return: None
         """
-        # TODO: Finish it
         l.info(f'Unmuted user {user.name}.')
         try:
             await ctx.message.delete()

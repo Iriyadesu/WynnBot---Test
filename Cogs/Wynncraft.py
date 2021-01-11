@@ -11,7 +11,7 @@ from Wrappers.network import player_sum, players_on_worlds
 from Cogs.Binder import Binder
 
 
-class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + methods
+class Wynncraft(commands.Cog):
     """
     This Cog contains command related to wynncraft.
 
@@ -54,12 +54,11 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
             return
 
         # ----- create the embed -----
-        player_embed = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
+        player_embed = discord.Embed(title=f"{player_name}'s profile", color=bd.embed_colors['normal'])
         player_embed.add_field(name="UserName: ", value=player_data['username'], inline=True)
-        player_embed.add_field(name=chr(173), value=chr(173))
-        player_embed.add_field(name="Rank: ", value=player_data['rank'], inline=False)
-        player_embed.add_field(name="Online: ", value=player_data['location'] if player_data['location'] else 'no')
-        player_embed.add_field(name=chr(173), value=chr(173))
+        player_embed.add_field(name="Rank: ", value=player_data['rank'], inline=True)
+        player_embed.add_field(name="Online: ", value=player_data['location'] if player_data['location'] else 'no',
+                               inline=False)
         player_embed.add_field(name="Guild name: ",
                                value=player_data['guild name'] if player_data['guild name'] else 'none', inline=True)
         player_embed.add_field(name="Guild rank: ",
@@ -88,12 +87,12 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
             return
 
         # ----- create the embed -----
-        guild_embed = discord.Embed(title=guild_name, color=0xFF0000)
-        guild_embed.add_field(name="Name: ", value=guild_data['name'], inline=False)
-        guild_embed.add_field(name="Prefix: ", value=guild_data['prefix'], inline=False)
-        guild_embed.add_field(name="Level: ", value=guild_data['level'], inline=False)
-        guild_embed.add_field(name="Members: ", value=str(len(guild_data['members'])), inline=False)
-        guild_embed.add_field(name="Territories: ", value=guild_data['territories'], inline=False)
+        guild_embed = discord.Embed(title=guild_name, color=bd.embed_colors['normal'])
+        guild_embed.add_field(name="Name: ", value=guild_data['name'], inline=True)
+        guild_embed.add_field(name="Prefix: ", value=guild_data['prefix'], inline=True)
+        guild_embed.add_field(name="Level: ", value=guild_data['level'], inline=True)
+        guild_embed.add_field(name="Members: ", value=str(len(guild_data['members'])), inline=True)
+        guild_embed.add_field(name="Territories: ", value=guild_data['territories'], inline=True)
         guild_embed.add_field(name="Created at: ", value=guild_data['created friendly'], inline=False)
 
         await ctx.channel.send(embed=guild_embed)  # send the embed
