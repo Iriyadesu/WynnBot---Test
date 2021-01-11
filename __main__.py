@@ -26,6 +26,7 @@ What it does:
 
 # ---------- IMPORTS ----------
 import os
+import sys
 import shutil
 import logging as log
 import datetime as dt
@@ -45,24 +46,20 @@ log.basicConfig(level=log.INFO, filename='bot.log',
 name = dt.datetime.utcnow().strftime('%Y_%m_%d-%H_%M_%S') + '.log'
 
 
-# ----- Handling discord TOKEN and PREFIX -----
-# FriendlyPudding's way
+# ---------- Handling discord TOKEN and PREFIX ----------
+# -- FriendlyPudding's way --
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 if TOKEN is not None:
     log.debug('Token acquired from .env file')
 
-# TrapinchO's way
-if TOKEN is None:  # TODO: Decide whether to keep it or not
-    try:
-        # Running it from outside (using "py WynnBot---Test")
-        with open('../discord_token.txt', 'r') as f:
+# -- TrapinchO's way --
+if TOKEN is None:
+    if len(sys.argv) > 1:  # if the patch is specified as an argument
+        with open(sys.argv[1], 'r') as f:
             TOKEN = f.read()
-    except FileNotFoundError as e:  # Running the code directly
-        log.debug('File not found, looking into second folder')
-        print('File not found, looking into second folder')
-
-        with open('../../discord_token.txt', 'r') as f:
+    else:  # if not
+        with open('../discord_token.txt', 'r') as f:
             TOKEN = f.read()
 
 
@@ -97,7 +94,4 @@ if __name__ == '__main__':
         log.shutdown()  # end the logging
 
         os.rename('bot.log', name)  # rename and move log
-        try:
-            shutil.move(name, './WynnBot---Test/logs')  # if run using "py Wynnbot---Test"
-        except FileNotFoundError:
-            shutil.move(name, './logs')  # if run normally
+        shutil.move(name, './logs')  # if run normally
