@@ -116,28 +116,36 @@ class Moderation(commands.Cog):
 
     @staticmethod
     async def censor(bot: discord.ext.commands.Bot, message: discord.Message):
-        chat_embed = discord.Embed(title='AutoMod2021', color=bd.embed_colors['moderation'])
-        chat_embed.add_field(name='User:', value=message.author.mention)
-        chat_embed.add_field(name='Note:', value='Please refrain from using offensive words on this server.')
-        await message.channel.send(embed=chat_embed)
-
         mod_embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])
         mod_embed.add_field(name='Author:', value=message.author.mention)
 
         bad_word_list = []
         text = ''
+        lari_word = False
         for category in bd.bad_words:
             for word in bd.bad_words[category]:
                 if word in message.content.lower():
                     bad_word_list.append(f'\"{word}\"')
 
-                    if category == 'minor':
-                        pass
-                    elif category == 'mid':
+                    if word == 'lari smart':  # mostly fun (unless...?)
+                        await message.channel.send('*cough cough cough*')
+                        lari_word = True
+                    elif category == 'minor':  # minor insults that do not require much attention
+                        lari_word = False
+                    elif category == 'mid':  # quite offensive words
+                        lari_word = False
                         await message.delete()
-                    elif category == 'major':
+                    elif category == 'major':  # words requiring immediate moderator attention
+                        lari_word = False
                         await message.delete()
-                        text += '@Moderato'  # TODO: Mention all moderators
+                        text += '@Moderator'  # TODO: Mention all moderators
+
+        if lari_word:
+            return
+        chat_embed = discord.Embed(title='AutoMod2021', color=bd.embed_colors['moderation'])
+        chat_embed.add_field(name='User:', value=message.author.mention)
+        chat_embed.add_field(name='Note:', value='Please refrain from using offensive words on this server.')
+        await message.channel.send(embed=chat_embed)
 
         mod_embed.add_field(name='Word(s):', value=', '.join(bad_word_list))
         mod_embed.add_field(name='Message:', value=message.content)
