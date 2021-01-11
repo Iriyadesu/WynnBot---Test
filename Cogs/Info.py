@@ -90,7 +90,7 @@ class Info(commands.Cog):
                       usage="!help [cog]", description="displays this message")
     async def help(self, ctx, cog='all'):
         embed = discord.Embed(
-            title='Help')
+            title='Help', color=bd.embed_colors['info'])
         embed.set_thumbnail(
             url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
         embed.set_footer(

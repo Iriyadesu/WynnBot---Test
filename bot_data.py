@@ -42,58 +42,14 @@ colors = {
     'NOT_QUITE_BLACK': 0x23272A
 }
 
-embed_colors = {
+embed_colors = {  # Colors used for specific embeds
     'info': 0x0000FF,  # blue
     'error': 0,  # black
     'moderation': 0xFFFF00,  # yellow
     'normal': 0x00FF00  # green
 }
 
-
-def error_embed(err_type: str = 'No reason provided',
-                *, description: str = '') -> discord.Embed:  # TODO: maybe improve it? Definitely improve it!
-    """
-    Returns embed for errors
-
-    :param err_type: type of the error
-    :param description: description of the embed
-    :return: discord.Embed
-    """
-    embed = discord.Embed(title='Error!', description='An Error occurred during processing of the command')
-    embed.add_field(name='Type:', value=err_type)
-    embed.add_field(name='Reason:', value=description)
-
-    return embed
-
-
-help_embed = {  # TODO: Is this even used?
-    'Moderation': {
-        'ban': {'syntax': '!ban <user> [reason]', 'info': 'bans the user'},
-        'kick': {'syntax': '!kick <user> [reason]', 'info': 'kicks the user'},
-        'mute': {'syntax': '!mute <user> [reason]', 'info': 'mutes the user'},
-    },
-    'Wynncraft': {
-        'player': {'syntax': '!profile <player name>', 'info': 'provides info on requested player'},
-        'guild': {'syntax': '!guild <guild name>', 'info': 'provides info on requested guild'},
-        'territory': {'syntax': '!territory <territory name>', 'info': 'provides info on requested territory'},
-        'item': {'syntax': '!item <item name>', 'info': 'provides info on requested item'},
-        '-- __note__': {'syntax': 'put more word names between double quotes `\"`', 'info': ''}
-    },
-    'Info': {
-        'poll': {'syntax': '!poll <create|end> <name|message id> [options]', 'info': 'creates/ends poll'},
-        'help': {'syntax': '!help', 'info': 'displays this message'}
-    }
-}
-
-bad_words = {
-    'minor': ('shit', 'lari smart'),
-    'mid': ('fuck', 'idiot', 'asshole'),
-    'major': ('zadadadadadadada', )
-}
-bad_words_list = []
-for word in [category for category in bad_words.values()]:
-    bad_words_list.extend(word)
-
+# String for "to-do" command
 todo_str = """
 TODO:
 -? settings
@@ -112,3 +68,28 @@ TODO:
 WHEN DONE:
 - uncomment perms requirements
 """
+
+bad_words = {  # What words are to be moderated
+    'minor': ('shit', 'lari smart'),
+    'mid': ('fuck', 'idiot', 'asshole'),
+    'major': ('zadadadadadadada', )
+}
+bad_words_list = []
+for word in [category for category in bad_words.values()]:
+    bad_words_list.extend(word)
+
+
+def error_embed(err_type: str = 'No reason provided',
+                *, description: str = '') -> discord.Embed:  # TODO: maybe improve it? Definitely improve it!
+    """
+    Returns embed for errors
+
+    :param err_type: type of the error
+    :param description: description of the embed
+    :return: discord.Embed
+    """
+    embed = discord.Embed(title='Error!', description='An Error occurred during processing of the command')
+    embed.add_field(name='Type:', value=err_type)
+    embed.add_field(name='Reason:', value=description)
+
+    return embed

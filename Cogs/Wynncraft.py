@@ -129,6 +129,8 @@ class Wynncraft(commands.Cog):
     @commands.command(description="network stuff ig", usage="!network <action> [name]")
     async def network(self, ctx: commands.Context, action: str, name: str = ''):
         """
+        Get network data from Wynn API
+
         Capabilities:
         - get sum of all online players on Wynncraft (sum)
         - get sum of all players on each world (worlds)
