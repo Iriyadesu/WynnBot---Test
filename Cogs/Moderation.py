@@ -8,11 +8,11 @@ class Moderation(commands.Cog):
     """
     This class handles moderation commands
     Current features:
-    - mute
-    - unmute
-    - kick
-    - ban
-    - say
+    - mute <member> [reason]
+    !!!- unmute = not implemented
+    - kick <member> [reason]
+    - ban <member> [reason]
+    - say = make the bot repeat
 
     FOR TESTING PURPOSES permissions are not required
     """
@@ -46,12 +46,13 @@ class Moderation(commands.Cog):
     # ----- unmute -----
     @commands.command(description="unmutes the user", usage="!unmute <user>")
     # @commands.has_permissions(kick_members=True)
-    async def unmute(self, ctx: commands.Context, user: discord.Member, reason: str = 'No reason provided'):
+    async def unmute(self, ctx: commands.Context, user: discord.Member):  # TODO: Implement it
         """
         Command to unmute user
+        Not implemented
+
         :param ctx: channel where the command was used
         :param user: who was muted
-        :param reason: reason for the mute
         :return: None
         """
         # TODO: Finish it
@@ -155,7 +156,8 @@ class Moderation(commands.Cog):
                         await message.delete()
                         text += '@Moderator'  # TODO: Mention all moderators
 
-        if lari_word: return
+        if lari_word:
+            return
 
         chat_embed = discord.Embed(color=bd.embed_colors['moderation'])
         chat_embed.add_field(name='User:', value=message.author.mention)
@@ -188,7 +190,7 @@ def log_embed(action: str, author: discord.Member, user: discord.Member, reason:
     :param action: action taken; currently ['ban', 'kick', 'mute']
     :param author: who used that command
     :param user: again who was the action taken (e.g. who was banned)
-    :param reason: reson for the action
+    :param reason: reason for the action
     :return: discord.Embed
     """
     embed = discord.Embed(title=action, color=bd.embed_colors['moderation'])
