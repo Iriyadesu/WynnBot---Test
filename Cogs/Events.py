@@ -127,9 +127,7 @@ class Events(commands.Cog):
             log.shutdown()
             sys.exit('Command sent')
 
-        #for role in message.author.roles:
-        #    if role.name == 'muted': # TODO: create a proper mute
-        #        await message.delete()
+        # TODO: Create a proper mute
 
         temp = message.content.split(" ")
         message.content = str(temp[0].lower())

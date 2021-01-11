@@ -95,7 +95,7 @@ class Info(commands.Cog):
         else:
             await ctx.send("Correct syntax: `!poll <create/end>`")
 
-    @commands.command(pass_context=True, description="TOD0TODOTODOTODO", usage="!todo")
+    @commands.command(pass_context=True, description="TOD0 list", usage="!todo")
     async def todo(self, ctx):
         embed = discord.Embed(title='TODO:', color=bd.embed_colors['info'])
         embed.add_field(name='todo', value=bd.todo_str)
