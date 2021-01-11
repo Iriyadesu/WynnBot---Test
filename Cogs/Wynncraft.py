@@ -12,19 +12,31 @@ from Cogs.Binder import Binder
 
 
 class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + methods
+    """
+    This Cog contains command related to wynncraft.
+
+    Current commands:
+    - player <ign|mention> = provide information about requested player or discord member (if bound)
+    - guild <name> = provide information about requested guild
+    - network <action> [name] action:
+    --- sum =  get sum of all online players on Wynncraft
+    --- worlds = get sum of all players on each world
+    --- find = find a world of specific player <name>
+    """
     def __init__(self, bot: discord.ext.commands.Bot):
+        """Used to allow to use the bot instance in the code"""
         self.bot = bot
 
     # ----- player stats -----
-    @commands.command(description="provides info on requested player", usage="!profile <player name>")  # TODO: Need to make it look better
-    async def player(self, ctx: commands.Context, player_name: Union[discord.Member, str], stat=None):
+    @commands.command(description="provides info on requested player",
+                      usage="!profile <player name>")  # TODO: Need to make it look better
+    async def player(self, ctx: commands.Context, player_name: Union[discord.Member, str]):
         """
         Send embed with info on requested player.
         Sends specific stat if requested
 
         :param ctx: channel where the command was used
         :param player_name: name of the requested player
-        :param stat: stat requested; default None
         :return: None
         """
 
@@ -39,15 +51,6 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
 
         if player_data is None:  # if the player doesn't exist send error
             await ctx.channel.send(embed=bd.error_embed('API error', description='Requested player not found.'))
-            return
-
-        if stat is not None:  # if stats was provided
-            try:
-                player_embed = discord.Embed(title=f"{player_name}'s profile", color=0x00ff00)
-                player_embed.add_field(name=stat, value=player_data[stat])
-                await ctx.channel.send(embed=player_embed)
-            except KeyError:  # if stats was not found
-                await ctx.channel.send(embed=bd.error_embed('API error', description='Requested stat not found.'))
             return
 
         # ----- create the embed -----
@@ -69,8 +72,8 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         await ctx.channel.send(embed=player_embed)  # send the embed
     
     #  ----- guild stats -----
-    @commands.command(description="provides info on requested guild", usage="!guild <guild name>")  # TODO: Need to make it look better
-    async def guild(self, ctx: commands.Context, guild_name):
+    @commands.command(description="provides info on requested guild", usage="!guild <guild name>")
+    async def guild(self, ctx: commands.Context, guild_name):  # TODO: Need to make it look better
         """
         Send embed with info on requested guild.
         :param ctx: channel where the command was used
@@ -116,13 +119,15 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
         territory_embed.add_field(name='Owner:', value=territory_data['owner'])
         territory_embed.add_field(name=chr(173), value=chr(173))
         territory_embed.add_field(name='Start coords:',
-                                  value=f'{territory_data["location"]["startX"]} {territory_data["location"]["startZ"]}')
-        territory_embed.add_field(name='End coords:', value=f'{territory_data["location"]["endX"]} {territory_data["location"]["endZ"]}')
+                                  value=f'{territory_data["location"]["startX"]} {territory_data["location"]["startZ"]}'
+                                  )
+        territory_embed.add_field(name='End coords:',
+                                  value=f'{territory_data["location"]["endX"]} {territory_data["location"]["endZ"]}')
 
         await ctx.channel.send(embed=territory_embed)
 
     #  ----- sum of all online players -----
-    @commands.command(description="network stuff ig",usage="!network <action> [name]")
+    @commands.command(description="network stuff ig", usage="!network <action> [name]")
     async def network(self, ctx: commands.Context, action: str, name: str = ''):
         """
         Capabilities:
@@ -171,8 +176,7 @@ class Wynncraft(commands.Cog):  # TODO: Add proper documentation to the class + 
             await ctx.channel.send(embed=bd.error_embed(f'Argument error', description='Unknown parameters passed'))
 
     #  ----- item stats -----
-    @commands.command(description="provides info on requested item\n**~~__note__:**: put more word names between double quotes `\"`",
-                      usage="!item <item name>")  # TODO: Need to implement this
+    @commands.command(description='Command not yet implemented', usage="!item <item name>")
     async def item(self, ctx: commands.Context, item_name: str):  # TODO: Create a wrapper or remove the command
         """
         Raises NotImplemented error
