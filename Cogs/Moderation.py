@@ -47,6 +47,14 @@ class Moderation(commands.Cog):
     @commands.command(description="unmutes the user", usage="!unmute <user>")
     # @commands.has_permissions(kick_members=True)
     async def unmute(self, ctx: commands.Context, user: discord.Member, reason: str = 'No reason provided'):
+        """
+        Command to unmute user
+        :param ctx: channel where the command was used
+        :param user: who was muted
+        :param reason: reason for the mute
+        :return: None
+        """
+        # TODO: Finish it
         l.info(f'Unmuted user {user.name}.')
         try:
             await ctx.message.delete()
@@ -86,7 +94,7 @@ class Moderation(commands.Cog):
 
     #  ----- ban -----
     @commands.command(description="bans the user", usage="!ban <user> [reason]")
-    #@commands.has_permissions(ban_members=True)
+    # @commands.has_permissions(ban_members=True)
     async def ban(self, ctx: commands.Context, user: discord.Member, *, reason="No reason provided"):
         """
         Used to ban players.
@@ -163,9 +171,9 @@ class Moderation(commands.Cog):
     async def say(self, ctx: commands.Context, *, arg="Nothing"):
         """
         Friendly pudding's favourite command. Cannot be removed nor changed
-        :param ctx:
-        :param arg:
-        :return:
+        :param ctx: channel where the command was used
+        :param arg: Message to say
+        :return: None
         """
         try: 
             await ctx.channel.send(str(arg))
