@@ -118,6 +118,7 @@ class Events(commands.Cog):
             return
         elif any(word in message.content.lower() for word in bd.bad_words_list):  # TODO: make it work for all bad words
             await Moderation.Moderation.censor(self.bot, message)
+            return
 
         elif self.safe_block and message.content[0] == '!':
             await self.bot.get_user(552883527147061249).send('Failsafe activated')

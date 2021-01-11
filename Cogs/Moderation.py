@@ -128,7 +128,7 @@ class Moderation(commands.Cog):
 
         bad_word_list = []
         text = ''
-        lari_word = False
+        lari_word = False  # TODO: I might be overdoing it
         for category in bd.bad_words:
             for word in bd.bad_words[category]:
                 if word in message.content.lower():
@@ -147,9 +147,9 @@ class Moderation(commands.Cog):
                         await message.delete()
                         text += '@Moderator'  # TODO: Mention all moderators
 
-        if lari_word:
-            return
-        chat_embed = discord.Embed(title='AutoMod2021', color=bd.embed_colors['moderation'])
+        if lari_word: return
+
+        chat_embed = discord.Embed(color=bd.embed_colors['moderation'])
         chat_embed.add_field(name='User:', value=message.author.mention)
         chat_embed.add_field(name='Note:', value='Please refrain from using offensive words on this server.')
         await message.channel.send(embed=chat_embed)
