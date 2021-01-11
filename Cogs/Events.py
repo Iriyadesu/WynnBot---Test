@@ -116,7 +116,7 @@ class Events(commands.Cog):
             return
         elif message.author.bot:
             return
-        elif any(word in message.content.lower() for word in bd.bad_words_list):  # TODO: make it work for all bad words
+        elif any(word in message.content.lower() for word in bd.bad_words_list):
             await Moderation.Moderation.censor(self.bot, message)
             return
 
@@ -136,34 +136,6 @@ class Events(commands.Cog):
             
         if message.content == "cktq:4":
             await message.channel.send("ahoj")
-
-    # @commands.Cog.listener()
-    # async def on_typing(self, channel: discord.TextChannel, user: discord.User, when):
-    #     """
-    #     Test/joke function
-    #     """
-    #     await channel.send(f'{user.mention} IS TYPING')
-
-    @commands.Cog.listener()
-    async def on_member_remove(self, member: discord.Member):
-        """
-        Test/joke function
-        """
-        await member.send(f'WHY ARE YOU GONE')
-
-    @commands.Cog.listener()
-    async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent):  # TODO: either remove or do something with it
-        """
-        Called when any reaction was added
-        - does nothing
-
-        :param payload: Idk
-        """
-        # channel = await self.bot.fetch_channel(payload.channel_id)
-        # message = await channel.fetch_message(payload.message_id)
-        # user = await self.bot.fetch_user(payload.user_id)
-        # emoji = payload.emoji.name
-        pass
 
     @commands.command()
     async def failsafe(self, ctx, code: str):
@@ -192,7 +164,7 @@ class Events(commands.Cog):
         self.safe_block = True
 
 
-def setup(bot):  # TODO: what documentation to add here?
+def setup(bot):
     """
     Add the "Events" class to the bot
     """
