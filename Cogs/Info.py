@@ -123,20 +123,17 @@ class Info(commands.Cog):
             if cog.lower() in lower_cogs:
                 # Get a list of all commands in the specified cog
                 commands_list = self.bot.get_cog(cogs[lower_cogs.index(cog.lower())]).get_commands()
-                help_text = ''
+                help_text = f'__{cog}:__\n\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n'
 
                 for command in commands_list:
-                    help_text += f'__{command.name}__\n**{command.description}**\n\n'
+                    help_text += f'__{command.name}__\n'
+                    help_text += f'Description: {command.description}\n'
 
                     if len(command.aliases) > 0:  # Also add aliases, if there are any
-                        help_text += f'**Aliases :** `{"`, `".join(command.aliases)}`\n\n\n'
-                    else:
-                        # Add a newline character to keep it pretty
-                        # That IS the whole purpose of custom help
-                        help_text += '\n'
+                        help_text += f'Aliases: `{"`, `".join(command.aliases)}`\n'
 
                     # Finally the format
-                    help_text += f'Format: {command.usage if command.usage is not None else ""}\n\n'
+                    help_text += f'Usage: `{command.usage if command.usage is not None else ""}`\n'
 
                 embed.description = help_text
             else:
