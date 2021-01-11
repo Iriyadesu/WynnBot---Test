@@ -58,7 +58,7 @@ if TOKEN is None:  # TODO: Decide whether to keep it or not
         # Running it from outside (using "py WynnBot---Test")
         with open('../discord_token.txt', 'r') as f:
             TOKEN = f.read()
-    except FileNotFoundError as e:  # Running using .bat script
+    except FileNotFoundError as e:  # Running the code directly
         log.debug('File not found, looking into second folder')
         print('File not found, looking into second folder')
 

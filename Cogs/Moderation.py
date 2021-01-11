@@ -116,6 +116,13 @@ class Moderation(commands.Cog):
 
     @staticmethod
     async def censor(bot: discord.ext.commands.Bot, message: discord.Message):
+        """
+        Not a command. Used for moderating insults
+
+        :param bot: Bot instance
+        :param message: Message sent (to be processed)
+        :return: None
+        """
         mod_embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])
         mod_embed.add_field(name='Author:', value=message.author.mention)
 
