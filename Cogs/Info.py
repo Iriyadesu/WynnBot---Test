@@ -12,25 +12,9 @@ class Info(commands.Cog):
     - poll
     - too
     """
+
     def __init__(self, bot: discord.ext.commands.Bot):
         self.bot = bot
-
-    @commands.command(description="displays this message", usage="!help [cog]")
-    async def help(self, ctx: commands.Context,):  # TODO: add documentation
-        embed = discord.Embed(title='Help')
-        for category in bd.help_embed:
-            s = ''
-            for cmd in bd.help_embed[category]:
-                cmd2 = bd.help_embed[category][cmd]
-                s += f'**{cmd}:** *{cmd2["syntax"]} {" = " + cmd2["info"] if cmd2["info"] else ""}*\n'
-            embed.add_field(name=f'__{category}__', value=s, inline=False)
-
-        embed.set_footer(
-            text=f'Requested by {ctx.message.author.name}',
-            icon_url=ctx.message.author.avatar_url)
-        embed.set_thumbnail(
-            url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
-        await ctx.send(embed=embed)
 
     @commands.command(pass_context=True, description="creates/ends poll",
                       usage="!poll <create|end> <name|message id> [options]")
@@ -57,10 +41,10 @@ class Info(commands.Cog):
             if len(options) > 10:
                 await ctx.send('You cannot make a poll for more than 10 things!')
                 return
-            if len(options) == 2 and options[0] == 'yes' and options[1] == 'no':
+            if len(options) == 2 and options[0].lower() == 'yes' and options[1].lower() == 'no':
                 reactions = ['✅', '❌']
             else:
-                reactions = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣', '🔟']
+                reactions = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣', '🔟']  # TODO: Maybe use unicode code?
             description = []
             for x, option in enumerate(options):
                 description += '\n {} {}'.format(reactions[x], option)
@@ -89,27 +73,27 @@ class Info(commands.Cog):
                             tally[reaction.emoji] += 1
                             voters.append(reactor.id)
             output = f"Results of the poll for '{embed.title}':\n" + '\n'.join(
-                ['{}: {}'.format(opt_dict[key], tally[key]) for key in tally.keys()])
+                [f'{opt_dict[key]}: {tally[key]}' for key in tally.keys()])
             await ctx.send(output)
 
         else:
             await ctx.send("Correct syntax: `!poll <create/end>`")
 
-    @commands.command(pass_context=True, description="TOD0 list", usage="!todo")
+    @commands.command(description="TOD0 list", usage="!todo")
     async def todo(self, ctx):
         embed = discord.Embed(title='TODO:', color=bd.embed_colors['info'])
         embed.add_field(name='todo', value=bd.todo_str)
 
         await ctx.channel.send(embed=embed)
 
-    @commands.command(name='help2',
-                      aliases=['commands', 'command'], description="displays this message", usage="!help [cog]")
-    async def help2(self, ctx, cog='all'):
-        help_embed = discord.Embed(
+    @commands.command(aliases=['commands', 'command'],
+                      usage="!help [cog]", description="displays this message")
+    async def help(self, ctx, cog='all'):
+        embed = discord.Embed(
             title='Help')
-        help_embed.set_thumbnail(
+        embed.set_thumbnail(
             url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
-        help_embed.set_footer(
+        embed.set_footer(
             text=f'Requested by {ctx.message.author.name}',
             icon_url=ctx.message.author.avatar_url)
 
@@ -119,9 +103,7 @@ class Info(commands.Cog):
 
         if cog == 'all':
             for cog in cogs:
-                if cog == "Events":
-                    pass
-                else:
+                if cog != "Events":
                     # Get a list of all commands under each cog
 
                     cog_commands = self.bot.get_cog(cog).get_commands()
@@ -131,27 +113,22 @@ class Info(commands.Cog):
                         # - *{comm.description}*
                     # Add the cog's details to the embed.
 
-                    help_embed.add_field(name=f'__{cog}__', value=commands_list, inline=False)
+                    embed.add_field(name=f'__{cog}__', value=commands_list, inline=False)
 
         else:
-
             # If the cog was specified
-
             lower_cogs = [c.lower() for c in cogs]
 
             # If the cog actually exists.
             if cog.lower() in lower_cogs:
-
                 # Get a list of all commands in the specified cog
                 commands_list = self.bot.get_cog(cogs[lower_cogs.index(cog.lower())]).get_commands()
                 help_text = ''
 
                 for command in commands_list:
-                    help_text += f'```{command.name}```\n' \
-                        f'**{command.description}**\n\n'
+                    help_text += f'__{command.name}__\n**{command.description}**\n\n'
 
-                    # Also add aliases, if there are any
-                    if len(command.aliases) > 0:
+                    if len(command.aliases) > 0:  # Also add aliases, if there are any
                         help_text += f'**Aliases :** `{"`, `".join(command.aliases)}`\n\n\n'
                     else:
                         # Add a newline character to keep it pretty
@@ -159,16 +136,15 @@ class Info(commands.Cog):
                         help_text += '\n'
 
                     # Finally the format
-                    help_text += f'Format:' \
-                        f' {command.usage if command.usage is not None else ""}\n\n\n\n'
+                    help_text += f'Format: {command.usage if command.usage is not None else ""}\n\n'
 
-                help_embed.description = help_text
+                embed.description = help_text
             else:
                 # Notify the user of invalid cog and finish the command
                 await ctx.send('Invalid cog specified.\nUse `help` command to list all cogs.')
                 return
 
-        await ctx.send(embed=help_embed)
+        await ctx.send(embed=embed)
     
         return
 
