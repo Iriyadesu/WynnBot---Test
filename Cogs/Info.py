@@ -1,3 +1,5 @@
+import asyncio as aio
+
 import bot_data as bd
 
 from discord.ext import commands
@@ -144,6 +146,30 @@ class Info(commands.Cog):
         await ctx.send(embed=embed)
     
         return
+
+    @commands.command()
+    async def timer(self, ctx: commands.Context, seconds: int, units: str):
+        """
+        Simple timer
+
+        :param ctx: channel where the command was used
+        :param seconds: time in units
+        :param units: units of time used
+        """
+        units_second = ['second', 'seconds', 'sec', 's']
+        units_minute = ['minute', 'minutes', 'min', 'm']
+
+        if units.lower() in units_second:
+            pass
+        elif units.lower() in units_minute:
+            seconds *= 60
+        else:
+            await ctx.channel.send(bd.error_embed('Unknown unit of time'))
+            return
+
+        await ctx.channel.send(f'Started timer for {seconds} {units}')
+        await aio.sleep(seconds)
+        await ctx.channel.send(f'{ctx.author.mention} time is up!')
 
 
 def setup(bot):
