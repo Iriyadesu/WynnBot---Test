@@ -72,7 +72,7 @@ class Events(commands.Cog):
             error_message = str(error)
 
         await ctx.send(embed=bd.error_embed(str(error.__class__.__name__),
-                                            description=error_message)
+                                            error_message)
                        )
 
     # ----- Giving out Guest role when user joins -----

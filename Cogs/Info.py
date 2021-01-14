@@ -165,7 +165,7 @@ class Info(commands.Cog):
         try:
             seconds = int(seconds)
         except ValueError:
-            await ctx.channel.send(embed=bd.error_embed('Value error', description='Invalid number was passed'))
+            await ctx.channel.send(embed=bd.error_embed('Value error', 'Invalid number was passed'))
             return
 
         if units.lower() in time_units['second']:
@@ -175,7 +175,7 @@ class Info(commands.Cog):
         elif units.lower() in time_units['hour']:
             seconds *= 3600
         else:
-            await ctx.channel.send(embed=bd.error_embed('Type error', description='Unknown unit of time'))
+            await ctx.channel.send(embed=bd.error_embed('Type error', 'Unknown unit of time'))
             return
 
         await ctx.channel.send(f'Started timer for {seconds} {units}')

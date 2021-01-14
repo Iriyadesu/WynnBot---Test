@@ -50,7 +50,7 @@ class Wynncraft(commands.Cog):
             player_data = player(player_name)  # get the info
 
         if player_data is None:  # if the player doesn't exist send error
-            await ctx.channel.send(embed=bd.error_embed('API error', description='Requested player not found.'))
+            await ctx.channel.send(embed=bd.error_embed('API error', 'Requested player not found.'))
             return
 
         # ----- create the embed -----
@@ -83,7 +83,7 @@ class Wynncraft(commands.Cog):
             guild_data = guild(guild_name)
 
         if guild_data is None:
-            await ctx.channel.send(embed=bd.error_embed('API error', description='Requested guild not found.'))
+            await ctx.channel.send(embed=bd.error_embed('API error', 'Requested guild not found.'))
             return
 
         # ----- create the embed -----
@@ -109,7 +109,7 @@ class Wynncraft(commands.Cog):
         async with ctx.typing():
             territory_data = territory(territory_name)
         if territory_data is None:
-            await ctx.channel.send(embed=bd.error_embed('API error', description='Requested territory not found.'))
+            await ctx.channel.send(embed=bd.error_embed('API error', 'Requested territory not found.'))
             return
 
         # ----- create the embed -----
@@ -157,7 +157,8 @@ class Wynncraft(commands.Cog):
         elif action == 'find':
             if name == '':
                 await ctx.channel.send(embed=bd.error_embed(f'Argument error',
-                                                            description='Not enough parameters passed'))
+                                                            'Not enough parameters passed')
+                                       )
                 return
 
             world_dict = players_on_worlds()
@@ -174,7 +175,7 @@ class Wynncraft(commands.Cog):
                 await ctx.channel.send(embed=embed)
 
         else:
-            await ctx.channel.send(embed=bd.error_embed(f'Argument error', description='Unknown parameters passed'))
+            await ctx.channel.send(embed=bd.error_embed(f'Argument error', 'Unknown parameters passed'))
 
     #  ----- item stats -----
     @commands.command(description='Command not yet implemented', usage="!item <item name>")
@@ -189,7 +190,7 @@ class Wynncraft(commands.Cog):
             data = resp.json()
             pass
         """
-        ctx.channel.send(bd.error_embed('Implementation error', description='Command not implemented'))
+        ctx.channel.send(bd.error_embed('Implementation error', 'Command not implemented'))
         raise NotImplementedError('Command not implemented')
 
 

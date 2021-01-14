@@ -72,7 +72,7 @@ WHEN DONE:
 bad_words = {  # What words are to be moderated
     'minor': ('shit', 'lari smart'),
     'mid': ('fuck', 'idiot', 'asshole'),
-    'major': ('zadadadadadadada', )
+    'major': ('nigga', 'nigger')
 }
 bad_words_list = []
 for word in [category for category in bad_words.values()]:
