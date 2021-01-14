@@ -147,8 +147,8 @@ class Info(commands.Cog):
     
         return
 
-    @commands.command()
-    async def timer(self, ctx: commands.Context, seconds: int, units: str):
+    @commands.command(usage='!timer <amount> <unit>', description='Sets timer to <amount> <unit>')
+    async def timer(self, ctx: commands.Context, seconds: str, units: str):
         """
         Simple timer
 
@@ -156,15 +156,26 @@ class Info(commands.Cog):
         :param seconds: time in units
         :param units: units of time used
         """
-        units_second = ['second', 'seconds', 'sec', 's']
-        units_minute = ['minute', 'minutes', 'min', 'm']
+        time_units = {
+            'second': ['second', 'seconds', 'sec', 's'],
+            'minute': ['minute', 'minutes', 'min', 'm'],
+            'hour': ['hour', 'hour', 'hr', 'h']
+        }
 
-        if units.lower() in units_second:
+        try:
+            seconds = int(seconds)
+        except ValueError:
+            await ctx.channel.send(embed=bd.error_embed('Value error', description='Invalid number was passed'))
+            return
+
+        if units.lower() in time_units['second']:
             pass
-        elif units.lower() in units_minute:
+        elif units.lower() in time_units['minute']:
             seconds *= 60
+        elif units.lower() in time_units['hour']:
+            seconds *= 3600
         else:
-            await ctx.channel.send(bd.error_embed('Unknown unit of time'))
+            await ctx.channel.send(embed=bd.error_embed('Type error', description='Unknown unit of time'))
             return
 
         await ctx.channel.send(f'Started timer for {seconds} {units}')

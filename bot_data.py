@@ -80,7 +80,7 @@ for word in [category for category in bad_words.values()]:
 
 
 def error_embed(err_type: str = 'No reason provided',
-                *, description: str = '') -> discord.Embed:  # TODO: maybe improve it? Definitely improve it!
+                description: str = '') -> discord.Embed:  # TODO: maybe improve it? Definitely improve it!
     """
     Returns embed for errors
 
