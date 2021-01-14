@@ -38,7 +38,9 @@ class Moderation(commands.Cog):
         try:
             await ctx.message.delete()
             await user.add_roles(discord.utils.get(user.guild.roles, name='muted'))
-            await self.bot.get_channel(782625707963842600).send(embed=log_embed('Mute', ctx.author, user, reason))
+            await discord.utils.get(ctx.guild.channels, name="moderation-log").send(
+                embed=log_embed('Mute', ctx.author, user, reason)
+            )
             await ctx.channel.send(embed=action_embed('Muted', ctx, user, reason))
         except Exception as e:  # TODO: get what exception is raised
             await ctx.channel.send('Cannot assign role. Error: ' + str(type(e)))
@@ -88,15 +90,14 @@ class Moderation(commands.Cog):
             'Seems like you were not behaving properly.\nNext time please do not break the rules.',
             embed=kick_embed)  # send it to the user's DMs
 
-        channel = discord.utils.get(ctx.guild.channels, name='moderation-log')
-        await self.bot.get_channel(channel).send(
+        await discord.utils.get(ctx.guild.channels, name="moderation-log")(
             embed=log_embed('Kick', ctx.author, user, reason)
         )
 
     #  ----- ban -----
     @commands.command(description="bans the user", usage="!ban <user> [reason]")
     # @commands.has_permissions(ban_members=True)
-    async def ban(self, ctx: commands.Context, user: discord.Member, *, reason="No reason provided"):
+    async def ban(self, ctx: commands.Context, user: discord.Member, *, reason="No reason provided"):  # TODO: Check if embeds work
         """
         Used to ban players.
         Requires "ban" permission.
@@ -119,7 +120,7 @@ class Moderation(commands.Cog):
             'You broke the rules. A LOT.\nNow you have to face the consequences.\nWas it worth it?',
             embed=ban_embed)  # send it to the user's DMs
 
-        await self.bot.get_channel(782625707963842600).send(
+        await discord.utils.get(ctx.guild.channels, name="moderation-log").send(
             embed=log_embed('Ban', ctx.author, user, reason)
             )
 
