@@ -153,7 +153,7 @@ class Info(commands.Cog):
         Simple timer
 
         :param ctx: channel where the command was used
-        :param seconds: time in units
+        :param time: time in units
         :param units: units of time used
         """
         time_units = {
@@ -183,7 +183,7 @@ class Info(commands.Cog):
         await ctx.channel.send(f'{ctx.author.mention} time is up!')
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     """
     Add the "Events" class to the bot
     """

@@ -124,17 +124,15 @@ class Moderation(commands.Cog):
             )
 
     @staticmethod
-    async def censor(bot: discord.ext.commands.Bot, message: discord.Message):
+    async def censor(message: discord.Message):
         """
         Not a command. Used for moderating insults
 
-        :param bot: Bot instance
         :param message: Message sent (to be processed)
         :return: None
         """
 
         channel = discord.utils.get(message.guild.text_channels, name="moderation-log")
-
 
         mod_embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])  # TODO: fix
         mod_embed.add_field(name='Author:', value=message.author.mention)
@@ -227,7 +225,7 @@ def action_embed(action: str, ctx: commands.Context, user: discord.Member, reaso
     return embed
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     """
     Add the "Events" class to the bot
     """

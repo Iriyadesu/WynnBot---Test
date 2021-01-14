@@ -59,7 +59,7 @@ class Binder(commands.Cog):  # TODO: Documentation
             f.write(str(Binder.player_list).replace('\'', '\"'))
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     """
     Add the "Events" class to the bot
     """

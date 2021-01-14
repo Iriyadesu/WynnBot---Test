@@ -117,7 +117,7 @@ class Events(commands.Cog):
         elif message.author.bot:
             return
         elif any(word in message.content.lower() for word in bd.bad_words_list):
-            await Moderation.Moderation.censor(self.bot, message)
+            await Moderation.Moderation.censor(message)
             return
 
         elif self.safe_block and message.content[0] == '!':
@@ -164,7 +164,7 @@ class Events(commands.Cog):
         self.safe_block = True
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     """
     Add the "Events" class to the bot
     """

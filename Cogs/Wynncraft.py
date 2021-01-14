@@ -194,7 +194,7 @@ class Wynncraft(commands.Cog):
         raise NotImplementedError('Command not implemented')
 
 
-def setup(bot):
+def setup(bot: commands.Bot):
     """
     Add the "Events" class to the bot
     """
