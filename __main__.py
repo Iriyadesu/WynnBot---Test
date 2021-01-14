@@ -1,26 +1,29 @@
 """
 This is the main module for the bot.
 It can be run several ways:
-- __main__.py = just running the script
-- start.bad = used because PyCharm seems to be idiotic sometimes
-- running the entire folder = why not
+- __main__.py: just running the script
+- start.bat: used because PyCharm seems to be idiotic sometimes
+- running the entire package: why not
 
 What it does:
-- import modules
-- sets up logging
-- loads token
-- states intents (+ creates bot instance)
-- adds other modules to the bot
-- runs the bot
+1) imports modules
+2) sets up logging
+3) loads token
+4) states intents (+ creates bot instance)
+5) adds cogs to the bot
+6) runs the bot
   try:
-    - logs it
+    - logs "Bot script started"
     - runs it
-  excpet:
+      - bot.run()
+      - event "on_connect": only logs for now
+      - event "on_ready": logs and sets presence
+  except:
     - print the exception
   finally:
-    - rename the log
+    - rename the log file ("YYYY_M_D-_h_min_s.log" format)
     - end logging
-    - move the log
+    - move the log to the "logs" folder
 
 """
 
