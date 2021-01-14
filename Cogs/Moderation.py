@@ -88,7 +88,8 @@ class Moderation(commands.Cog):
             'Seems like you were not behaving properly.\nNext time please do not break the rules.',
             embed=kick_embed)  # send it to the user's DMs
 
-        await self.bot.get_channel(782625707963842600).send(
+        channel = discord.utils.get(ctx.guild.channels, name='moderation-log')
+        await self.bot.get_channel(channel).send(
             embed=log_embed('Kick', ctx.author, user, reason)
         )
 
@@ -131,7 +132,10 @@ class Moderation(commands.Cog):
         :param message: Message sent (to be processed)
         :return: None
         """
-        mod_embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])
+
+        channel = discord.utils.get(message.channel.guild.channels, name='moderation-log')
+
+        mod_embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])  # TODO: fix
         mod_embed.add_field(name='Author:', value=message.author.mention)
 
         bad_word_list = []
@@ -165,7 +169,7 @@ class Moderation(commands.Cog):
 
         mod_embed.add_field(name='Word(s):', value=', '.join(bad_word_list))
         mod_embed.add_field(name='Message:', value=message.content)
-        await bot.get_channel(782625707963842600).send(text, embed=mod_embed)
+        await bot.get_channel(channel).send(text, embed=mod_embed)
 
     # ----- repeat -----
     @commands.command(description="speak beep boop", usage="!say [args]")

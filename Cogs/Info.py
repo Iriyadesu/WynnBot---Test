@@ -148,7 +148,7 @@ class Info(commands.Cog):
         return
 
     @commands.command(usage='!timer <amount> <unit>', description='Sets timer to <amount> <unit>')
-    async def timer(self, ctx: commands.Context, seconds: str, units: str):
+    async def timer(self, ctx: commands.Context, time: str, units: str):
         """
         Simple timer
 
@@ -163,7 +163,7 @@ class Info(commands.Cog):
         }
 
         try:
-            seconds = int(seconds)
+            seconds = int(time)
         except ValueError:
             await ctx.channel.send(embed=bd.error_embed('Value error', 'Invalid number was passed'))
             return
@@ -178,7 +178,7 @@ class Info(commands.Cog):
             await ctx.channel.send(embed=bd.error_embed('Type error', 'Unknown unit of time'))
             return
 
-        await ctx.channel.send(f'Started timer for {seconds} {units}')
+        await ctx.channel.send(f'Started timer for {time} {units}')
         await aio.sleep(seconds)
         await ctx.channel.send(f'{ctx.author.mention} time is up!')
 

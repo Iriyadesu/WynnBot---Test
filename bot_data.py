@@ -77,10 +77,11 @@ bad_words = {  # What words are to be moderated
 bad_words_list = []
 for word in [category for category in bad_words.values()]:
     bad_words_list.extend(word)
+bad_words_list = tuple(bad_words_list)
 
 
 def error_embed(err_type: str = 'No reason provided',
-                description: str = '') -> discord.Embed:  # TODO: maybe improve it? Definitely improve it!
+                description: str = '') -> discord.Embed:
     """
     Returns embed for errors
 
