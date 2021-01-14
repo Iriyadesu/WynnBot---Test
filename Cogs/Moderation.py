@@ -133,7 +133,8 @@ class Moderation(commands.Cog):
         :return: None
         """
 
-        channel = discord.utils.get(message.channel.guild.channels, name='moderation-log')
+        channel = discord.utils.get(message.guild.text_channels, name="moderation-log")
+
 
         mod_embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])  # TODO: fix
         mod_embed.add_field(name='Author:', value=message.author.mention)
@@ -169,7 +170,7 @@ class Moderation(commands.Cog):
 
         mod_embed.add_field(name='Word(s):', value=', '.join(bad_word_list))
         mod_embed.add_field(name='Message:', value=message.content)
-        await bot.get_channel(channel).send(text, embed=mod_embed)
+        await channel.send(text, embed=mod_embed)
 
     # ----- repeat -----
     @commands.command(description="speak beep boop", usage="!say [args]")
