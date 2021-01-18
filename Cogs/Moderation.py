@@ -147,7 +147,8 @@ class Moderation(commands.Cog):
                     bad_word_list.append(f'\"{word}\"')
 
                     if word == 'lari smart':  # mostly fun (unless...?)
-                        await message.channel.send('*cough cough cough*')
+                        for i in '🇨🇴🇺🇬🇭':
+                            await message.add_reaction(i)
                         lari_word = True
                     elif category == 'minor':  # minor insults that do not require much attention
                         lari_word = False
