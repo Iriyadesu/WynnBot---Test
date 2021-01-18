@@ -133,11 +133,6 @@ class Moderation(commands.Cog):
         :return: None
         """
 
-        channel = discord.utils.get(message.guild.text_channels, name="moderation-log")
-
-        mod_embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])  # TODO: fix
-        mod_embed.add_field(name='Author:', value=message.author.mention)
-
         bad_word_list = []
         text = ''
         lari_word = False  # TODO: I might be overdoing it
@@ -158,7 +153,7 @@ class Moderation(commands.Cog):
                     elif category == 'major':  # words requiring immediate moderator attention
                         lari_word = False
                         await message.delete()
-                        text += '@Moderator'  # TODO: Mention all moderators
+                        text = '@Moderator'  # TODO: Mention all moderators
 
         if lari_word:
             return
@@ -168,9 +163,14 @@ class Moderation(commands.Cog):
         chat_embed.add_field(name='Note:', value='Please refrain from using offensive words on this server.')
         await message.channel.send(embed=chat_embed)
 
+        mod_embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])  # TODO: fix
+        mod_embed.add_field(name='Author:', value=message.author.mention)
         mod_embed.add_field(name='Word(s):', value=', '.join(bad_word_list))
         mod_embed.add_field(name='Message:', value=message.content)
-        await channel.send(text, embed=mod_embed)
+
+        await discord.utils.get(
+            message.guild.text_channels, name="moderation-log"
+        ).send(text, embed=mod_embed)
 
     # ----- repeat -----
     @commands.command(description="speak beep boop", usage="!say [args]")

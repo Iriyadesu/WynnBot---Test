@@ -38,6 +38,8 @@ class Events(commands.Cog):
         - log it
         - change status
         """
+        # TODO: Add init to things like channels (moderation-log), maybe roles (Moderator)?
+
         print('Bot ready')
         log.info('Bot ready')
         await self.bot.change_presence(activity=discord.Game(name="on developer's nerves"))
