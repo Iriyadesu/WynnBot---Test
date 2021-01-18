@@ -56,6 +56,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 if TOKEN is not None:
     log.debug('Token acquired from .env file')
 
+
 # -- TrapinchO's way --
 if TOKEN is None:
     if len(sys.argv) > 1:  # if the patch is specified as an argument
@@ -65,7 +66,6 @@ if TOKEN is None:
         with open('../discord_token.txt', 'r') as f:
             TOKEN = f.read()
 
-
 # ----- bot intents -----
 intents = discord.Intents.default()
 intents.members = True
@@ -74,10 +74,9 @@ bot = commands.Bot(command_prefix='!', intents=intents, case_insensitive=True)
 
 
 # ---------- registering commands ----------
+bot.remove_command('help')  # remove default help command
 
-bot.remove_command('help')
-
-extensions = ['Cogs.Moderation', 'Cogs.Wynncraft', 'Cogs.Events', 'Cogs.Info', 'Cogs.Binder']
+extensions = ('Cogs.Moderation', 'Cogs.Wynncraft', 'Cogs.Events', 'Cogs.Info', 'Cogs.Binder')
 
 # ---------- running the script ----------
 if __name__ == '__main__':

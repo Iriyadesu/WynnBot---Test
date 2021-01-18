@@ -47,6 +47,10 @@ class Info(commands.Cog):
                 reactions = ['✅', '❌']
             else:
                 reactions = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣', '🔟']  # TODO: Maybe use unicode code?
+                # reactions = [
+                #     '\U000020E3', '\U000020E3', '\U000020E3', '\U000020E3', '\U000020E3',
+                #     '\U000020E3', '\U000020E3', '\U000020E3', '\U000020E3', '\U0001F51F'
+                # ]  # TODO: This one apparently doesn't work
             description = []
             for x, option in enumerate(options):
                 description += '\n {} {}'.format(reactions[x], option)
@@ -57,6 +61,7 @@ class Info(commands.Cog):
             embed.set_footer(text='Poll ID: {}'.format(react_message.id))
 
             await react_message.edit(embed=embed)
+
         elif cord.lower() == "end":
             poll_message = await ctx.channel.fetch_message(var)
             embed = poll_message.embeds[0]
@@ -112,9 +117,7 @@ class Info(commands.Cog):
                     commands_list = ""
                     for comm in cog_commands:
                         commands_list += f'**{comm.name}**: *{comm.usage}* *=* *{comm.description}*\n'
-                        # - *{comm.description}*
                     # Add the cog's details to the embed.
-
                     embed.add_field(name=f'__{cog}__', value=commands_list, inline=False)
 
         else:
@@ -125,7 +128,7 @@ class Info(commands.Cog):
             if cog.lower() in lower_cogs:
                 # Get a list of all commands in the specified cog
                 commands_list = self.bot.get_cog(cogs[lower_cogs.index(cog.lower())]).get_commands()
-                help_text = f'__{cog}:__\n\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n'
+                help_text = f'__{cog}:__\n' + '\\_'*32 + '\n'
 
                 for command in commands_list:
                     help_text += f'__{command.name}__\n'
