@@ -121,6 +121,9 @@ class Info(commands.Cog):
                     embed.add_field(name=f'__{cog}__', value=commands_list, inline=False)
 
         else:
+            if cog.lower() in ('events', 'bunny'):
+                await ctx.channel.send('Module not found')
+                return
             # If the cog was specified
             lower_cogs = [c.lower() for c in cogs]
 
