@@ -70,7 +70,7 @@ WHEN DONE:
 """
 
 bad_words = {  # What words are to be moderated
-    'minor': ('shit', 'lari smart'),
+    'minor': ('shit', ),
     'mid': ('fuck', 'idiot', 'asshole'),
     'major': ('nigga', 'nigger')
 }

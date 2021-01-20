@@ -135,28 +135,20 @@ class Moderation(commands.Cog):
 
         bad_word_list = []
         text = ''
-        lari_word = False  # TODO: I might be overdoing it
         for category in bd.bad_words:
             for word in bd.bad_words[category]:
                 if word in message.content.lower():
                     bad_word_list.append(f'\"{word}\"')
 
-                    if word == 'lari smart':  # mostly fun (unless...?)
-                        for i in '🇨🇴🇺🇬🇭':
-                            await message.add_reaction(i)
-                        lari_word = True
-                    elif category == 'minor':  # minor insults that do not require much attention
-                        lari_word = False
+                    if category == 'minor':  # minor insults that do not require much attention
+                        pass
+
                     elif category == 'mid':  # quite offensive words
-                        lari_word = False
                         await message.delete()
+
                     elif category == 'major':  # words requiring immediate moderator attention
-                        lari_word = False
                         await message.delete()
                         text = '@Moderator'  # TODO: Mention all moderators
-
-        if lari_word:
-            return
 
         chat_embed = discord.Embed(color=bd.embed_colors['moderation'])
         chat_embed.add_field(name='User:', value=message.author.mention)
