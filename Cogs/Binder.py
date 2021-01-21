@@ -12,7 +12,11 @@ class Binder(commands.Cog):  # TODO: Documentation
         self.bot = bot
 
     @commands.command(description="????", usage="!bind <username> <guild> <highest_level>")
-    async def bind(self, ctx, username: str, guild_name: str, highest_lvl: int):
+    async def bind(self, ctx: commands.Context, username: str, guild_name: str, highest_lvl: int):
+        # Waiting for 1.20 API update
+        ctx.channel.send(bd.error_embed('API Error', 'Wynncraft API is not updated'))
+        return
+
         Binder.player_list = Binder.get_binds()  # Update the list; No, I don't have a better alternative
 
         if ctx.author.id in Binder.player_list:

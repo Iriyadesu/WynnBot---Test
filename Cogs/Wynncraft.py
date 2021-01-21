@@ -39,6 +39,9 @@ class Wynncraft(commands.Cog):
         :param player_name: name of the requested player
         :return: None
         """
+        # Waiting for 1.20 API update
+        ctx.channel.send(bd.error_embed('API Error', 'Wynncraft API is not updated'))
+        return
 
         # ----- bind support -----
         if isinstance(player_name, discord.Member):  # if a discord member was used
@@ -79,6 +82,10 @@ class Wynncraft(commands.Cog):
         :param guild_name: name of the requested player
         :return: None
         """
+        # Waiting for 1.20 API update
+        ctx.channel.send(bd.error_embed('API Error', 'Wynncraft API is not updated'))
+        return
+
         async with ctx.typing():
             guild_data = guild(guild_name)
 
@@ -106,6 +113,10 @@ class Wynncraft(commands.Cog):
         :param territory_name: name of the requested player
         :return: None
         """
+        # Waiting for 1.20 API update
+        ctx.channel.send(bd.error_embed('API Error', 'Wynncraft API is not updated'))
+        return
+
         async with ctx.typing():
             territory_data = territory(territory_name)
         if territory_data is None:
@@ -142,6 +153,10 @@ class Wynncraft(commands.Cog):
         :return: None
 
         """
+        # Waiting for 1.20 API update
+        ctx.channel.send(bd.error_embed('API Error', 'Wynncraft API is not updated'))
+        return
+
         if action == 'sum':
             embed = discord.Embed(color=bd.embed_colors['normal'])
             embed.add_field(name='Online players:', value=player_sum())
