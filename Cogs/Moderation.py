@@ -41,9 +41,9 @@ class Moderation(commands.Cog):
             await discord.utils.get(ctx.guild.channels, name="moderation-log").send(
                 embed=log_embed('Mute', ctx.author, user, reason)
             )
-            await ctx.channel.send(embed=action_embed('Muted', ctx, user, reason))
+            await ctx.send(embed=action_embed('Muted', ctx, user, reason))
         except Exception as e:  # TODO: get what exception is raised
-            await ctx.channel.send('Cannot assign role. Error: ' + str(type(e)))
+            await ctx.send('Cannot assign role. Error: ' + str(type(e)))
 
     # ----- unmute -----
     @commands.command(description="unmutes the user", usage="!unmute <user>")
@@ -62,7 +62,7 @@ class Moderation(commands.Cog):
             await ctx.message.delete()
             await user.remove_roles(discord.utils.get(user.guild.roles, name='muted'))
         except Exception as e:  # TODO: get what exception is raised
-            await ctx.channel.send('Cannot unmute them. Error:\n' + str(type(e)))
+            await ctx.send('Cannot unmute them. Error:\n' + str(type(e)))
 
     # ----- kick -----
     @commands.command(description="kicks the user", usage="!kick <user> [reason]")
@@ -83,7 +83,7 @@ class Moderation(commands.Cog):
 
         kick_embed = action_embed('Kicked', ctx, user, reason)
         await ctx.message.delete()  # delete the message
-        await ctx.channel.send(embed=kick_embed)  # send the message
+        await ctx.send(embed=kick_embed)  # send the message
 
         kick_embed.title = 'You were kicked!'
         await user.send(
@@ -113,7 +113,7 @@ class Moderation(commands.Cog):
 
         ban_embed = action_embed('Banned', ctx, user, reason)
         await ctx.message.delete()  # delete the message
-        await ctx.channel.send(embed=ban_embed)  # send the message
+        await ctx.send(embed=ban_embed)  # send the message
 
         ban_embed.title = 'You were banned!'
         await user.send(

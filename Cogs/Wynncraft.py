@@ -43,7 +43,7 @@ class Wynncraft(commands.Cog):
 
         # ----- bind support -----
         if isinstance(player_name, discord.Member):  # if a discord member was used
-            await ctx.channel.send('Bind is not yet fully supported')
+            await ctx.send('Bind is not yet fully supported')
 
             player_name = Binder.get_binds()[player_name.id]
 
@@ -51,7 +51,7 @@ class Wynncraft(commands.Cog):
             player_data = player(player_name)  # get the info
 
         if player_data is None:  # if the player doesn't exist send error
-            await ctx.channel.send(embed=bd.error_embed('API error', 'Requested player not found.'))
+            await ctx.send(embed=bd.error_embed('API error', 'Requested player not found.'))
             return
 
         # ----- create the embed -----
@@ -69,7 +69,8 @@ class Wynncraft(commands.Cog):
         player_embed.add_field(name="Playtime: ", value=f"{player_data['total playtime']} hours", inline=False)
         player_embed.add_field(name="Highest Level: ", value=player_data['highest level combat'], inline=False)
         player_embed.add_field(name="Joined: ", value=player_data['first join'][:10], inline=True)
-        await ctx.channel.send(embed=player_embed)  # send the embed
+
+        await ctx.send(embed=player_embed)  # send the embed
     
     #  ----- guild stats -----
     # Waiting for 1.20 API update
@@ -86,7 +87,7 @@ class Wynncraft(commands.Cog):
             guild_data = guild(guild_name)
 
         if guild_data is None:
-            await ctx.channel.send(embed=bd.error_embed('API error', 'Requested guild not found.'))
+            await ctx.send(embed=bd.error_embed('API error', 'Requested guild not found.'))
             return
 
         # ----- create the embed -----
@@ -98,7 +99,7 @@ class Wynncraft(commands.Cog):
         guild_embed.add_field(name="Territories: ", value=guild_data['territories'], inline=True)
         guild_embed.add_field(name="Created at: ", value=guild_data['created friendly'], inline=False)
 
-        await ctx.channel.send(embed=guild_embed)  # send the embed
+        await ctx.send(embed=guild_embed)  # send the embed
 
     #  ----- territory stats -----
     # Waiting for 1.20 API update
@@ -114,7 +115,7 @@ class Wynncraft(commands.Cog):
         async with ctx.typing():
             territory_data = territory(territory_name)
         if territory_data is None:
-            await ctx.channel.send(embed=bd.error_embed('API error', 'Requested territory not found.'))
+            await ctx.send(embed=bd.error_embed('API error', 'Requested territory not found.'))
             return
 
         # ----- create the embed -----
@@ -128,7 +129,7 @@ class Wynncraft(commands.Cog):
         territory_embed.add_field(name='End coords:',
                                   value=f'{territory_data["location"]["endX"]} {territory_data["location"]["endZ"]}')
 
-        await ctx.channel.send(embed=territory_embed)
+        await ctx.send(embed=territory_embed)
 
     #  ----- sum of all online players -----
     # Waiting for 1.20 API update
@@ -152,18 +153,18 @@ class Wynncraft(commands.Cog):
         if action == 'sum':
             embed = discord.Embed(color=bd.embed_colors['normal'])
             embed.add_field(name='Online players:', value=player_sum())
-            await ctx.channel.send(embed=embed)
+            await ctx.send(embed=embed)
 
         elif action == 'worlds':
             embed = discord.Embed(color=bd.embed_colors['normal'])
             world_dict = players_on_worlds()
             for world in world_dict:
                 embed.add_field(name=world, value=len(world_dict[world]))
-            await ctx.channel.send(embed=embed)
+            await ctx.send(embed=embed)
 
         elif action == 'find':
             if name == '':
-                await ctx.channel.send(embed=bd.error_embed(f'Argument error',
+                await ctx.send(embed=bd.error_embed(f'Argument error',
                                                             'Not enough parameters passed')
                                        )
                 return
@@ -174,15 +175,15 @@ class Wynncraft(commands.Cog):
                     embed = discord.Embed(title=f'Player {name} found',
                                           color=bd.embed_colors['normal'])
                     embed.add_field(name='World:', value=world)
-                    await ctx.channel.send(embed=embed)
+                    await ctx.send(embed=embed)
                     return
             else:
                 embed = discord.Embed(color=bd.embed_colors['error'])
                 embed.add_field(name='.', value=f'Player \"{name}\" not found')
-                await ctx.channel.send(embed=embed)
+                await ctx.send(embed=embed)
 
         else:
-            await ctx.channel.send(embed=bd.error_embed(f'Argument error', 'Unknown parameters passed'))
+            await ctx.send(embed=bd.error_embed(f'Argument error', 'Unknown parameters passed'))
 
     #  ----- item stats -----
     @commands.command(description='Command not yet implemented', usage="!item <item name>")
@@ -197,7 +198,7 @@ class Wynncraft(commands.Cog):
             data = resp.json()
             pass
         """
-        ctx.channel.send(bd.error_embed('Implementation error', 'Command not implemented'))
+        ctx.send(bd.error_embed('Implementation error', 'Command not implemented'))
         raise NotImplementedError('Command not implemented')
 
 

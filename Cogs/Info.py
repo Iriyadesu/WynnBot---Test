@@ -97,7 +97,7 @@ class Info(commands.Cog):
         embed = discord.Embed(title='TODO:', color=bd.embed_colors['info'])
         embed.add_field(name='todo', value=bd.todo_str)
 
-        await ctx.channel.send(embed=embed)
+        await ctx.send(embed=embed)
 
     @commands.command(aliases=['commands', 'command'],
                       usage="!help [cog]", description="displays this message")
@@ -128,7 +128,7 @@ class Info(commands.Cog):
 
         else:
             if cog.lower() in ('events', 'bunny'):
-                await ctx.channel.send('Module not found')
+                await ctx.send('Module not found')
                 return
             # If the cog was specified
             lower_cogs = [c.lower() for c in cogs]
@@ -177,7 +177,7 @@ class Info(commands.Cog):
         try:
             seconds = int(time)
         except ValueError:
-            await ctx.channel.send(embed=bd.error_embed('Value error', 'Invalid number was passed'))
+            await ctx.send(embed=bd.error_embed('Value error', 'Invalid number was passed'))
             return
 
         if units.lower() in time_units['second']:
