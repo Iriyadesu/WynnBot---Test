@@ -36,33 +36,38 @@ class Info(commands.Cog):
         :param options: vote options
         :return: None
         """
-        if cord.lower() == "create":
-            if len(options) <= 1:
+        if cord.lower() == "create":  # creating a poll
+            if len(options) < 2:  # not enough options
                 await ctx.send('You need more than one option to make a poll!')
                 return
-            if len(options) > 10:
+            if len(options) > 10:  # too many options
                 await ctx.send('You cannot make a poll for more than 10 things!')
                 return
             if len(options) == 2 and options[0].lower() == 'yes' and options[1].lower() == 'no':
-                reactions = ['✅', '❌']
-            else:
+                reactions = ['✅', '❌']  # yes/no poll get special reactions
+            else:  # proper poll
                 reactions = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣', '🔟']  # TODO: Maybe use unicode code?
                 # reactions = [
                 #     '\U000020E3', '\U000020E3', '\U000020E3', '\U000020E3', '\U000020E3',
                 #     '\U000020E3', '\U000020E3', '\U000020E3', '\U000020E3', '\U0001F51F'
-                # ]  # This one apparently doesn't work
-            description = []
+                # ]  # This one apparently doesn't work (I wonder why...
+
+            description = []  # create embed text
             for x, option in enumerate(options):
                 description += '\n {} {}'.format(reactions[x], option)
+
             embed = discord.Embed(title=var, description=''.join(description), color=0x0000FF)
             react_message = await ctx.send(embed=embed)
+
             for reaction in reactions[:len(options)]:
                 await react_message.add_reaction(reaction)
+
             embed.set_footer(text='Poll ID: {}'.format(react_message.id))
 
             await react_message.edit(embed=embed)
 
-        elif cord.lower() == "end":
+        elif cord.lower() == "end":  # ending a poll
+            # TODO: FriendlyPudding please clear this mess, or at least comment it
             poll_message = await ctx.channel.fetch_message(var)
             embed = poll_message.embeds[0]
             unformatted_options = [x.strip() for x in embed.description.split('\n')]
@@ -82,6 +87,7 @@ class Info(commands.Cog):
             output = f"Results of the poll for '{embed.title}':\n" + '\n'.join(
                 [f'{opt_dict[key]}: {tally[key]}' for key in tally.keys()])
             await ctx.send(output)
+            # TODO: End of mess
 
         else:
             await ctx.send("Correct syntax: `!poll <create/end>`")
