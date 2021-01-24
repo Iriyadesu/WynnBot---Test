@@ -38,7 +38,7 @@ class Events(commands.Cog):
         - log it
         - change status
         """
-        # TODO: Add init to things like channels (moderation-log), maybe roles (Moderator)?
+        # TODO: Add init to things like channels (moderation-log), maybe roles (Moderator) too?
 
         print('Bot ready')
         log.info('Bot ready')
@@ -70,6 +70,8 @@ class Events(commands.Cog):
             error_message = 'Not enough arguments'
         elif isinstance(error, commands.MissingPermissions):
             error_message = 'Not enough permissions'
+        elif isinstance(error, commands.CommandNotFound):  # if command was not found ignore it
+            return
         else:
             error_message = str(error)
 

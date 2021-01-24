@@ -28,7 +28,7 @@ class Info(commands.Cog):
         - end
           - !poll end <poll id>
 
-        FriendlyPudding shall document it themself
+        FriendlyPudding shall document it themselves
 
         :param ctx: channel where the command was used
         :param cord: whether to create or end poll
@@ -50,7 +50,7 @@ class Info(commands.Cog):
                 # reactions = [
                 #     '\U000020E3', '\U000020E3', '\U000020E3', '\U000020E3', '\U000020E3',
                 #     '\U000020E3', '\U000020E3', '\U000020E3', '\U000020E3', '\U0001F51F'
-                # ]  # This one apparently doesn't work (I wonder why...
+                # ]  # This one apparently doesn't work (I wonder why...)
 
             description = []  # create embed text
             for x, option in enumerate(options):
@@ -193,6 +193,10 @@ class Info(commands.Cog):
         await ctx.channel.send(f'Started timer for {time} {units}')
         await aio.sleep(seconds)
         await ctx.channel.send(f'{ctx.author.mention} time is up!')
+
+    @commands.command()
+    async def ping(self, ctx: commands.Context):
+        await ctx.send(f'Latency is {self.bot.latency*1000:.3f}ms')
 
 
 def setup(bot: commands.Bot):
