@@ -124,6 +124,22 @@ class Moderation(commands.Cog):
             embed=log_embed('Ban', ctx.author, user, reason)
             )
 
+    @commands.command()
+    async def report(self, ctx: commands.Context, member: discord.Member, *reason):
+        if not reason:
+            reason = 'No reason provided'
+        embed = discord.Embed(
+            title='Member report',
+            color=bd.embed_colors['moderation']
+        )
+        embed.add_field(name='Reported user:', value=member.mention)
+        embed.add_field(name='By:', value=ctx.author.mention)
+        embed.add_field(name='Reason:', value=' '.join(reason), inline=False)
+
+        await ctx.send('Warning:\n**Misuse of this command will be punished**', embed=embed)
+        await discord.utils.get(ctx.guild.channels, name="moderation-log").send(embed=embed)
+
+
     @staticmethod
     async def censor(message: discord.Message):
         """
