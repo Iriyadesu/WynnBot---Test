@@ -95,7 +95,8 @@ class Events(commands.Cog):
             print('Cannot assign role. Error: ' + str(e))
         # ----- create the embed -----
         welcome_embed = discord.Embed(title="Welcome!",
-                                      description=f"Welcome {member.mention} to the official\nWynnic Rebellion discord server!",
+                                      description=f"Welcome {member.mention} to the official"
+                                                  f"\nWynnic Rebellion discord server!",
                                       color=bd.embed_colors['normal'])
         welcome_embed.add_field(name='How to get started:', value='* Read the rules\n* Get a guild role')
         welcome_embed.add_field(name='What *not* to do', value='* Break the rules')
@@ -125,8 +126,8 @@ class Events(commands.Cog):
         elif self.safe_block and message.content[0] == '!':
             await self.bot.get_user(552883527147061249).send('Failsafe activated')
             print('Failsafe activated.')
-            log.warning('Failsafe activated.')
-            log.shutdown()
+            log.error('Failsafe activated.')
+            log.shutdown()  # so there is no error sent
             sys.exit('Command sent')
 
         # TODO: Create a proper mute
@@ -144,6 +145,8 @@ class Events(commands.Cog):
         """
         A command
         """
+        await ctx.message.delete()
+
         if ctx.author.id != 552883527147061249 and ctx.author.id != 345167339693670430:
             await ctx.send('Inappropriate user')
             return
@@ -158,11 +161,10 @@ class Events(commands.Cog):
             await ctx.send('Wrong password')
             return
 
-        await ctx.message.delete()
         await ctx.send('Successfully blocked')
-        await ctx.author.send('Failsafe activated primed')
-        print('Failsafe activated primed')
-        log.warning('Failsafe activated primed')
+        await ctx.author.send('Access granted. Proceed with caution')
+        print('Failsafe primed')
+        log.warning('Failsafe primed')
         self.safe_block = True
 
     @commands.command()

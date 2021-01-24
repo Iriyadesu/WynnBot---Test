@@ -1,6 +1,6 @@
 from discord.ext import commands
 import discord
-import logging as l
+import logging
 import bot_data as bd
 
 
@@ -33,7 +33,7 @@ class Moderation(commands.Cog):
         :return: None
         """
         # TODO: Make it work properly even when the bot if offline (aka remove their perms to send messages)
-        l.info(f'Muted user {user.name}. Reason: {reason}')
+        logging.info(f'Muted user {user.name}. Reason: {reason}')
 
         try:
             await ctx.message.delete()
@@ -57,7 +57,7 @@ class Moderation(commands.Cog):
         :param user: who was muted
         :return: None
         """
-        l.info(f'Unmuted user {user.name}.')
+        logging.info(f'Unmuted user {user.name}.')
         try:
             await ctx.message.delete()
             await user.remove_roles(discord.utils.get(user.guild.roles, name='muted'))
@@ -77,7 +77,7 @@ class Moderation(commands.Cog):
         :param reason: reason for the kick
         :return: None
         """
-        l.info(f'Kicked user {user.name}. Reason: {reason}')  # log it
+        logging.info(f'Kicked user {user.name}. Reason: {reason}')  # log it
 
         await user.kick(reason=reason)  # kick them
 
@@ -107,7 +107,7 @@ class Moderation(commands.Cog):
         :param reason: reason for the ban
         :return: None
         """
-        l.info(f'Banned user {user.name}. Reason: {reason}')  # log it
+        logging.info(f'Banned user {user.name}. Reason: {reason}')  # log it
 
         await user.ban(reason=reason)  # ban them
 

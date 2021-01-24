@@ -50,7 +50,7 @@ class Info(commands.Cog):
                 # reactions = [
                 #     '\U000020E3', '\U000020E3', '\U000020E3', '\U000020E3', '\U000020E3',
                 #     '\U000020E3', '\U000020E3', '\U000020E3', '\U000020E3', '\U0001F51F'
-                # ]  # TODO: This one apparently doesn't work
+                # ]  # This one apparently doesn't work
             description = []
             for x, option in enumerate(options):
                 description += '\n {} {}'.format(reactions[x], option)

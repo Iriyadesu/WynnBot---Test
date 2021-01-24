@@ -31,7 +31,7 @@ What it does:
 import os
 import sys
 import shutil
-import logging as log
+import logging
 import datetime as dt
 from dotenv import load_dotenv
 
@@ -41,10 +41,10 @@ from discord.ext import commands
 # ---------- logging init ----------
 # logging config
 
-log.basicConfig(level=log.INFO, filename='bot.log',
-                format='%(asctime)s %(levelname)s: %(message)s',
-                datefmt='%Y_%m_%d-%H_%M_%S'
-                )
+logging.basicConfig(level=logging.INFO, filename='bot.log',
+                    format='%(asctime)s %(levelname)s: %(message)s',
+                    datefmt='%Y/%m/%d-%H:%M!%S'
+                    )
 
 name = dt.datetime.utcnow().strftime('%Y_%m_%d-%H_%M_%S') + '.log'
 
@@ -54,7 +54,7 @@ name = dt.datetime.utcnow().strftime('%Y_%m_%d-%H_%M_%S') + '.log'
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 if TOKEN is not None:
-    log.debug('Token acquired from .env file')
+    logging.debug('Token acquired from .env file')
 
 
 # -- TrapinchO's way --
@@ -86,14 +86,14 @@ if __name__ == '__main__':
     # ---------- run the bot ----------
     try:
         print('Bot script started')
-        log.info('Bot script started')
+        logging.info('Bot script started')
         bot.run(TOKEN)  # run the bot
     except Exception as e:  # something happened - print the exception
         print(e)
     finally:
         print(f'Old log was moved and renamed as \'{name}\'')
-        log.info(f'Old log was moved and renamed as \'{name}\'')  # log "bot.log" handling
-        log.shutdown()  # end the logging
+        logging.info(f'Old log was moved and renamed as \'{name}\'')  # log "bot.log" handling
+        logging.shutdown()  # end the logging
 
         os.rename('bot.log', name)  # rename and move log
         shutil.move(name, './logs')  # if run normally
