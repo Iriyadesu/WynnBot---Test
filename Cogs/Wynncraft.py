@@ -28,8 +28,9 @@ class Wynncraft(commands.Cog):
         self.bot = bot
 
     # ----- player stats -----
-    @commands.command(description="provides info on requested player",
-                      usage="!profile <player name>")  # TODO: Need to make it look better
+    # Waiting for 1.20 API update
+    # @commands.command(description="provides info on requested player",
+    #                   usage="!profile <player name>")  # TODO: Need to make it look better
     async def player(self, ctx: commands.Context, player_name: Union[discord.Member, str]):
         """
         Send embed with info on requested player.
@@ -39,9 +40,6 @@ class Wynncraft(commands.Cog):
         :param player_name: name of the requested player
         :return: None
         """
-        # Waiting for 1.20 API update
-        ctx.channel.send(bd.error_embed('API Error', 'Wynncraft API is not updated'))
-        return
 
         # ----- bind support -----
         if isinstance(player_name, discord.Member):  # if a discord member was used
@@ -74,7 +72,8 @@ class Wynncraft(commands.Cog):
         await ctx.channel.send(embed=player_embed)  # send the embed
     
     #  ----- guild stats -----
-    @commands.command(description="provides info on requested guild", usage="!guild <guild name>")
+    # Waiting for 1.20 API update
+    # @commands.command(description="provides info on requested guild", usage="!guild <guild name>")
     async def guild(self, ctx: commands.Context, guild_name):  # TODO: Need to make it look better
         """
         Send embed with info on requested guild.
@@ -82,9 +81,6 @@ class Wynncraft(commands.Cog):
         :param guild_name: name of the requested player
         :return: None
         """
-        # Waiting for 1.20 API update
-        ctx.channel.send(bd.error_embed('API Error', 'Wynncraft API is not updated'))
-        return
 
         async with ctx.typing():
             guild_data = guild(guild_name)
@@ -105,7 +101,8 @@ class Wynncraft(commands.Cog):
         await ctx.channel.send(embed=guild_embed)  # send the embed
 
     #  ----- territory stats -----
-    @commands.command(description='provides info on requested territory', usage="!territory <territory name>")
+    # Waiting for 1.20 API update
+    # @commands.command(description='provides info on requested territory', usage="!territory <territory name>")
     async def territory(self, ctx: commands.Context, territory_name):
         """
         Send embed with info on requested territory.
@@ -113,9 +110,6 @@ class Wynncraft(commands.Cog):
         :param territory_name: name of the requested player
         :return: None
         """
-        # Waiting for 1.20 API update
-        ctx.channel.send(bd.error_embed('API Error', 'Wynncraft API is not updated'))
-        return
 
         async with ctx.typing():
             territory_data = territory(territory_name)
@@ -137,7 +131,8 @@ class Wynncraft(commands.Cog):
         await ctx.channel.send(embed=territory_embed)
 
     #  ----- sum of all online players -----
-    @commands.command(description="network stuff ig", usage="!network <action> [name]")
+    # Waiting for 1.20 API update
+    # @commands.command(description="network stuff ig", usage="!network <action> [name]")
     async def network(self, ctx: commands.Context, action: str, name: str = ''):
         """
         Get network data from Wynn API
@@ -153,9 +148,6 @@ class Wynncraft(commands.Cog):
         :return: None
 
         """
-        # Waiting for 1.20 API update
-        ctx.channel.send(bd.error_embed('API Error', 'Wynncraft API is not updated'))
-        return
 
         if action == 'sum':
             embed = discord.Embed(color=bd.embed_colors['normal'])
