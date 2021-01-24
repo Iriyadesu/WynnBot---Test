@@ -126,9 +126,20 @@ class Moderation(commands.Cog):
 
     @commands.command()
     async def report(self, ctx: commands.Context, member: discord.Member, *reason):
-        if not reason:
+        """
+        Command for reporting members
+
+        The reason is used in this way so we can use more than 1 word
+
+        :param ctx: context for the message
+        :param member: reported member
+        :param reason: reason for report
+        :return: None
+        """
+        if not reason:  # if no reason was provided
             reason = 'No reason provided'
-        embed = discord.Embed(
+
+        embed = discord.Embed(  # creating the embed
             title='Member report',
             color=bd.embed_colors['moderation']
         )
@@ -138,7 +149,6 @@ class Moderation(commands.Cog):
 
         await ctx.send('Warning:\n**Misuse of this command will be punished**', embed=embed)
         await discord.utils.get(ctx.guild.channels, name="moderation-log").send(embed=embed)
-
 
     @staticmethod
     async def censor(message: discord.Message):
