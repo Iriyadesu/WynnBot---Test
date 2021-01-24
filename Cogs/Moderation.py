@@ -164,20 +164,6 @@ class Moderation(commands.Cog):
             message.guild.text_channels, name="moderation-log"
         ).send(text, embed=mod_embed)
 
-    # ----- repeat -----
-    @commands.command(description="speak beep boop", usage="!say [args]")
-    async def say(self, ctx: commands.Context, *, arg="Nothing"):
-        """
-        Friendly pudding's favourite command. Cannot be removed nor changed
-        :param ctx: channel where the command was used
-        :param arg: Message to say
-        :return: None
-        """
-        try: 
-            await ctx.channel.send(str(arg))
-        except Exception as e:
-            await ctx.channel.send('Cannot assign role. Error: ' + str(e))
-
 
 def log_embed(action: str, author: discord.Member, user: discord.Member, reason: str) -> discord.Embed:
     """

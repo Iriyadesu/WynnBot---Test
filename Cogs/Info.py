@@ -187,16 +187,36 @@ class Info(commands.Cog):
         elif units.lower() in time_units['hour']:
             seconds *= 3600
         else:
-            await ctx.channel.send(embed=bd.error_embed('Type error', 'Unknown unit of time'))
+            await ctx.send(embed=bd.error_embed('Type error', 'Unknown unit of time'))
             return
 
-        await ctx.channel.send(f'Started timer for {time} {units}')
+        await ctx.send(f'Started timer for {time} {units}')
         await aio.sleep(seconds)
-        await ctx.channel.send(f'{ctx.author.mention} time is up!')
+        await ctx.send(f'{ctx.author.mention} time is up!')
 
     @commands.command()
     async def ping(self, ctx: commands.Context):
+        """
+        Command for checking latency
+
+        :param ctx: channel where the command was used
+        :return: None
+        """
         await ctx.send(f'Latency is {self.bot.latency*1000:.3f}ms')
+
+    # ----- repeat -----
+    @commands.command(description="speak beep boop", usage="!say [args]")
+    async def say(self, ctx: commands.Context, *, arg="Nothing"):
+        """
+        Friendly pudding's favourite command. Cannot be removed nor changed
+        :param ctx: channel where the command was used
+        :param arg: Message to say
+        :return: None
+        """
+        try:
+            await ctx.send(str(arg))
+        except Exception as e:
+            await ctx.send('Cannot assign role. Error: ' + str(e))
 
 
 def setup(bot: commands.Bot):
