@@ -6,6 +6,10 @@ from typing import Union
 import requests as r
 
 
+# TODO: Once API is updated redo the wrappers (namely: player, guild).
+#  Currently it is just stupid
+
+
 def api_call(url: str) -> Union[dict, None]:
     """
     1) gets data
@@ -18,7 +22,7 @@ def api_call(url: str) -> Union[dict, None]:
     response = r.get(url)
 
     if response.status_code == 400:
-        # if status code is 400 (non-existing name)
+        # if status code is 400 (non-existing name or not found)
         return
 
     elif response.status_code == 429:

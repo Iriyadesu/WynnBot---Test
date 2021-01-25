@@ -33,36 +33,52 @@ class Moderation(commands.Cog):
         :return: None
         """
         # TODO: Make it work properly even when the bot if offline (aka remove their perms to send messages)
-        logging.info(f'Muted user {user.name}. Reason: {reason}')
 
-        try:
+        # If user does not have "muted" role (isn't muted)
+        if not discord.utils.get(user.guild.roles, name='muted') in user.roles:
+            await user.add_roles(discord.utils.get(user.guild.roles, name='muted'))  # Add the role
+
             await ctx.message.delete()
-            await user.add_roles(discord.utils.get(user.guild.roles, name='muted'))
-            await discord.utils.get(ctx.guild.channels, name="moderation-log").send(
+            await ctx.send(embed=action_embed('Muted', ctx, user, reason))  # Send embed to the channel
+            await discord.utils.get(ctx.guild.channels, name="moderation-log").send(  # send embed to "moderation-log" channel
                 embed=log_embed('Mute', ctx.author, user, reason)
             )
-            await ctx.send(embed=action_embed('Muted', ctx, user, reason))
-        except Exception as e:  # TODO: get what exception is raised
-            await ctx.send('Cannot assign role. Error: ' + str(type(e)))
+            log_text = f'Muted user {user.name}. Reason: {reason}'
+            logging.info(log_text)
+            print(log_text)
+        
+        else:  # Otherwise send error
+            await ctx.send(embed=bd.error_embed('Human error', 'User is already muted'))
 
     # ----- unmute -----
     @commands.command(description="unmutes the user", usage="!unmute <user>")
     # @commands.has_permissions(kick_members=True)
-    async def unmute(self, ctx: commands.Context, user: discord.Member):  # TODO: Implement it
+    async def unmute(self, ctx: commands.Context, user: discord.Member, *, reason=''):
         """
         Command to unmute user
         Not implemented
 
+        :param reason: reason for unmute
         :param ctx: channel where the command was used
         :param user: who was muted
         :return: None
         """
-        logging.info(f'Unmuted user {user.name}.')
-        try:
+
+        # If user does has "muted" role (is muted)
+        if discord.utils.get(user.guild.roles, name='muted') in user.roles:
+            await user.remove_roles(discord.utils.get(user.guild.roles, name='muted'))  # Remove the role
+
             await ctx.message.delete()
-            await user.remove_roles(discord.utils.get(user.guild.roles, name='muted'))
-        except Exception as e:  # TODO: get what exception is raised
-            await ctx.send('Cannot unmute them. Error:\n' + str(type(e)))
+            await ctx.send(embed=action_embed('Unmuted', ctx, user, 'reason'))  # send embed into the channel
+            await discord.utils.get(ctx.guild.channels, name="moderation-log").send(  # send embed into "moderation-log" channel
+                embed=log_embed('Unmute', ctx.author, user, reason)
+            )
+            log_text = f'Unmuted user {user.name}. Reason: {reason}'
+            logging.info(log_text)
+            print(log_text)
+
+        else:  # Otherwise send error
+            await ctx.send(embed=bd.error_embed('Human error', 'User is not muted'))
 
     # ----- kick -----
     @commands.command(description="kicks the user", usage="!kick <user> [reason]")
