@@ -7,12 +7,6 @@ import bot_data as bd
 class Moderation(commands.Cog):
     """
     This class handles moderation commands
-    Current features:
-    - mute <member> [reason]
-    !!!- unmute = not implemented
-    - kick <member> [reason]
-    - ban <member> [reason]
-    - say = make the bot repeat
 
     FOR TESTING PURPOSES permissions are not required
     """
@@ -22,7 +16,7 @@ class Moderation(commands.Cog):
     # ----- mute -----
     @commands.command(description="mutes the user", usage="!mute <user> [reason]")
     # @commands.has_permissions(kick_members=True)
-    async def mute(self, ctx: commands.Context, user: discord.Member, *, reason: str = 'No reason provided'):
+    async def mute(self, ctx: commands.Context, user: discord.Member, reason: str = 'No reason provided'):
         """
         Used to mute players.
         Requires "kick" permission.
@@ -46,14 +40,14 @@ class Moderation(commands.Cog):
             log_text = f'Muted user {user.name}. Reason: {reason}'
             logging.info(log_text)
             print(log_text)
-        
+
         else:  # Otherwise send error
             await ctx.send(embed=bd.error_embed('Human error', 'User is already muted'))
 
     # ----- unmute -----
     @commands.command(description="unmutes the user", usage="!unmute <user>")
     # @commands.has_permissions(kick_members=True)
-    async def unmute(self, ctx: commands.Context, user: discord.Member, *, reason=''):
+    async def unmute(self, ctx: commands.Context, user: discord.Member, reason=''):
         """
         Command to unmute user
         Not implemented

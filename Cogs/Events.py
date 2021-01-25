@@ -12,11 +12,6 @@ from Cogs import Moderation
 class Events(commands.Cog):
     """
     This class works with events (e.g. someone sends a message)
-    Current events:
-    - bot is done with initialisation
-    - new member joins
-    - message sent
-    - reaction added
     """
     def __init__(self, bot: discord.ext.commands.Bot):
         self.bot = bot
@@ -91,10 +86,7 @@ class Events(commands.Cog):
         :return: None
         """
         log.info(f'New member joined! Username: {member.name}')
-        try:
-            await member.add_roles(discord.utils.get(member.guild.roles, name='guest'))
-        except Exception as e:  # TODO: get type of raised exception
-            print('Cannot assign role. Error: ' + str(e))
+        await member.add_roles(discord.utils.get(member.guild.roles, name='guest'))
         # ----- create the embed -----
         welcome_embed = discord.Embed(title="Welcome!",
                                       description=f"Welcome {member.mention} to the official"

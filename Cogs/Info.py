@@ -9,10 +9,6 @@ import discord
 class Info(commands.Cog):
     """
     This class handles informational commands
-    Current commands:
-    - help
-    - poll
-    - too
     """
 
     def __init__(self, bot: discord.ext.commands.Bot):

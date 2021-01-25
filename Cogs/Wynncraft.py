@@ -15,13 +15,7 @@ class Wynncraft(commands.Cog):
     """
     This Cog contains command related to wynncraft.
 
-    Current commands:
-    - player <ign|mention> = provide information about requested player or discord member (if bound)
-    - guild <name> = provide information about requested guild
-    - network <action> [name] action:
-    --- sum =  get sum of all online players on Wynncraft
-    --- worlds = get sum of all players on each world
-    --- find = find a world of specific player <name>
+    Due to 1.20 breaking some parts of the API
     """
     def __init__(self, bot: discord.ext.commands.Bot):
         """Used to allow to use the bot instance in the code"""
@@ -165,8 +159,8 @@ class Wynncraft(commands.Cog):
         elif action == 'find':
             if name == '':
                 await ctx.send(embed=bd.error_embed(f'Argument error',
-                                                            'Not enough parameters passed')
-                                       )
+                                                    'Not enough parameters passed')
+                               )
                 return
 
             world_dict = players_on_worlds()
@@ -198,7 +192,7 @@ class Wynncraft(commands.Cog):
             data = resp.json()
             pass
         """
-        ctx.send(bd.error_embed('Implementation error', 'Command not implemented'))
+        await ctx.send(embed=bd.error_embed('Implementation error', 'Command not implemented'))
         raise NotImplementedError('Command not implemented')
 
 
