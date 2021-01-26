@@ -67,24 +67,23 @@ TODO:
 -! update API wrapper documentation
 -? maybe add more Wynn API commands?
 -? - like leaderboards etc
+-! reorganise what is needed
 
 WHEN DONE:
 - uncomment perms requirements
 """
 
 bad_words = {  # What words are to be moderated
-    'minor': ('shit', ),
+    'minor': ('shit',),
     'mid': ('fuck', 'idiot', 'asshole'),
     'major': ('nigga', 'nigger')
 }
-bad_words_list = []
-for word in [category for category in bad_words.values()]:
-    bad_words_list.extend(word)
-bad_words_list = tuple(bad_words_list)
+bad_words_list = []  # create empty list
+[bad_words_list.extend(category) for category in bad_words.values()]  # add all of the words to the list
+bad_words_list = tuple(bad_words_list)  # make it a tuple
 
 
-def error_embed(err_type: str = 'No reason provided',
-                description: str = '') -> discord.Embed:
+def error_embed(err_type: str = 'No reason provided', description: str = '') -> discord.Embed:
     """
     Returns embed for errors
 

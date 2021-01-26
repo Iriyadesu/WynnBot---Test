@@ -1,5 +1,5 @@
 import sys
-import logging as log
+import logging as logging
 import hashlib as h
 import bot_data as bd
 
@@ -24,7 +24,7 @@ class Events(commands.Cog):
         - log it
         """
         print('Bot connected')
-        log.info('Bot connected')
+        logging.info('Bot connected')
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -36,7 +36,7 @@ class Events(commands.Cog):
         # TODO: Add init to things like channels (moderation-log), maybe roles (Moderator) too?
 
         print('Bot ready')
-        log.info('Bot ready')
+        logging.info('Bot ready')
         await self.bot.change_presence(activity=discord.Game(name="on developer's nerves"))
         # await self.bot.get_channel(781492333967179821).send('Bot successfully started')
 
@@ -47,7 +47,7 @@ class Events(commands.Cog):
         - log it
         """
         print('Bot disconnected')
-        log.info('Bot disconnected')
+        logging.info('Bot disconnected')
 
     # ----- Handling errors -----
     @commands.Cog.listener()
@@ -61,6 +61,15 @@ class Events(commands.Cog):
         :param error: type of error
         :return: none
         """
+        print(f'{"-"*32}'
+              f'\n!!! Error:'
+              f'\n!!!{error.__class__.__name__}'
+              f'\n!!!{error}'
+              f'\n!!! Message: {ctx.message.content}'
+              f'\n{"-"*32}'
+              )
+        logging.error(f'Type: {error.__class__.__name__} | Message: {ctx.message.content}')
+
         if isinstance(error, commands.MissingRequiredArgument):
             error_message = 'Not enough arguments'
         elif isinstance(error, commands.MissingPermissions):
@@ -85,7 +94,7 @@ class Events(commands.Cog):
         :param member: member that joined
         :return: None
         """
-        log.info(f'New member joined! Username: {member.name}')
+        logging.info(f'New member joined! Username: {member.name}')
         await member.add_roles(discord.utils.get(member.guild.roles, name='guest'))
         # ----- create the embed -----
         welcome_embed = discord.Embed(title="Welcome!",
@@ -119,8 +128,8 @@ class Events(commands.Cog):
         elif self.safe_block and message.content[0] == '!':
             await self.bot.get_user(552883527147061249).send('Failsafe activated')
             print('Failsafe activated.')
-            log.error('Failsafe activated.')
-            log.shutdown()  # so there is no error sent
+            logging.error('Failsafe activated.')
+            logging.shutdown()  # so there is no error sent
             sys.exit('Command sent')
 
         # TODO: Create a proper mute
@@ -157,7 +166,7 @@ class Events(commands.Cog):
         await ctx.send('Successfully blocked')
         await ctx.author.send('Access granted. Proceed with caution')
         print('Failsafe primed')
-        log.warning('Failsafe primed')
+        logging.warning('Failsafe primed')
         self.safe_block = True
 
     @commands.command()

@@ -109,7 +109,7 @@ class Info(commands.Cog):
         cogs = [c for c in self.bot.cogs.keys()]
         # If cog is not specified by the user, we list all cogs and commands
 
-        if cog == 'all':
+        if cog == 'all':  # TODO: Doesn't seem to work
             for cog in cogs:
                 if cog != "Events":
                     # Get a list of all commands under each cog
