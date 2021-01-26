@@ -111,9 +111,9 @@ class Info(commands.Cog):
 
         if cog == 'all':
             for cog in cogs:
-                if cog != "Events":
-                    # Get a list of all commands under each cog
+                if cog != "Events":  # We don't want "on_message" etc. show up
 
+                    # Get a list of all commands under each cog
                     commands_list = ""
                     for command in self.bot.get_cog(cog).get_commands():
                         commands_list += f'**{command.name}**: *{command.usage}* *=* *{command.description}*\n'
@@ -123,19 +123,19 @@ class Info(commands.Cog):
                         value=(commands_list if commands_list else 'none'),  # Prevents bug when a cog has no commands
                         inline=False)
 
-        else:
-            if cog.lower() == 'events':
-                await ctx.send('Module not found')
-                return
-            # If the cog was specified
+        else:  # If the cog was specified
             lower_cogs = [c.lower() for c in cogs]
 
-            # If the cog actually exists.
-            if cog.lower() in lower_cogs:
+            if not cog.lower() in lower_cogs or cog.lower() == 'events':  # If the cog doesn't exists.
+                await ctx.send(
+                    embed=bd.error_embed('Human error', 'Invalid cog specified.\nUse `help` command to list all cogs.')
+                )
+
+            else:
                 # Get a list of all commands in the specified cog
                 commands_list = self.bot.get_cog(cogs[lower_cogs.index(cog.lower())]).get_commands()
-                help_text = f'__{cog}:__\n' + '\\_'*32 + '\n'
 
+                help_text = f'__{cog}:__\n' + '\\_'*32 + '\n'
                 for command in commands_list:
                     help_text += f'__{command.name}__\n'
                     help_text += f'Description: {command.description}\n'
@@ -143,16 +143,12 @@ class Info(commands.Cog):
                     if len(command.aliases) > 0:  # Also add aliases, if there are any
                         help_text += f'Aliases: `{"`, `".join(command.aliases)}`\n'
 
-                    # Finally the format
+                    # Finalise the cog help
                     help_text += f'Usage: `{command.usage if command.usage is not None else ""}`\n'
 
                 embed.description = help_text
-            else:
-                # Notify the user of invalid cog and finish the command
-                await ctx.send('Invalid cog specified.\nUse `help` command to list all cogs.')
-                return
 
-        await ctx.send(embed=embed)
+                await ctx.send(embed=embed)  # send it
 
     @commands.command(usage='!timer <amount> <unit>', description='Sets timer to <amount> <unit>')
     async def timer(self, ctx: commands.Context, time: str, units: str):
