@@ -120,7 +120,10 @@ class Events(commands.Cog):
         :param message: message sent
         :return: None
         """
-        if message.author == self.bot.user:
+        if not isinstance(message.channel, discord.TextChannel):  # ignoring private channels for now
+            return
+
+        elif message.author == self.bot.user:
             return
 
         elif message.author.bot:
