@@ -70,9 +70,9 @@ class Events(commands.Cog):
         else:
             error_message = str(error)
 
-        await ctx.send(embed=bd.error_embed(str(error.__class__.__name__),
-                                            error_message)
-                       )
+        await ctx.send(
+            embed=bd.error_embed(error.__class__.__name__, error_message)
+        )
 
     # ----- Giving out Guest role when user joins -----
     @commands.Cog.listener()
@@ -94,8 +94,7 @@ class Events(commands.Cog):
                                       color=bd.embed_colors['normal'])
         welcome_embed.add_field(name='How to get started:', value='* Read the rules\n* Get a guild role')
         welcome_embed.add_field(name='What *not* to do', value='* Break the rules')
-        welcome_embed.set_thumbnail(
-            url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
+        welcome_embed.set_thumbnail(url=bd.embed_thumbnail)
         await member.send(embed=welcome_embed)
 
     # ----- Making commands case insensitive -----

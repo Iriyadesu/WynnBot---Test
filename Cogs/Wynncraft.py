@@ -158,9 +158,9 @@ class Wynncraft(commands.Cog):
 
         elif action == 'find':
             if name == '':
-                await ctx.send(embed=bd.error_embed(f'Argument error',
-                                                    'Not enough parameters passed')
-                               )
+                await ctx.send(
+                    embed=bd.error_embed(f'Argument error', 'Not enough parameters passed')
+                )
                 return
 
             world_dict = players_on_worlds()

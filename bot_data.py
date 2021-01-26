@@ -49,6 +49,9 @@ embed_colors = {  # Colors used for specific embeds
     'normal': 0x00FF00  # green
 }
 
+# thumbnail for embeds
+embed_thumbnail = 'https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png'
+
 # String for "to-do" command
 todo_str = """
 TODO:

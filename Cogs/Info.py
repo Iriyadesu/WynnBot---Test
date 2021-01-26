@@ -97,11 +97,10 @@ class Info(commands.Cog):
 
     @commands.command(aliases=['commands', 'command'],
                       usage="!help [cog]", description="displays this message")
-    async def help(self, ctx, cog='all'):
+    async def help(self, ctx: commands.Context, cog='all'):
         embed = discord.Embed(
             title='Help', color=bd.embed_colors['info'])
-        embed.set_thumbnail(
-            url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
+        embed.set_thumbnail(url=bd.embed_thumbnail)
         embed.set_footer(
             text=f'Requested by {ctx.message.author.name}',
             icon_url=ctx.message.author.avatar_url)

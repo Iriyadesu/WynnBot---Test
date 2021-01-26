@@ -216,12 +216,11 @@ def log_embed(action: str, author: discord.Member, user: discord.Member, reason:
     embed.add_field(name='Who:', value=user.mention)
     embed.add_field(name=chr(173), value=chr(173))
     embed.add_field(name='Reason:', value=reason)
-    embed.set_thumbnail(
-        url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png')
+    embed.set_thumbnail(url=bd.embed_thumbnail)
     return embed
 
 
-def action_embed(action: str, ctx: commands.Context, user: discord.Member, reason: str) -> discord.Embed:
+def action_embed(action: str, ctx: commands.Context, user: discord.Member, reason: str) -> discord.Embed:  # TODO: revisit
     """
     Function for generating moderator embeds
 
@@ -233,10 +232,9 @@ def action_embed(action: str, ctx: commands.Context, user: discord.Member, reaso
     """
     embed = discord.Embed(title=f":boom: {action} {user.name}!",
                           description=f"Reason: {reason}\nBy: {ctx.author.mention}",
-                          color=bd.embed_colors['moderation'])  # create embed
-    embed.set_thumbnail(
-        url='https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png'
-    )
+                          color=bd.embed_colors['moderation']
+                          )  # create embed
+    embed.set_thumbnail(url=bd.embed_thumbnail)
 
     return embed
 
