@@ -109,20 +109,22 @@ class Info(commands.Cog):
         cogs = [c for c in self.bot.cogs.keys()]
         # If cog is not specified by the user, we list all cogs and commands
 
-        if cog == 'all':  # TODO: Doesn't seem to work
+        if cog == 'all':
             for cog in cogs:
                 if cog != "Events":
                     # Get a list of all commands under each cog
 
-                    cog_commands = self.bot.get_cog(cog).get_commands()
                     commands_list = ""
-                    for comm in cog_commands:
-                        commands_list += f'**{comm.name}**: *{comm.usage}* *=* *{comm.description}*\n'
+                    for command in self.bot.get_cog(cog).get_commands():
+                        commands_list += f'**{command.name}**: *{command.usage}* *=* *{command.description}*\n'
                     # Add the cog's details to the embed.
-                    embed.add_field(name=f'__{cog}__', value=commands_list, inline=False)
+                    embed.add_field(
+                        name=f'__{cog}__',
+                        value=(commands_list if commands_list else 'none'),  # Prevents bug when a cog has no commands
+                        inline=False)
 
         else:
-            if cog.lower() in ('events', 'bunny'):
+            if cog.lower() == 'events':
                 await ctx.send('Module not found')
                 return
             # If the cog was specified
