@@ -33,7 +33,6 @@ class Events(commands.Cog):
         - log it
         - change status
         """
-        # TODO: Add init to things like channels (moderation-log), maybe roles (Moderator) too?
 
         print('Bot ready')
         logging.info('Bot ready')

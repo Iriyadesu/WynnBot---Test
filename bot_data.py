@@ -91,7 +91,9 @@ def error_embed(err_type: str = 'No reason provided', description: str = '') -> 
     :param description: description of the embed
     :return: discord.Embed
     """
-    embed = discord.Embed(title='Error!', description='An Error occurred during processing of the command')
+    embed = discord.Embed(title='Error!',
+                          color=embed_colors['error'],
+                          description='An Error occurred during processing of the command')
     embed.add_field(name='Type:', value=err_type, inline=False)
     embed.add_field(name='Reason:', value=description)
 

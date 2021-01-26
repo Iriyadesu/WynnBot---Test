@@ -23,7 +23,7 @@ class Binder(commands.Cog):  # TODO: Documentation
             return
 
         player_data = player(username)  # get the data from wynncraft API
-        if player is None:  # if the player doesn't exist -> error
+        if player_data is None:  # if the player doesn't exist -> error
             await ctx.channel.send(
                 embed=bd.error_embed('User error', f'Player name \"{username}\" does not exist'))
             return

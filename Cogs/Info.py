@@ -151,8 +151,6 @@ class Info(commands.Cog):
                 return
 
         await ctx.send(embed=embed)
-    
-        return
 
     @commands.command(usage='!timer <amount> <unit>', description='Sets timer to <amount> <unit>')
     async def timer(self, ctx: commands.Context, time: str, units: str):
