@@ -100,7 +100,7 @@ class Moderation(commands.Cog):
             'Seems like you were not behaving properly.\nNext time please do not break the rules.',
             embed=kick_embed)  # send it to the user's DMs
 
-        await discord.utils.get(ctx.guild.channels, name="moderation-log")(
+        await discord.utils.get(ctx.guild.channels, name="moderation-log").send(
             embed=log_embed('Kick', ctx.author, user, reason)
         )
 
@@ -148,6 +148,8 @@ class Moderation(commands.Cog):
         """
         if not reason:  # if no reason was provided
             reason = 'No reason provided'
+        else:
+            reason = ' '.join(reason)
 
         embed = discord.Embed(  # creating the embed
             title='Member report',
@@ -155,7 +157,7 @@ class Moderation(commands.Cog):
         )
         embed.add_field(name='Reported user:', value=member.mention)
         embed.add_field(name='By:', value=ctx.author.mention)
-        embed.add_field(name='Reason:', value=' '.join(reason), inline=False)
+        embed.add_field(name='Reason:', value=reason, inline=False)
 
         await ctx.send('Warning:\n**Misuse of this command will be punished**', embed=embed)
         await discord.utils.get(ctx.guild.channels, name="moderation-log").send(embed=embed)

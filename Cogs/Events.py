@@ -71,16 +71,19 @@ class Events(commands.Cog):
         logging.error(f'Type: {error.__class__.__name__} | Message: {ctx.message.content}')
 
         if isinstance(error, commands.MissingRequiredArgument):
-            error_message = 'Not enough arguments'
+            error_name = 'Missing arguments'
+            error_message = 'Not enough arguments were passed'
         elif isinstance(error, commands.MissingPermissions):
-            error_message = 'Not enough permissions'
+            error_name = 'Missing permissions'
+            error_message = 'Not allowed to use the command'
         elif isinstance(error, commands.CommandNotFound):  # if command was not found ignore it
             return
         else:
+            error_name = error.__class__.__name__
             error_message = str(error)
 
         await ctx.send(
-            embed=bd.error_embed(error.__class__.__name__, error_message)
+            embed=bd.error_embed(error_name, error_message)
         )
 
     # ----- Giving out Guest role when user joins -----
@@ -119,9 +122,11 @@ class Events(commands.Cog):
         """
         if message.author == self.bot.user:
             return
+
         elif message.author.bot:
             return
-        elif any(word in message.content.lower() for word in bd.bad_words_list):
+
+        elif any(word in message.content.lower() for word in bd.bad_words_list) and message.content[0] != '!':  # TODO: better fix
             await Moderation.Moderation.censor(message)
             return
 
