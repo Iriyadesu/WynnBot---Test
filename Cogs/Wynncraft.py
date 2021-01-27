@@ -23,8 +23,8 @@ class Wynncraft(commands.Cog):
 
     # ----- player stats -----
     # Waiting for 1.20 API update
-    # @commands.command(description="provides info on requested player",
-    #                   usage="!profile <player name>")  # TODO: Need to make it look better
+    @commands.command(description="provides info on requested player",
+                      usage="!profile <player name>")  # TODO: Need to make it look better
     async def player(self, ctx: commands.Context, player_name: Union[discord.Member, str]):
         """
         Send embed with info on requested player.
@@ -68,7 +68,7 @@ class Wynncraft(commands.Cog):
     
     #  ----- guild stats -----
     # Waiting for 1.20 API update
-    # @commands.command(description="provides info on requested guild", usage="!guild <guild name>")
+    @commands.command(description="provides info on requested guild", usage="!guild <guild name>")
     async def guild(self, ctx: commands.Context, guild_name):  # TODO: Need to make it look better
         """
         Send embed with info on requested guild.
@@ -97,8 +97,8 @@ class Wynncraft(commands.Cog):
 
     #  ----- territory stats -----
     # Waiting for 1.20 API update
-    # @commands.command(description='provides info on requested territory', usage="!territory <territory name>")
-    async def territory(self, ctx: commands.Context, territory_name):
+    @commands.command(description='provides info on requested territory', usage="!territory <territory name>")
+    async def territory(self, ctx: commands.Context, territory_name):  # TODO: Doesn't work
         """
         Send embed with info on requested territory.
         :param ctx: channel where the command was used
