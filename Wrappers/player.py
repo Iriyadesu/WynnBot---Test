@@ -1,219 +1,73 @@
 """
+Wrappers for "player" requests
 
-Dict returned by "player" function:
-All valid keys:
-keys : returned value (type)
---------------------
-- username : username (str)
-- position : position (str; default is Normal; e.g. Admin, Moderator, Media etc.)
-- rank : donor rank (str; VIP/VIP+/HERO)
-- veteran : (boolean)
-- total playtime : total playtime synced with web (int; not very accurate)
-- location : server/None (str/None; if the player is online, returns server, else None)
-- first join : (str) 2017-05-17T13:48:19.352Z
-- last join : 2020-08-13T11:11:56.602Z
-- guild name : guild name/None (str/None)
-- guild rank : guild rank/None (str/None)
-- chests found : (int)
-- mobs killed : (int)
-- total level combat : (int)
-- total level professions : (int)
-- total level combined : (int)
-- logins : (int)
-- deaths : (int)
-- pvp kills : (int)
-- pvp deaths : (int)
-- classes : list of WClass instances
-
-Classes:
-All valid keys
-key  : returned value (type)
---------------------
-class : class type (str)
-chests found : (int)
-mob killed : (int)
-gamemodes : dictionary; valid keys: hardcore, ironman, craftsman 
-playtime : (int)
-logins : (int)
-deaths : (int)
-pvp kills : (int)
-quests completed : (int)
-quests list : list of completed quests
-skills : dictionary containing player's skill; valid keys:
-    -strength, STR, dexterity, DEX, intelligence, INT, defense, DEF, agility, AGI
-total level : (int)
-combat level : (int)
-woodcutting level : (int)
-mining level : (int)
-fishing level : (int)
-farming level : (int)
-alchemism level : (int)
-armouring level : (int)
-cooking level : (int)
-jeweling level : (int)
-scribing level : (int)
-tailoring level : (int)
-weaponsmithing level : (int)
-woodworking level : (int)
-combat xp : (float, in %)
-woodcutting xp : (float, in %)
-mining xp : (float, in %)
-fishing xp : (float, in %)
-farming xp : (float, in %)
-alchemism xp : (float, in %)
-armouring xp : (float, in %)
-cooking xp : (float, in %)
-jeweling xp : (float, in %)
-scribing xp : (float, in %)
-tailoring xp : (float, in %)
-weaponsmithing xp : (float, in %)
-woodworking xp : (float, in %)
-total dungeons : (int)
-dungeons : dictionary; valid keys: DS, IP, IB, SST, LS, UR, UC, GG, CDS, CSST, FF, CIB, CLS, CIP, CUC, EO, CUR
+TO-DO: Check at some point again
 """
-from typing import Union
+
+from typing import Dict, Any, Optional
 
 from Wrappers.__init__ import api_call
-from Wrappers.guild import guild
 
 
-def player(name: str) -> Union[dict, None]:
+def player(name: str) -> Optional[Dict[str, Any]]:
     """
-    1) gets data
-    2) checks for errors (codes 400, 429, anything except 200)
-    2a) if the player was not found (code 400) return None
-    3) decodes json and assigns data to 'data' variable
-    5) returns dictionary containing all data
+    Wrapper for "player" requests.
+    Most of the structure is left untouched, except "meta" and "global" dicts we unpacked
+    'rank' is player's rank (VIP/VIP+/HERO/champion)
+    'position' is player's position (Player/Admin/Moderator/GM etc.)
+    'highestLvlCombat' is player's highest combat level on a class
+    'location' is None if player is offline or world where the player is
+    'playtime' was changed to match Wynn's stats ('playtimeRaw' has it directly from API)
+    'skills' and 'dungeons' in 'classes' have acronyms in addition to original keys
+
+    :param name: name of requested player
+    :return: if found: dict of player's data; else None
     """
-
-    # sends request
-
-    res_data = api_call(f'https://api.wynncraft.com/v2/player/{name}/stats')
-    if res_data is None:  # if not found
+    data = api_call(f'https://api.wynncraft.com/v2/player/{name}/stats')
+    if data is None:  # if not found
         return
-    res_data = res_data['data'][0]
+    data = data['data'][0]
 
-    rank = res_data['rank'] if res_data['rank'] != 'Player' else 'Normal'
-    location = res_data['meta']['location']['server'] if res_data['meta']['location']['online'] is not False else None
+    location = data['meta']['location']['server'] if data['meta']['location']['online'] is not False else None
+    highest_level = 0  # afaik not in API
+    for player_class in data['classes']:
+        try:
+            if player_class['professions']['combat']['level'] > highest_level:
+                highest_level = player_class['professions']['combat']['level']
+        except KeyError as ke:  # sometimes it is just None...
+            print(f'{"-"*16}\nKeyError on highest level calculation\nKey: {ke}\n{"-"*16}')
 
-    player_data = {
-        # meta
-        'username': res_data['username'],
-        'uuid': res_data['uuid'],
-        'position': rank if rank != 'Normal' else 'Player',
-        'rank': res_data['meta']['tag']['value'],
-        'veteran': res_data['meta']['veteran'],
-        'total playtime': int(res_data['meta']['playtime'] / 60 * 4.7),  # matches web stats, idk why is it that
+    data_final = {
+        'username': data['username'],
+        'uuid': data['uuid'],
+        'position': data['rank'],  # Position as Admin, Mod, GM etc.
+
+        **data['meta'],
+        'rank': data['meta']['tag']['value'],  # rank as VIP/VIP+/HERO/champion
+        'playtime': int(data['meta']['playtime'] / 60 * 4.7),  # this one stat is WEIRD
+        'playtimeRaw': data['meta']['playtime'],
         'location': location,
-        'first join': res_data['meta']['firstJoin'],
-        'last join': res_data['meta']['lastJoin'],
-        # guild
-        'guild name': res_data['guild']['name'],
-        'guild rank': res_data['guild']['rank'],
-        'guild prefix': guild(res_data['guild']['name'])['prefix'],
-        # global
-        'chests found': res_data['global']['chestsFound'],
-        'mobs killed': res_data['global']['mobsKilled'],
-        'total level combat': res_data['global']['totalLevel']['combat'],
-        'total level professions': res_data['global']['totalLevel']['profession'],
-        'total level combined': res_data['global']['totalLevel']['combined'],
-        'logins': res_data['global']['logins'],
-        'deaths': res_data['global']['deaths'],
-        'pvp kills': res_data['global']['pvp']['kills'],
-        'pvp deaths': res_data['global']['pvp']['deaths'],
-        'classes': [_player_class(cls, res_data['uuid']) for cls in res_data['classes']]
+        'highestLvlCombat': highest_level,
+
+        'guild': data['guild'],  # left it as it is from API
+        **data['global'],  # only unzipped it
+        'ranking': data['ranking'],  # no idea what do do with it as of now
+        'classes': [_player_class(class_data) for class_data in data['classes']]
     }
+    del data_final['tag']
 
-    highest_level = 0
-    for player_class in player_data['classes']:
-        if player_class['combat level'] > highest_level:
-            highest_level = player_class['combat level']
-    player_data['highest level combat'] = highest_level
-
-    return player_data
+    return data_final
 
 
-def _player_class(data: dict, owner: str) -> dict:
-    _owner = owner
-    class_names = ['archer', 'hunter',
-                   'assassin', 'ninja',
-                   'mage',
-                   'warrior', 'knight',
-                   'shaman', 'skyseer'
-                   ]
+def _player_class(data: dict) -> Dict[str, Any]:
+    """
+    Function to prepare class dat
 
-    class_data = {}
-
-    # class
-    for j in class_names:
-        if j in data['name']:
-            class_data['class'] = j
-            break
-        elif 'darkwizard' in data['name']:
-            class_data['class'] = 'dark wizard'
-            break
-
-    # stats (general)
-    class_data['chests found'] = data['chestsFound']
-    class_data['mob killed'] = data['mobsKilled']
-    class_data['gamemodes'] = data['gamemode']
-    class_data['playtime'] = data['playtime']
-    class_data['logins'] = data['logins']
-    class_data['deaths'] = data['deaths']
-
-    class_data['pvp kills'] = data['pvp']['kills']
-    class_data['pvp kills'] = data['pvp']['deaths']
-
-    class_data['quests completed'] = data['quests']['completed']
-    class_data['quests list'] = data['quests']['list']
-
-    # skills
-    skills = {
-              'STR': data['skills']['strength'],
-              'DEX': data['skills']['dexterity'],
-              'INT': data['skills']['intelligence'],
-              'DEF': data['skills']['defense'],
-              'AGI': data['skills']['agility'],
-              **data['skills'],
-              }
-    class_data['skills'] = skills
-    del class_data['skills']['defence']
-
-    # stats (combat and profession)
-    class_data['total level'] = data['level']
-
-    class_data['combat level'] = data['professions']['combat']['level']
-    class_data['woodcutting level'] = data['professions']['woodcutting']['level']
-    class_data['mining level'] = data['professions']['mining']['level']
-    class_data['fishing level'] = data['professions']['fishing']['level']
-    class_data['farming level'] = data['professions']['farming']['level']
-    class_data['alchemism level'] = data['professions']['alchemism']['level']
-    class_data['armouring level'] = data['professions']['armouring']['level']
-    class_data['cooking level'] = data['professions']['cooking']['level']
-    class_data['jeweling level'] = data['professions']['jeweling']['level']
-    class_data['scribing level'] = data['professions']['scribing']['level']
-    class_data['tailoring level'] = data['professions']['tailoring']['level']
-    class_data['weaponsmithing level'] = data['professions']['weaponsmithing']['level']
-    class_data['woodworking level'] = data['professions']['woodworking']['level']
-
-    class_data['combat xp'] = data['professions']['combat']['xp']
-    class_data['woodcutting xp'] = data['professions']['woodcutting']['xp']
-    class_data['mining xp'] = data['professions']['mining']['xp']
-    class_data['fishing xp'] = data['professions']['fishing']['xp']
-    class_data['farming xp'] = data['professions']['farming']['xp']
-    class_data['alchemism xp'] = data['professions']['alchemism']['xp']
-    class_data['armouring xp'] = data['professions']['armouring']['xp']
-    class_data['cooking xp'] = data['professions']['cooking']['xp']
-    class_data['jeweling xp'] = data['professions']['jeweling']['xp']
-    class_data['scribing xp'] = data['professions']['scribing']['xp']
-    class_data['tailoring xp'] = data['professions']['tailoring']['xp']
-    class_data['weaponsmithing xp'] = data['professions']['weaponsmithing']['xp']
-    class_data['woodworking xp'] = data['professions']['woodworking']['xp']
-
-    # dungeons
-    class_data['total dungeons'] = data['dungeons']['completed']
-
-    dungeon_dict = {
+    :param data: data of the class
+    :return: formatted data of the class
+    """
+    # currently, removed dungeons are not supported
+    dungeon_dict = {  # dict for adding acronyms to dungeon dict
         'Decrepit Sewers': 'DS',
         'Infested Pit': 'IP',
         'Lost Sanctuary': 'LS',
@@ -231,15 +85,48 @@ def _player_class(data: dict, owner: str) -> dict:
         'Corrupted Sand-Swept Tomb': 'CSST',
         'Corrupted Ice Barrows': 'CIB',
         'Corrupted Undergrowth Ruins': 'CUR',
-        }
+    }
 
-    dungeons = {}
-
-    # currently, removed dungeons are not supported
+    dungeons = {
+        'completed': data['dungeons']['completed']
+    }
     for j in data['dungeons']['list']:
         try:
-            dungeons[dungeon_dict[j['name']]] = j['completed']
+            dungeons[j['name']] = j['completed']  # as in API
+            dungeons[dungeon_dict[j['name']]] = j['completed']  # acronyms
         except KeyError:
             pass
 
-    return class_data
+    skills = {
+        'STR': data['skills']['strength'],  # acronyms
+        'DEX': data['skills']['dexterity'],
+        'INT': data['skills']['intelligence'],
+        'DEF': data['skills']['defense'],
+        'AGI': data['skills']['agility'],
+        **data['skills']  # as in API
+    }
+
+    # everything from original data
+    data['dungeons'] = dungeons  # customised dungeons
+    data['skills'] = skills  # customised skills
+
+    return data
+
+
+def player_raw(name: str) -> Optional[Dict[str, Any]]:
+    data = api_call(f'https://api.wynncraft.com/v2/player/{name}/stats')
+    if data is None:  # if not found
+        return
+
+    return data['data'][0]
+
+
+"""
+class_names = [
+    'archer', 'hunter',
+    'assassin', 'ninja',
+    'mage',
+    'warrior', 'knight',
+    'shaman', 'skyseer'
+]
+"""

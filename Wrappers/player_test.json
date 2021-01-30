@@ -1,0 +1,1513 @@
+{
+  "kind": "wynncraft/player/TrapinchO/stats",
+  "code": 200,
+  "timestamp": 1612041299760,
+  "version": "2.1.0",
+  "data": [
+    {
+      "username": "TrapinchO",
+      "uuid": "67d9b9ff-8dce-4494-bb84-bf3fdeced0f0",
+      "rank": "Player",
+      "meta": {
+        "firstJoin": "2017-05-17T13:48:19.352Z",
+        "lastJoin": "2021-01-30T21:14:21.002Z",
+        "location": {
+          "online": true,
+          "server": "WC59"
+        },
+        "playtime": 11823,
+        "tag": {
+          "display": false,
+          "value": "VIP+"
+        },
+        "veteran": false
+      },
+      "classes": [
+        {
+          "name": "archer",
+          "level": 614,
+          "dungeons": {
+            "completed": 256,
+            "list": [
+              {
+                "name": "Decrepit Sewers",
+                "completed": 35
+              },
+              {
+                "name": "Infested Pit",
+                "completed": 3
+              },
+              {
+                "name": "Ice Barrows",
+                "completed": 11
+              },
+              {
+                "name": "Sand-Swept Tomb",
+                "completed": 10
+              },
+              {
+                "name": "Lost Sanctuary",
+                "completed": 4
+              },
+              {
+                "name": "Undergrowth Ruins",
+                "completed": 5
+              },
+              {
+                "name": "Underworld Crypt",
+                "completed": 3
+              },
+              {
+                "name": "Galleon's Graveyard",
+                "completed": 8
+              },
+              {
+                "name": "Corrupted Decrepit Sewers",
+                "completed": 8
+              },
+              {
+                "name": "Corrupted Sand-Swept Tomb",
+                "completed": 146
+              },
+              {
+                "name": "Fallen Factory",
+                "completed": 5
+              },
+              {
+                "name": "Corrupted Ice Barrows",
+                "completed": 2
+              },
+              {
+                "name": "Corrupted Lost Sanctuary",
+                "completed": 1
+              },
+              {
+                "name": "Corrupted Infested Pit",
+                "completed": 5
+              },
+              {
+                "name": "Corrupted Underworld Crypt",
+                "completed": 5
+              },
+              {
+                "name": "Eldritch Outlook",
+                "completed": 3
+              },
+              {
+                "name": "Corrupted Undergrowth Ruins",
+                "completed": 2
+              }
+            ]
+          },
+          "raids": {
+            "completed": 0,
+            "list": []
+          },
+          "quests": {
+            "completed": 190,
+            "list": [
+              "A Hunter's Calling",
+              "Point of No Return",
+              "A Journey Further",
+              "A Journey Beyond",
+              "The Olmic Rune",
+              "Mini-Quest - Slay Dragonlings",
+              "Royal Trials",
+              "Mini-Quest - Slay Angels",
+              "The Fortuneteller",
+              "Mini-Quest - Slay Conures",
+              "Recipe For Disaster",
+              "Mini-Quest - Slay Creatures of the Void",
+              "One Thousand Meters Under",
+              "Mini-Quest - Slay Astrochelys Manis",
+              "Dwarves and Doguns Part IV",
+              "Mini-Quest - Slay Ifrits",
+              "Dwarves and Doguns Part III",
+              "Mini-Quest - Slay Azers",
+              "Dwarves and Doguns Part II",
+              "Mini-Quest - Slay Frosted Guards & Cryostone Golems",
+              "Dwarves and Doguns Part I",
+              "Mini-Quest - Slay Magma Entities",
+              "Fantastic Voyage",
+              "Mini-Quest - Slay Pernix Monkeys",
+              "The Envoy Part II",
+              "Enter the Dojo",
+              "Mini-Quest - Slay Ailuropodas",
+              "Beyond the Grave",
+              "Mixed Feelings",
+              "Desperate Metal",
+              "Cowfusion",
+              "The Canary Calls",
+              "The Lost",
+              "Mini-Quest - Slay Robots",
+              "The Canyon Guides",
+              "The Envoy Part I",
+              "A Marauder's Dues",
+              "Mini-Quest - Slay Jinkos",
+              "The Belly of the Beast",
+              "The Thanos Vaults",
+              "???",
+              "General's Orders",
+              "From the Bottom",
+              "Mini-Quest - Slay Hobgoblins",
+              "The Qira Hive",
+              "Fallen Delivery",
+              "The Hunger of Gerts Part 2",
+              "Mini-Quest - Slay Felrocs",
+              "Purple and Blue",
+              "The Hunger of Gerts Part 1",
+              "Aldorei's Secret Part II",
+              "The Bigger Picture",
+              "Flight in Distress",
+              "The Ultimate Weapon",
+              "Reincarnation",
+              "Murder Mystery",
+              "Troubled Tribesmen",
+              "Mini-Quest - Slay Myconids",
+              "Haven Antiquity",
+              "WynnExcavation Site D",
+              "Mini-Quest - Slay Dead Villagers",
+              "Grand Youth",
+              "Temple of the Legends",
+              "Memory Paranoia",
+              "Lost Soles",
+              "Lost Royalty",
+              "Mini-Quest - Slay Idols",
+              "Out of my Mind",
+              "Lost in the Jungle",
+              "Redbeard's Booty",
+              "Beneath the Depths",
+              "Mini-Quest - Slay Wraiths & Phantasms",
+              "The Order of the Grook",
+              "The Passage",
+              "Zhight Island",
+              "WynnExcavation Site C",
+              "Mini-Quest - Slay Lizardmen",
+              "The Shadow of the Beast",
+              "Master Piece",
+              "Death Whistle",
+              "Jungle Fever",
+              "Corrupted Betrayal",
+              "Crop Failure",
+              "The Maiden Tower",
+              "A Grave Mistake",
+              "Mini-Quest - Slay Slimes",
+              "The House of Twain",
+              "Rise of the Quartron",
+              "Frost Bite",
+              "WynnExcavation Site B",
+              "Bob's Lost Soul",
+              "Mini-Quest - Slay Orcs",
+              "Underice",
+              "Fate of the Fallen",
+              "Clearing the Camps",
+              "Star Thief",
+              "Heart of Llevigar",
+              "Ice Nations",
+              "Mini-Quest - Slay Creatures of Nesaak Forest",
+              "Tower of Ascension",
+              "Pirate's Trove",
+              "Canyon Condor",
+              "Wrath of the Mummy",
+              "Tribal Aggression",
+              "WynnExcavation Site A",
+              "Mini-Quest - Slay Coyotes",
+              "Stable Story",
+              "Meaningful Holiday",
+              "Kingdom of Sand",
+              "A Sandy Scandal",
+              "Green Gloop",
+              "Craftmas Chaos",
+              "Mini-Quest - Slay Scarabs",
+              "The Mercenary",
+              "Misadventure on the Sea",
+              "Lost Tower",
+              "The Corrupted Village",
+              "Mini-Quest - Slay Skeletons",
+              "Recover the Past",
+              "The Dark Descent",
+              "Dwelling Walls",
+              "Pit of the Dead",
+              "Cluck Cluck",
+              "Macabre Masquerade ''Hallowynn 2014''",
+              "Studying the Corrupt",
+              "Grave Digger",
+              "Maltic's Well",
+              "Potion Making",
+              "Mini-Quest - Slay Mooshrooms",
+              "Creeper Infiltration",
+              "Arachnids' Ascent",
+              "Deja Vu",
+              "Mushroom Man",
+              "Elemental Exercise",
+              "Underwater",
+              "The Sewers of Ragni",
+              "Tunnel Trouble",
+              "Infested Plants",
+              "Mini-Quest - Slay Spiders",
+              "Cook Assistant",
+              "Poisoning the Pest",
+              "King's Recruit",
+              "Mini-Quest - Gather Gudgeon",
+              "Mini-Quest - Gather Copper",
+              "Mini-Quest - Gather Oak Logs",
+              "Mini-Quest - Gather Wheat",
+              "Mini-Quest - Gather Birch Logs",
+              "Mini-Quest - Gather Trout",
+              "Mini-Quest - Gather Granite",
+              "Mini-Quest - Gather Willow Logs II",
+              "Mini-Quest - Gather Willow Logs",
+              "Mini-Quest - Gather Gold",
+              "Mini-Quest - Gather Gold II",
+              "Mini-Quest - Gather Sandstone",
+              "Mini-Quest - Gather Sandstone II",
+              "Mini-Quest - Gather Acacia Logs",
+              "Mini-Quest - Gather Acacia Logs II",
+              "Mini-Quest - Gather Iron II",
+              "Mini-Quest - Gather Iron",
+              "Mini-Quest - Gather Cobalt",
+              "Mini-Quest - Gather Cobalt II",
+              "Mini-Quest - Gather Cobalt III",
+              "Mini-Quest - Gather Dark Logs",
+              "Mini-Quest - Gather Dark Logs II",
+              "Mini-Quest - Gather Dark Logs III",
+              "Mini-Quest - Gather Kanderstone",
+              "Mini-Quest - Gather Kanderstone II",
+              "Mini-Quest - Gather Kanderstone III",
+              "Mini-Quest - Gather Light Logs",
+              "Mini-Quest - Gather Light Logs II",
+              "Mini-Quest - Gather Light Logs III",
+              "Mini-Quest - Gather Spruce Logs",
+              "Mini-Quest - Gather Spruce Logs II",
+              "Mini-Quest - Gather Jungle Logs",
+              "Mini-Quest - Gather Jungle Logs II",
+              "Mini-Quest - Gather Diamonds",
+              "Mini-Quest - Gather Diamonds II",
+              "Mini-Quest - Gather Diamonds III",
+              "Mini-Quest - Gather Diamonds IV",
+              "Mini-Quest - Gather Barley",
+              "Mini-Quest - Gather Icefish",
+              "Mini-Quest - Gather Pine Logs",
+              "Mini-Quest - Gather Pine Logs II",
+              "Mini-Quest - Gather Pine Logs III",
+              "Mini-Quest - Gather Bamboo",
+              "Mini-Quest - Gather Avo Logs",
+              "Mini-Quest - Gather Molten Ore",
+              "Mini-Quest - Gather Molten Ore II",
+              "Mini-Quest - Gather Molten Ore III",
+              "Mini-Quest - Gather Molten Ore IV"
+            ]
+          },
+          "itemsIdentified": 0,
+          "mobsKilled": 98824,
+          "pvp": {
+            "kills": 9,
+            "deaths": 19
+          },
+          "chestsFound": 5604,
+          "blocksWalked": 32150507,
+          "logins": 3258,
+          "deaths": 427,
+          "playtime": 7471,
+          "gamemode": {
+            "craftsman": false,
+            "hardcore": false,
+            "ironman": false,
+            "hunted": false
+          },
+          "skills": {
+            "strength": 49,
+            "dexterity": 96,
+            "intelligence": 0,
+            "defence": 55,
+            "defense": 55,
+            "agility": 0
+          },
+          "professions": {
+            "alchemism": {
+              "level": 10,
+              "xp": 6.7
+            },
+            "armouring": {
+              "level": 100,
+              "xp": 3.2
+            },
+            "combat": {
+              "level": 105,
+              "xp": 26.9
+            },
+            "cooking": {
+              "level": 12,
+              "xp": 11.4
+            },
+            "farming": {
+              "level": 25,
+              "xp": 46.3
+            },
+            "fishing": {
+              "level": 52,
+              "xp": 31.6
+            },
+            "jeweling": {
+              "level": 34,
+              "xp": 61.2
+            },
+            "mining": {
+              "level": 100,
+              "xp": 3.9
+            },
+            "scribing": {
+              "level": 45,
+              "xp": 75.6
+            },
+            "tailoring": {
+              "level": 20,
+              "xp": 82.5
+            },
+            "weaponsmithing": {
+              "level": 10,
+              "xp": 2
+            },
+            "woodcutting": {
+              "level": 93,
+              "xp": 26.8
+            },
+            "woodworking": {
+              "level": 20,
+              "xp": 47.1
+            }
+          },
+          "discoveries": 643,
+          "eventsWon": 0,
+          "preEconomyUpdate": true
+        },
+        {
+          "name": "shaman1",
+          "level": 108,
+          "dungeons": {
+            "completed": 6,
+            "list": [
+              {
+                "name": "Infested Pit",
+                "completed": 1
+              },
+              {
+                "name": "Galleon's Graveyard",
+                "completed": 1
+              },
+              {
+                "name": "Corrupted Undergrowth Ruins",
+                "completed": 3
+              },
+              {
+                "name": "Eldritch Outlook",
+                "completed": 1
+              }
+            ]
+          },
+          "raids": {
+            "completed": 0,
+            "list": []
+          },
+          "quests": {
+            "completed": 142,
+            "list": [
+              "A Hunter's Calling",
+              "Point of No Return",
+              "A Journey Further",
+              "A Journey Beyond",
+              "The Olmic Rune",
+              "Mini-Quest - Slay Dragonlings",
+              "Royal Trials",
+              "Mini-Quest - Slay Angels",
+              "The Fortuneteller",
+              "Mini-Quest - Slay Conures",
+              "Mini-Quest - Slay Creatures of the Void",
+              "Recipe For Disaster",
+              "Mini-Quest - Slay Astrochelys Manis",
+              "One Thousand Meters Under",
+              "Dwarves and Doguns Part IV",
+              "Mini-Quest - Slay Ifrits",
+              "Mini-Quest - Slay Azers",
+              "Dwarves and Doguns Part III",
+              "Mini-Quest - Slay Frosted Guards & Cryostone Golems",
+              "Dwarves and Doguns Part II",
+              "Mini-Quest - Slay Magma Entities",
+              "Dwarves and Doguns Part I",
+              "Fantastic Voyage",
+              "Mini-Quest - Slay Pernix Monkeys",
+              "The Envoy Part II",
+              "Enter the Dojo",
+              "Mini-Quest - Slay Ailuropodas",
+              "Beyond the Grave",
+              "Mixed Feelings",
+              "Cowfusion",
+              "Desperate Metal",
+              "The Lost",
+              "The Canary Calls",
+              "Mini-Quest - Slay Robots",
+              "The Canyon Guides",
+              "A Marauder's Dues",
+              "Mini-Quest - Slay Jinkos",
+              "The Envoy Part I",
+              "The Belly of the Beast",
+              "The Thanos Vaults",
+              "???",
+              "From the Bottom",
+              "Mini-Quest - Slay Hobgoblins",
+              "General's Orders",
+              "The Qira Hive",
+              "Fallen Delivery",
+              "Mini-Quest - Slay Felrocs",
+              "The Hunger of Gerts Part 2",
+              "Purple and Blue",
+              "The Hunger of Gerts Part 1",
+              "Aldorei's Secret Part II",
+              "The Bigger Picture",
+              "Flight in Distress",
+              "The Ultimate Weapon",
+              "Reincarnation",
+              "Murder Mystery",
+              "Troubled Tribesmen",
+              "Mini-Quest - Slay Myconids",
+              "WynnExcavation Site D",
+              "Haven Antiquity",
+              "Mini-Quest - Slay Dead Villagers",
+              "Grand Youth",
+              "Temple of the Legends",
+              "Memory Paranoia",
+              "Lost Soles",
+              "Mini-Quest - Slay Idols",
+              "Lost Royalty",
+              "Out of my Mind",
+              "Lost in the Jungle",
+              "Redbeard's Booty",
+              "Beneath the Depths",
+              "Mini-Quest - Slay Wraiths & Phantasms",
+              "The Order of the Grook",
+              "The Passage",
+              "Zhight Island",
+              "Mini-Quest - Slay Lizardmen",
+              "WynnExcavation Site C",
+              "The Shadow of the Beast",
+              "Master Piece",
+              "Death Whistle",
+              "Crop Failure",
+              "Corrupted Betrayal",
+              "Jungle Fever",
+              "The Maiden Tower",
+              "A Grave Mistake",
+              "Mini-Quest - Slay Slimes",
+              "The House of Twain",
+              "Rise of the Quartron",
+              "Frost Bite",
+              "WynnExcavation Site B",
+              "Bob's Lost Soul",
+              "Mini-Quest - Slay Orcs",
+              "Underice",
+              "Fate of the Fallen",
+              "Clearing the Camps",
+              "Star Thief",
+              "Heart of Llevigar",
+              "Mini-Quest - Slay Creatures of Nesaak Forest",
+              "Ice Nations",
+              "Tower of Ascension",
+              "Pirate's Trove",
+              "Canyon Condor",
+              "Wrath of the Mummy",
+              "Tribal Aggression",
+              "Mini-Quest - Slay Coyotes",
+              "WynnExcavation Site A",
+              "Stable Story",
+              "Meaningful Holiday",
+              "Kingdom of Sand",
+              "A Sandy Scandal",
+              "Green Gloop",
+              "Craftmas Chaos",
+              "Mini-Quest - Slay Scarabs",
+              "Misadventure on the Sea",
+              "The Mercenary",
+              "The Corrupted Village",
+              "Lost Tower",
+              "Recover the Past",
+              "Mini-Quest - Slay Skeletons",
+              "The Dark Descent",
+              "Dwelling Walls",
+              "Pit of the Dead",
+              "Cluck Cluck",
+              "Macabre Masquerade ''Hallowynn 2014''",
+              "Studying the Corrupt",
+              "Grave Digger",
+              "Maltic's Well",
+              "Potion Making",
+              "Mini-Quest - Slay Mooshrooms",
+              "Deja Vu",
+              "Creeper Infiltration",
+              "Arachnids' Ascent",
+              "Mushroom Man",
+              "Elemental Exercise",
+              "Underwater",
+              "The Sewers of Ragni",
+              "Tunnel Trouble",
+              "Infested Plants",
+              "Mini-Quest - Slay Spiders",
+              "Cook Assistant",
+              "Poisoning the Pest",
+              "King's Recruit"
+            ]
+          },
+          "itemsIdentified": 0,
+          "mobsKilled": 21821,
+          "pvp": {
+            "kills": 0,
+            "deaths": 0
+          },
+          "chestsFound": 457,
+          "blocksWalked": 7485808,
+          "logins": 489,
+          "deaths": 113,
+          "playtime": 1230,
+          "gamemode": {
+            "craftsman": false,
+            "hardcore": false,
+            "ironman": false,
+            "hunted": false
+          },
+          "skills": {
+            "strength": 31,
+            "dexterity": 31,
+            "intelligence": 56,
+            "defence": 51,
+            "defense": 51,
+            "agility": 31
+          },
+          "professions": {
+            "alchemism": {
+              "level": 1,
+              "xp": 0
+            },
+            "armouring": {
+              "level": 1,
+              "xp": 0
+            },
+            "combat": {
+              "level": 103,
+              "xp": 9.2
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "farming": {
+              "level": 5,
+              "xp": 10.1
+            },
+            "fishing": {
+              "level": 2,
+              "xp": 2.6
+            },
+            "jeweling": {
+              "level": 1,
+              "xp": 0
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "scribing": {
+              "level": 1,
+              "xp": 0
+            },
+            "tailoring": {
+              "level": 1,
+              "xp": 0
+            },
+            "weaponsmithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 40
+            },
+            "woodworking": {
+              "level": 1,
+              "xp": 60
+            }
+          },
+          "discoveries": 542,
+          "eventsWon": 0,
+          "preEconomyUpdate": false
+        },
+        {
+          "name": "assassin",
+          "level": 105,
+          "dungeons": {
+            "completed": 82,
+            "list": [
+              {
+                "name": "Decrepit Sewers",
+                "completed": 8
+              },
+              {
+                "name": "Infested Pit",
+                "completed": 2
+              },
+              {
+                "name": "Underworld Crypt",
+                "completed": 5
+              },
+              {
+                "name": "Sand-Swept Tomb",
+                "completed": 1
+              },
+              {
+                "name": "Ice Barrows",
+                "completed": 3
+              },
+              {
+                "name": "Undergrowth Ruins",
+                "completed": 1
+              },
+              {
+                "name": "Corrupted Decrepit Sewers",
+                "completed": 41
+              },
+              {
+                "name": "Corrupted Undergrowth Ruins",
+                "completed": 7
+              },
+              {
+                "name": "Eldritch Outlook",
+                "completed": 10
+              },
+              {
+                "name": "Corrupted Lost Sanctuary",
+                "completed": 1
+              },
+              {
+                "name": "Corrupted Underworld Crypt",
+                "completed": 2
+              },
+              {
+                "name": "Fallen Factory",
+                "completed": 1
+              }
+            ]
+          },
+          "raids": {
+            "completed": 0,
+            "list": []
+          },
+          "quests": {
+            "completed": 142,
+            "list": [
+              "A Hunter's Calling",
+              "Point of No Return",
+              "A Journey Further",
+              "A Journey Beyond",
+              "The Olmic Rune",
+              "Mini-Quest - Slay Dragonlings",
+              "Mini-Quest - Slay Angels",
+              "Royal Trials",
+              "The Fortuneteller",
+              "Mini-Quest - Slay Conures",
+              "Mini-Quest - Slay Creatures of the Void",
+              "Recipe For Disaster",
+              "Mini-Quest - Slay Astrochelys Manis",
+              "One Thousand Meters Under",
+              "Dwarves and Doguns Part IV",
+              "Mini-Quest - Slay Ifrits",
+              "Dwarves and Doguns Part III",
+              "Mini-Quest - Slay Azers",
+              "Mini-Quest - Slay Frosted Guards & Cryostone Golems",
+              "Dwarves and Doguns Part II",
+              "Mini-Quest - Slay Magma Entities",
+              "Dwarves and Doguns Part I",
+              "Fantastic Voyage",
+              "Mini-Quest - Slay Pernix Monkeys",
+              "The Envoy Part II",
+              "Enter the Dojo",
+              "Mini-Quest - Slay Ailuropodas",
+              "Beyond the Grave",
+              "Mixed Feelings",
+              "Cowfusion",
+              "Desperate Metal",
+              "The Canary Calls",
+              "The Lost",
+              "Mini-Quest - Slay Robots",
+              "The Canyon Guides",
+              "A Marauder's Dues",
+              "The Envoy Part I",
+              "Mini-Quest - Slay Jinkos",
+              "The Belly of the Beast",
+              "The Thanos Vaults",
+              "From the Bottom",
+              "General's Orders",
+              "???",
+              "Mini-Quest - Slay Hobgoblins",
+              "The Qira Hive",
+              "Fallen Delivery",
+              "The Hunger of Gerts Part 2",
+              "Mini-Quest - Slay Felrocs",
+              "Purple and Blue",
+              "The Hunger of Gerts Part 1",
+              "Aldorei's Secret Part II",
+              "The Bigger Picture",
+              "The Ultimate Weapon",
+              "Flight in Distress",
+              "Reincarnation",
+              "Murder Mystery",
+              "Troubled Tribesmen",
+              "Mini-Quest - Slay Myconids",
+              "Haven Antiquity",
+              "WynnExcavation Site D",
+              "Mini-Quest - Slay Dead Villagers",
+              "Grand Youth",
+              "Temple of the Legends",
+              "Memory Paranoia",
+              "Lost Soles",
+              "Lost Royalty",
+              "Mini-Quest - Slay Idols",
+              "Out of my Mind",
+              "Lost in the Jungle",
+              "Redbeard's Booty",
+              "Mini-Quest - Slay Wraiths & Phantasms",
+              "Beneath the Depths",
+              "The Order of the Grook",
+              "The Passage",
+              "Mini-Quest - Slay Lizardmen",
+              "Zhight Island",
+              "WynnExcavation Site C",
+              "The Shadow of the Beast",
+              "Master Piece",
+              "Death Whistle",
+              "Jungle Fever",
+              "Corrupted Betrayal",
+              "Crop Failure",
+              "The Maiden Tower",
+              "A Grave Mistake",
+              "Mini-Quest - Slay Slimes",
+              "The House of Twain",
+              "Rise of the Quartron",
+              "Frost Bite",
+              "WynnExcavation Site B",
+              "Mini-Quest - Slay Orcs",
+              "Bob's Lost Soul",
+              "Underice",
+              "Fate of the Fallen",
+              "Clearing the Camps",
+              "Star Thief",
+              "Heart of Llevigar",
+              "Ice Nations",
+              "Mini-Quest - Slay Creatures of Nesaak Forest",
+              "Tower of Ascension",
+              "Pirate's Trove",
+              "Canyon Condor",
+              "Wrath of the Mummy",
+              "WynnExcavation Site A",
+              "Tribal Aggression",
+              "Mini-Quest - Slay Coyotes",
+              "Stable Story",
+              "Meaningful Holiday",
+              "Kingdom of Sand",
+              "A Sandy Scandal",
+              "Green Gloop",
+              "Craftmas Chaos",
+              "Mini-Quest - Slay Scarabs",
+              "The Mercenary",
+              "Misadventure on the Sea",
+              "Lost Tower",
+              "The Corrupted Village",
+              "Mini-Quest - Slay Skeletons",
+              "Recover the Past",
+              "Dwelling Walls",
+              "The Dark Descent",
+              "Pit of the Dead",
+              "Cluck Cluck",
+              "Studying the Corrupt",
+              "Macabre Masquerade ''Hallowynn 2014''",
+              "Grave Digger",
+              "Maltic's Well",
+              "Potion Making",
+              "Mini-Quest - Slay Mooshrooms",
+              "Deja Vu",
+              "Creeper Infiltration",
+              "Arachnids' Ascent",
+              "Mushroom Man",
+              "Elemental Exercise",
+              "Underwater",
+              "The Sewers of Ragni",
+              "Tunnel Trouble",
+              "Infested Plants",
+              "Mini-Quest - Slay Spiders",
+              "Cook Assistant",
+              "Poisoning the Pest",
+              "King's Recruit"
+            ]
+          },
+          "itemsIdentified": 0,
+          "mobsKilled": 64275,
+          "pvp": {
+            "kills": 0,
+            "deaths": 0
+          },
+          "chestsFound": 1060,
+          "blocksWalked": 12025010,
+          "logins": 1409,
+          "deaths": 154,
+          "playtime": 2474,
+          "gamemode": {
+            "craftsman": false,
+            "hardcore": false,
+            "ironman": false,
+            "hunted": false
+          },
+          "skills": {
+            "strength": 90,
+            "dexterity": 40,
+            "intelligence": 0,
+            "defence": 70,
+            "defense": 70,
+            "agility": 0
+          },
+          "professions": {
+            "alchemism": {
+              "level": 1,
+              "xp": 0
+            },
+            "armouring": {
+              "level": 1,
+              "xp": 0
+            },
+            "combat": {
+              "level": 104,
+              "xp": 9.3
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "farming": {
+              "level": 2,
+              "xp": 55.2
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "jeweling": {
+              "level": 1,
+              "xp": 0
+            },
+            "mining": {
+              "level": 1,
+              "xp": 70
+            },
+            "scribing": {
+              "level": 1,
+              "xp": 0
+            },
+            "tailoring": {
+              "level": 1,
+              "xp": 0
+            },
+            "weaponsmithing": {
+              "level": 1,
+              "xp": 60
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 33.3
+            },
+            "woodworking": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "discoveries": 620,
+          "eventsWon": 0,
+          "preEconomyUpdate": false
+        },
+        {
+          "name": "mage",
+          "level": 47,
+          "dungeons": {
+            "completed": 3,
+            "list": [
+              {
+                "name": "Decrepit Sewers",
+                "completed": 1
+              },
+              {
+                "name": "Sand-Swept Tomb",
+                "completed": 2
+              }
+            ]
+          },
+          "raids": {
+            "completed": 0,
+            "list": []
+          },
+          "quests": {
+            "completed": 52,
+            "list": [
+              "WynnExcavation Site B",
+              "Bob's Lost Soul",
+              "Mini-Quest - Slay Orcs",
+              "Underice",
+              "Fate of the Fallen",
+              "Clearing the Camps",
+              "Star Thief",
+              "Heart of Llevigar",
+              "Ice Nations",
+              "Mini-Quest - Slay Creatures of Nesaak Forest",
+              "Pirate's Trove",
+              "Canyon Condor",
+              "Wrath of the Mummy",
+              "Tribal Aggression",
+              "Mini-Quest - Slay Coyotes",
+              "WynnExcavation Site A",
+              "Stable Story",
+              "Meaningful Holiday",
+              "Kingdom of Sand",
+              "A Sandy Scandal",
+              "Green Gloop",
+              "Craftmas Chaos",
+              "Mini-Quest - Slay Scarabs",
+              "The Mercenary",
+              "Misadventure on the Sea",
+              "Lost Tower",
+              "The Corrupted Village",
+              "Recover the Past",
+              "Mini-Quest - Slay Skeletons",
+              "Dwelling Walls",
+              "The Dark Descent",
+              "Cluck Cluck",
+              "Pit of the Dead",
+              "Macabre Masquerade ''Hallowynn 2014''",
+              "Studying the Corrupt",
+              "Grave Digger",
+              "Maltic's Well",
+              "Potion Making",
+              "Mini-Quest - Slay Mooshrooms",
+              "Creeper Infiltration",
+              "Arachnids' Ascent",
+              "Deja Vu",
+              "Mushroom Man",
+              "Elemental Exercise",
+              "Underwater",
+              "Tunnel Trouble",
+              "The Sewers of Ragni",
+              "Infested Plants",
+              "Mini-Quest - Slay Spiders",
+              "Cook Assistant",
+              "Poisoning the Pest",
+              "King's Recruit"
+            ]
+          },
+          "itemsIdentified": 0,
+          "mobsKilled": 4165,
+          "pvp": {
+            "kills": 0,
+            "deaths": 0
+          },
+          "chestsFound": 123,
+          "blocksWalked": 1837788,
+          "logins": 437,
+          "deaths": 71,
+          "playtime": 413,
+          "gamemode": {
+            "craftsman": false,
+            "hardcore": false,
+            "ironman": false,
+            "hunted": false
+          },
+          "skills": {
+            "strength": 0,
+            "dexterity": 0,
+            "intelligence": 87,
+            "defence": 0,
+            "defense": 0,
+            "agility": 5
+          },
+          "professions": {
+            "alchemism": {
+              "level": 1,
+              "xp": 0
+            },
+            "armouring": {
+              "level": 1,
+              "xp": 0
+            },
+            "combat": {
+              "level": 47,
+              "xp": 17.3
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "farming": {
+              "level": 1,
+              "xp": 76.6
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "jeweling": {
+              "level": 1,
+              "xp": 0
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "scribing": {
+              "level": 1,
+              "xp": 0
+            },
+            "tailoring": {
+              "level": 1,
+              "xp": 0
+            },
+            "weaponsmithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 43.3
+            },
+            "woodworking": {
+              "level": 1,
+              "xp": 66.6
+            }
+          },
+          "discoveries": 156,
+          "eventsWon": 0,
+          "preEconomyUpdate": false
+        },
+        {
+          "name": "warrior",
+          "level": 40,
+          "dungeons": {
+            "completed": 4,
+            "list": [
+              {
+                "name": "Underworld Crypt",
+                "completed": 4
+              }
+            ]
+          },
+          "raids": {
+            "completed": 0,
+            "list": []
+          },
+          "quests": {
+            "completed": 20,
+            "list": [
+              "The Mercenary",
+              "Misadventure on the Sea",
+              "Lost Tower",
+              "The Dark Descent",
+              "Dwelling Walls",
+              "Pit of the Dead",
+              "Cluck Cluck",
+              "Macabre Masquerade ''Hallowynn 2014''",
+              "Grave Digger",
+              "Maltic's Well",
+              "Deja Vu",
+              "Arachnids' Ascent",
+              "Mushroom Man",
+              "Underwater",
+              "Infested Plants",
+              "Tunnel Trouble",
+              "The Sewers of Ragni",
+              "Cook Assistant",
+              "Poisoning the Pest",
+              "King's Recruit"
+            ]
+          },
+          "itemsIdentified": 0,
+          "mobsKilled": 2810,
+          "pvp": {
+            "kills": 0,
+            "deaths": 0
+          },
+          "chestsFound": 22,
+          "blocksWalked": 501236,
+          "logins": 90,
+          "deaths": 22,
+          "playtime": 103,
+          "gamemode": {
+            "craftsman": false,
+            "hardcore": false,
+            "ironman": false,
+            "hunted": false
+          },
+          "skills": {
+            "strength": 0,
+            "dexterity": 0,
+            "intelligence": 64,
+            "defence": 0,
+            "defense": 0,
+            "agility": 12
+          },
+          "professions": {
+            "alchemism": {
+              "level": 1,
+              "xp": 0
+            },
+            "armouring": {
+              "level": 1,
+              "xp": 0
+            },
+            "combat": {
+              "level": 39,
+              "xp": 67.3
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "farming": {
+              "level": 2,
+              "xp": 97.3
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "jeweling": {
+              "level": 1,
+              "xp": 0
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "scribing": {
+              "level": 1,
+              "xp": 0
+            },
+            "tailoring": {
+              "level": 1,
+              "xp": 0
+            },
+            "weaponsmithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodworking": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "discoveries": 58,
+          "eventsWon": 0,
+          "preEconomyUpdate": false
+        },
+        {
+          "name": "assassin1",
+          "level": 32,
+          "dungeons": {
+            "completed": 3,
+            "list": [
+              {
+                "name": "Decrepit Sewers",
+                "completed": 3
+              }
+            ]
+          },
+          "raids": {
+            "completed": 0,
+            "list": []
+          },
+          "quests": {
+            "completed": 28,
+            "list": [
+              "Misadventure on the Sea",
+              "The Corrupted Village",
+              "Lost Tower",
+              "Recover the Past",
+              "Mini-Quest - Slay Skeletons",
+              "Dwelling Walls",
+              "The Dark Descent",
+              "Pit of the Dead",
+              "Cluck Cluck",
+              "Macabre Masquerade ''Hallowynn 2014''",
+              "Studying the Corrupt",
+              "Grave Digger",
+              "Maltic's Well",
+              "Mini-Quest - Slay Mooshrooms",
+              "Potion Making",
+              "Arachnids' Ascent",
+              "Creeper Infiltration",
+              "Deja Vu",
+              "Mushroom Man",
+              "Elemental Exercise",
+              "Underwater",
+              "Infested Plants",
+              "The Sewers of Ragni",
+              "Tunnel Trouble",
+              "Mini-Quest - Slay Spiders",
+              "Cook Assistant",
+              "Poisoning the Pest",
+              "King's Recruit"
+            ]
+          },
+          "itemsIdentified": 0,
+          "mobsKilled": 919,
+          "pvp": {
+            "kills": 0,
+            "deaths": 0
+          },
+          "chestsFound": 62,
+          "blocksWalked": 793930,
+          "logins": 39,
+          "deaths": 0,
+          "playtime": 73,
+          "gamemode": {
+            "craftsman": false,
+            "hardcore": true,
+            "ironman": true,
+            "hunted": true
+          },
+          "skills": {
+            "strength": 0,
+            "dexterity": 0,
+            "intelligence": 47,
+            "defence": 0,
+            "defense": 0,
+            "agility": 11
+          },
+          "professions": {
+            "alchemism": {
+              "level": 1,
+              "xp": 0
+            },
+            "armouring": {
+              "level": 1,
+              "xp": 0
+            },
+            "combat": {
+              "level": 30,
+              "xp": 1
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "farming": {
+              "level": 3,
+              "xp": 4.1
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "jeweling": {
+              "level": 1,
+              "xp": 0
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "scribing": {
+              "level": 1,
+              "xp": 0
+            },
+            "tailoring": {
+              "level": 1,
+              "xp": 0
+            },
+            "weaponsmithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodworking": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "discoveries": 56,
+          "eventsWon": 0,
+          "preEconomyUpdate": false
+        },
+        {
+          "name": "ninja",
+          "level": 16,
+          "dungeons": {
+            "completed": 1,
+            "list": [
+              {
+                "name": "Decrepit Sewers",
+                "completed": 1
+              }
+            ]
+          },
+          "raids": {
+            "completed": 0,
+            "list": []
+          },
+          "quests": {
+            "completed": 7,
+            "list": [
+              "Elemental Exercise",
+              "Infested Plants",
+              "The Sewers of Ragni",
+              "Tunnel Trouble",
+              "Cook Assistant",
+              "Poisoning the Pest",
+              "King's Recruit"
+            ]
+          },
+          "itemsIdentified": 0,
+          "mobsKilled": 492,
+          "pvp": {
+            "kills": 0,
+            "deaths": 0
+          },
+          "chestsFound": 22,
+          "blocksWalked": 150439,
+          "logins": 57,
+          "deaths": 0,
+          "playtime": 59,
+          "gamemode": {
+            "craftsman": false,
+            "hardcore": false,
+            "ironman": false,
+            "hunted": false
+          },
+          "skills": {
+            "strength": 0,
+            "dexterity": 0,
+            "intelligence": 0,
+            "defence": 2,
+            "defense": 2,
+            "agility": 24
+          },
+          "professions": {
+            "alchemism": {
+              "level": 1,
+              "xp": 0
+            },
+            "armouring": {
+              "level": 1,
+              "xp": 0
+            },
+            "combat": {
+              "level": 14,
+              "xp": 32.2
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "farming": {
+              "level": 3,
+              "xp": 52
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "jeweling": {
+              "level": 1,
+              "xp": 0
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "scribing": {
+              "level": 1,
+              "xp": 0
+            },
+            "tailoring": {
+              "level": 1,
+              "xp": 0
+            },
+            "weaponsmithing": {
+              "level": 1,
+              "xp": 56.6
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 60
+            },
+            "woodworking": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "discoveries": 31,
+          "eventsWon": 0,
+          "preEconomyUpdate": false
+        }
+      ],
+      "guild": {
+        "name": "BOOF",
+        "rank": "OWNER"
+      },
+      "global": {
+        "chestsFound": 7350,
+        "blocksWalked": 54944718,
+        "itemsIdentified": 0,
+        "mobsKilled": 193306,
+        "totalLevel": {
+          "combat": 442,
+          "profession": 604,
+          "combined": 1046
+        },
+        "pvp": {
+          "kills": 9,
+          "deaths": 19
+        },
+        "logins": 5779,
+        "deaths": 787,
+        "discoveries": 2106,
+        "eventsWon": 0
+      },
+      "ranking": {
+        "guild": null,
+        "player": {
+          "solo": {
+            "combat": null,
+            "woodcutting": null,
+            "mining": null,
+            "fishing": null,
+            "farming": null,
+            "alchemism": null,
+            "armouring": null,
+            "cooking": null,
+            "jeweling": null,
+            "scribing": null,
+            "tailoring": null,
+            "weaponsmithing": null,
+            "woodworking": null,
+            "profession": null,
+            "overall": null
+          },
+          "overall": {
+            "all": null,
+            "combat": null,
+            "profession": null
+          }
+        },
+        "pvp": null
+      }
+    }
+  ]
+}

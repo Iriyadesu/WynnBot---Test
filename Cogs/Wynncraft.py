@@ -55,14 +55,13 @@ class Wynncraft(commands.Cog):
         player_embed.add_field(name="Online: ", value=player_data['location'] if player_data['location'] else 'no',
                                inline=False)
         player_embed.add_field(name="Guild name: ",
-                               value=player_data['guild name'] if player_data['guild name'] else 'none', inline=True)
+                               value=player_data['guild']['name'] if player_data['guild']['name'] else 'none', inline=True)
         player_embed.add_field(name="Guild rank: ",
-                               value=player_data['guild rank'].lower() if player_data['guild rank'] else 'none',
+                               value=player_data['guild']['rank'].lower() if player_data['guild']['rank'] else 'none',
                                inline=True)
-        player_embed.add_field(name="Guild prefix: ", value=player_data['guild prefix'], inline=True)
-        player_embed.add_field(name="Playtime: ", value=f"{player_data['total playtime']} hours", inline=False)
-        player_embed.add_field(name="Highest Level: ", value=player_data['highest level combat'], inline=False)
-        player_embed.add_field(name="Joined: ", value=player_data['first join'][:10], inline=True)
+        player_embed.add_field(name="Playtime: ", value=f"{player_data['playtime']} hours", inline=False)
+        player_embed.add_field(name="Highest Level: ", value=player_data['highestLvlCombat'], inline=False)
+        player_embed.add_field(name="Joined: ", value=player_data['firstJoin'][:10], inline=True)
 
         await ctx.send(embed=player_embed)  # send the embed
     
