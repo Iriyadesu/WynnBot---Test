@@ -25,7 +25,7 @@ def player(name: str) -> Optional[Dict[str, Any]]:
     :param name: name of requested player
     :return: if found: dict of player's data; else None
     """
-    data = api_call(f'https://api.wynncraft.com/v2/player/{name}/stats')
+    data = api_call('v2', f'player/{name}/stats')
     if data is None:  # if not found
         return
     data = data['data'][0]
@@ -122,7 +122,7 @@ def player_raw(name: str) -> Optional[Dict[str, Any]]:
     :param name: name of requested player
     :return: if found: dict obtained from response; else None
     """
-    return api_call(f'https://api.wynncraft.com/v2/player/{name}/stats')
+    return api_call('v2', f'/player/{name}/stats')
 
 
 """

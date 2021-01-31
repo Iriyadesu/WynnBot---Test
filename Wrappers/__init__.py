@@ -1,7 +1,7 @@
 """
 Contains API wrappers for the Wynncraft cog
 """
-from typing import Union
+from typing import Union, Dict
 
 import requests as r
 
@@ -10,7 +10,7 @@ import requests as r
 #  Currently it is just stupid
 
 
-def api_call(url: str) -> Union[dict, None]:
+def api_call(api_version: str, params: Union[Dict[str, str], str]) -> Union[dict, None]:
     """
     1) gets data
     2) checks for errors (codes 400, 429, anything except 200)
@@ -19,7 +19,11 @@ def api_call(url: str) -> Union[dict, None]:
     5) returns dictionary containing all data
     """
     # sends request
-    response = r.get(url)
+    #response = r.get(url)
+    if api_version == 'legacy':
+        response = r.get('https://api.wynncraft.com/public_api.php', params=params)
+    else:
+        response = r.get('https://api.wynncraft.com/v2/' + params)
 
     if response.status_code == 400:
         # if status code is 400 (non-existing name or not found)

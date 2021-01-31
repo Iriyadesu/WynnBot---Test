@@ -126,7 +126,7 @@ class Wynncraft(commands.Cog):
 
     #  ----- sum of all online players -----
     # Waiting for 1.20 API update
-    # @commands.command(description="network stuff ig", usage="!network <action> [name]")
+    @commands.command(description="network stuff ig", usage="!network <action> [name]")
     async def network(self, ctx: commands.Context, action: str, name: str = ''):
         """
         Get network data from Wynn API
