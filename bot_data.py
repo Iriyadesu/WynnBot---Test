@@ -64,7 +64,6 @@ TODO:
 - mute command - drastically improve it. Works, but badly
 - test everything on our new friend
 -! recheck documentation (both back- and front- end)
--! update API wrapper documentation
 -? maybe add more Wynn API commands?
 -? - like leaderboards etc
 -! reorganise what is needed

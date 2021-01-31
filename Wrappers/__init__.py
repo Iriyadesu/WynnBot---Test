@@ -6,8 +6,7 @@ from typing import Union, Dict
 import requests as r
 
 
-# TODO: Once API is updated redo the wrappers (namely: player, guild).
-#  Currently it is just stupid
+# TODO: Try to find a way to move params here
 
 
 def api_call(api_version: str, params: Union[Dict[str, str], str]) -> Union[dict, None]:
