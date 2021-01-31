@@ -1,45 +1,39 @@
 """
-uh
+Wrapper for "guild" requests
+
+TO-DO: Check at some point again
 """
-from typing import Union
+
+from typing import Dict, Optional, Any  # 'Dict' only for backwards compatibility (for <3.9)
 
 from Wrappers.__init__ import api_call
 
 
-def guild(name: str) -> Union[dict, None]:
+def guild(name: str) -> Optional[Dict[str, Any]]:
     """
-    1) gets data
-    2) checks for errors (codes 400, 429, anything except 200)
-    2a) if the player was not found (code 400) return None
-    3) decodes json and assigns data to 'data' variable
-    5) returns dictionary containing all data
+    Wrapper for "guild" requests.
+
+    Changed from raw response:
+    - 'request' object was removed (so there is only guild data)
+
+    :param name: name of requested guild
+    :return: if found: dict of guild's data; else None
     """
-    # sends request
-    res_data = api_call(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={name}')
-    if res_data is None:  # if not found
+    data = api_call(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={name}')
+
+    if 'error' in data:  # if not found
         return
 
-    guild_data = {
-        'name': res_data['name'],
-        'prefix': res_data['prefix'],
-        'level': res_data['level'],
-        'xp': res_data['xp'],
-        'created': res_data['created'],
-        'created friendly': res_data['createdFriendly'],
-        'territories': res_data['territories'],
-        'banner tier': res_data['banner']['tier'],
-        'banner': res_data['banner'],
-        'members': [_guild_member(member) for member in res_data['members']]
-    }
-
-    return guild_data
-
-
-def _guild_member(data: dict) -> dict:
-    """
-    Helper function, will be probably removed
-    """
-    data['joined friendly'] = data['joinedFriendly']
-    del data['joinedFriendly']
+    del data['request']  # so there is only guild data
 
     return data
+
+
+def guild_raw(name: str) -> Dict[str, Any]:
+    """
+    Returns raw response.
+
+    :param name: name of requested guild
+    :return: dict obtained from response
+    """
+    return api_call(f'https://api.wynncraft.com/public_api.php?action=guildStats&command={name}')

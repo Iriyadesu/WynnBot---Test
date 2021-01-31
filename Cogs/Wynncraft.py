@@ -90,7 +90,7 @@ class Wynncraft(commands.Cog):
         guild_embed.add_field(name="Level: ", value=guild_data['level'], inline=True)
         guild_embed.add_field(name="Members: ", value=str(len(guild_data['members'])), inline=True)
         guild_embed.add_field(name="Territories: ", value=guild_data['territories'], inline=True)
-        guild_embed.add_field(name="Created at: ", value=guild_data['created friendly'], inline=False)
+        guild_embed.add_field(name="Created at: ", value=guild_data['createdFriendly'], inline=False)
 
         await ctx.send(embed=guild_embed)  # send the embed
 

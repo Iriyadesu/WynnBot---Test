@@ -12,13 +12,15 @@ from Wrappers.__init__ import api_call
 def player(name: str) -> Optional[Dict[str, Any]]:
     """
     Wrapper for "player" requests.
-    Most of the structure is left untouched, except "meta" and "global" dicts we unpacked
-    'rank' is player's rank (VIP/VIP+/HERO/champion)
-    'position' is player's position (Player/Admin/Moderator/GM etc.)
-    'highestLvlCombat' is player's highest combat level on a class
-    'location' is None if player is offline or world where the player is
-    'playtime' was changed to match Wynn's stats ('playtimeRaw' has it directly from API)
-    'skills' and 'dungeons' in 'classes' have acronyms in addition to original keys
+
+    Changed from raw response:
+    - "meta" and "global" object we unpacked into main dict
+    - 'rank' is player's rank (VIP/VIP+/HERO/champion)
+    - 'position' is player's position (Player/Admin/Moderator/GM etc.)
+    - 'highestLvlCombat' is player's highest combat level on a class
+    - 'location' is None if player is offline or world where the player is
+    - 'playtime' was changed to match Wynn's stats ('playtimeRaw' has it directly from API)
+    - 'skills' and 'dungeons' in 'classes' have acronyms in addition to original keys
 
     :param name: name of requested player
     :return: if found: dict of player's data; else None
@@ -114,11 +116,13 @@ def _player_class(data: dict) -> Dict[str, Any]:
 
 
 def player_raw(name: str) -> Optional[Dict[str, Any]]:
-    data = api_call(f'https://api.wynncraft.com/v2/player/{name}/stats')
-    if data is None:  # if not found
-        return
+    """
+    Returns raw response.
 
-    return data['data'][0]
+    :param name: name of requested player
+    :return: if found: dict obtained from response; else None
+    """
+    return api_call(f'https://api.wynncraft.com/v2/player/{name}/stats')
 
 
 """
