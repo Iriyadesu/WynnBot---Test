@@ -97,30 +97,33 @@ class Wynncraft(commands.Cog):
     #  ----- territory stats -----
     # Waiting for 1.20 API update
     @commands.command(description='provides info on requested territory', usage="!territory <territory name>")
-    async def territory(self, ctx: commands.Context, territory_name):  # TODO: Doesn't work
+    async def territory(self, ctx: commands.Context, *territory_name):  # TODO: Doesn't work
         """
         Send embed with info on requested territory.
         :param ctx: channel where the command was used
         :param territory_name: name of the requested player
         :return: None
         """
+        territory_name = ' '.join(territory_name)
 
         async with ctx.typing():
             territory_data = territory(territory_name)
         if territory_data is None:
-            await ctx.send(embed=bd.error_embed('API error', 'Requested territory not found.'))
+            await ctx.send(
+                embed=bd.error_embed('API error', 'Requested territory not found.\nPlease check capitalisation')
+            )
             return
 
         # ----- create the embed -----
         territory_embed = discord.Embed(title=territory_name, color=0x00FF00)
         territory_embed.add_field(name='Name:', value=territory_name)
-        territory_embed.add_field(name='Owner:', value=territory_data['owner'])
+        territory_embed.add_field(name='Owner:', value=territory_data['guild'])
         territory_embed.add_field(name=chr(173), value=chr(173))
         territory_embed.add_field(name='Start coords:',
-                                  value=f'{territory_data["location"]["startX"]} {territory_data["location"]["startZ"]}'
+                                  value=f'{territory_data["location"]["startX"]} {territory_data["location"]["startY"]}'
                                   )
         territory_embed.add_field(name='End coords:',
-                                  value=f'{territory_data["location"]["endX"]} {territory_data["location"]["endZ"]}')
+                                  value=f'{territory_data["location"]["endX"]} {territory_data["location"]["endY"]}')
 
         await ctx.send(embed=territory_embed)
 

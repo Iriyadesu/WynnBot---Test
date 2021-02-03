@@ -86,7 +86,7 @@ if __name__ == '__main__':
     # ---------- run the bot ----------
     try:
         print('Bot script started')
-        logging.info('Bot script started')
+        logging.info('Bot script started on version 0.5.10')
         bot.run(TOKEN)  # run the bot
     except Exception as e:  # something happened - print the exception
         print(e)

@@ -18,12 +18,12 @@ def api_call(api_version: str, params: Union[Dict[str, str], str]) -> Union[dict
     5) returns dictionary containing all data
     """
     # sends request
-    #response = r.get(url)
     if api_version == 'legacy':
         response = r.get('https://api.wynncraft.com/public_api.php', params=params)
     else:
         response = r.get('https://api.wynncraft.com/v2/' + params)
 
+    # status codes
     if response.status_code == 400:
         # if status code is 400 (non-existing name or not found)
         return

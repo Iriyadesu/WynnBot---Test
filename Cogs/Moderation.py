@@ -34,8 +34,8 @@ class Moderation(commands.Cog):
 
             await ctx.message.delete()
             await ctx.send(embed=action_embed('Muted', ctx, user, reason))  # Send embed to the channel
-            await discord.utils.get(ctx.guild.channels, name="moderation-log").send(  # send embed to "moderation-log" channel
-                embed=log_embed('Mute', ctx.author, user, reason)
+            await discord.utils.get(ctx.guild.channels, name="moderation-log").send(
+                embed=log_embed('Mute', ctx.author, user, reason)  # send embed to "moderation-log" channel
             )
             log_text = f'Muted user {user.name}. Reason: {reason}'
             logging.info(log_text)
@@ -64,8 +64,8 @@ class Moderation(commands.Cog):
 
             await ctx.message.delete()
             await ctx.send(embed=action_embed('Unmuted', ctx, user, 'reason'))  # send embed into the channel
-            await discord.utils.get(ctx.guild.channels, name="moderation-log").send(  # send embed into "moderation-log" channel
-                embed=log_embed('Unmute', ctx.author, user, reason)
+            await discord.utils.get(ctx.guild.channels, name="moderation-log").send(
+                embed=log_embed('Unmute', ctx.author, user, reason)  # send embed into "moderation-log" channel
             )
             log_text = f'Unmuted user {user.name}. Reason: {reason}'
             logging.info(log_text)

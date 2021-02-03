@@ -11,26 +11,11 @@ def territory(name: str) -> Union[dict, None]:
     5) creates dictionary containing all data
     """
     # sends request
-    res_data = api_call('https://api.wynncraft.com/public_api.php?action=territoryList')
+    res_data = api_call('legacy', {'action': 'territoryList'})
     if res_data is None:  # if not found
         return
 
-    # res_data = res.json()['territories']
-
-    if name not in res_data:
+    if name not in res_data['territories']:
         return
 
-    terr = res_data[name]
-
-    territory_data = {
-        'name': name,
-        'owner': terr['guild'],
-        'acquired': terr['acquired'],
-        'location': {
-            'startX': terr['location']['startX'],
-            'startZ': terr['location']['startY'],
-            'endX': terr['location']['endX'],
-            'endZ': terr['location']['endY']
-        }
-    }
-    return territory_data
+    return res_data['territories'][name]
