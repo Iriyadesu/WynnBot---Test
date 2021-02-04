@@ -46,8 +46,6 @@ logging.basicConfig(level=logging.INFO, filename='bot.log',
                     datefmt='%Y/%m/%d-%H:%M!%S'
                     )
 
-name = dt.datetime.utcnow().strftime('%Y_%m_%d-%H_%M_%S') + '.log'
-
 
 # ---------- Handling discord TOKEN and PREFIX ----------
 # -- FriendlyPudding's way --
@@ -84,12 +82,15 @@ if __name__ == '__main__':
         bot.load_extension(ext)
 
     # ---------- run the bot ----------
+    name = dt.datetime.utcnow().strftime('%Y_%m_%d-%H_%M_%S') + '.log'  # name of the log
+
     try:
         print('Bot script started')
         logging.info('Bot script started on version 0.5.10')
+
         bot.run(TOKEN)  # run the bot
     except Exception as e:  # something happened - print the exception
-        print(e)
+        raise e
     finally:
         print(f'Old log was moved and renamed as \'{name}\'')
         logging.info(f'Old log was moved and renamed as \'{name}\'')  # log "bot.log" handling
