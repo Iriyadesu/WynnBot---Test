@@ -68,7 +68,7 @@ class Wynncraft(commands.Cog):
     #  ----- guild stats -----
     # Waiting for 1.20 API update
     @commands.command(description="provides info on requested guild", usage="!guild <guild name>")
-    async def guild(self, ctx: commands.Context, guild_name):  # TODO: Need to make it look better
+    async def guild(self, ctx: commands.Context, guild_name):
         """
         Send embed with info on requested guild.
         :param ctx: channel where the command was used
@@ -97,7 +97,7 @@ class Wynncraft(commands.Cog):
     #  ----- territory stats -----
     # Waiting for 1.20 API update
     @commands.command(description='provides info on requested territory', usage="!territory <territory name>")
-    async def territory(self, ctx: commands.Context, *territory_name):  # TODO: Doesn't work
+    async def territory(self, ctx: commands.Context, *territory_name):
         """
         Send embed with info on requested territory.
         :param ctx: channel where the command was used
