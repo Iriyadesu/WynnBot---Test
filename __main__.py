@@ -43,7 +43,7 @@ from discord.ext import commands
 
 logging.basicConfig(level=logging.INFO, filename='bot.log',
                     format='%(asctime)s %(levelname)s: %(message)s',
-                    datefmt='%Y/%m/%d-%H:%M!%S'
+                    datefmt='%Y/%m/%d-%H:%M:%S'
                     )
 
 
