@@ -74,7 +74,7 @@ bot = commands.Bot(command_prefix='!', intents=intents, case_insensitive=True)
 # ---------- registering commands ----------
 bot.remove_command('help')  # remove default help command
 
-extensions = ('Cogs.Moderation', 'Cogs.Wynncraft', 'Cogs.Events', 'Cogs.Info', 'Cogs.Binder')
+extensions = ('Cogs.Moderation', 'Cogs.Wynncraft', 'Cogs.Events', 'Cogs.Info', 'Cogs.Binder', 'Cogs.Miscellaneous')
 
 # ---------- running the script ----------
 if __name__ == '__main__':
