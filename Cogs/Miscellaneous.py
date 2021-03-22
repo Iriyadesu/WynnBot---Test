@@ -8,7 +8,10 @@ import bot_data as bd
 
 
 class Miscellaneous(commands.Cog):
-    @commands.command()
+    @commands.command(
+        description='Rolls dice for DnD',
+        usage='!r <dice> [addition addition/subtraction]'
+    )
     async def r(self, ctx: commands.Context, *args):
         """
         Command for rolling dice for DnD

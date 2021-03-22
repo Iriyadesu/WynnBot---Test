@@ -122,6 +122,7 @@ class Info(commands.Cog):
                         name=f'__{cog}__',
                         value=(commands_list if commands_list else 'none'),  # Prevents bug when a cog has no commands
                         inline=False)
+            await ctx.send(embed=embed)
 
         else:  # If the cog was specified
             lower_cogs = [c.lower() for c in cogs]
