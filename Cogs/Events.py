@@ -176,10 +176,6 @@ class Events(commands.Cog):
         logging.warning('Failsafe primed')
         self.safe_block = True
 
-    @commands.command()
-    async def lari_smart(self, ctx: commands.Context):
-        await ctx.channel.send('*cough*')
-
 
 def setup(bot: commands.Bot):
     """

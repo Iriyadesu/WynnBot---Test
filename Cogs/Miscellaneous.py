@@ -115,7 +115,7 @@ class Miscellaneous(commands.Cog):
                 last_part = f' +0 = {sum(roll_list)}'
 
             embed = discord.Embed(
-                title=f'{match.group(1)}d{match.group(1)} rolls',
+                title=f'{match.group(1)}d{match.group(1)} rolls (by {ctx.author.name})',
                 color=bd.embed_colors['normal'],
                 description=f'SUM: {sum(roll_list)}' + last_part
             )
