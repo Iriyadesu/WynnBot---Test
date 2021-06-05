@@ -1,22 +1,34 @@
-from discord.ext import commands
-import discord
+"""
+Module containing class for moderation commands
+"""
+__all__ = [
+    'Moderation',
+    'setup'
+]
+
 import logging
+
+import discord
+from discord.ext import commands
+
 import bot_data as bd
+import util
 
 
 class Moderation(commands.Cog):
     """
     This class handles moderation commands
-
-    FOR TESTING PURPOSES permissions are not required
     """
+    description_ = 'Commands for moderation'
+
     def __init__(self, bot):
         self.bot = bot
 
     # ----- mute -----
-    @commands.command(description="mutes the user", usage="!mute <user> [reason]")
-    # @commands.has_permissions(kick_members=True)
-    async def mute(self, ctx: commands.Context, user: discord.Member, reason: str = 'No reason provided'):
+    @commands.command(usage="mute <user> [reason]",
+                      description="mutes the user")
+    @commands.has_permissions(kick_members=True)
+    async def mute(self, ctx: commands.Context, user: discord.Member, *, reason: str = 'No reason provided'):
         """
         Used to mute players.
         Requires "kick" permission.
@@ -26,31 +38,28 @@ class Moderation(commands.Cog):
         :param reason: reason for the mute
         :return: None
         """
-        # TODO: Make it work properly even when the bot if offline (aka remove their perms to send messages)
+        # If user does already has "muted" role (is muted)
+        if discord.utils.get(user.guild.roles, name=self.bot.config['mute_role']) in user.roles:
+            await ctx.send(embed=util.error_embed('User is already muted'))
+            return
 
-        # If user does not have "muted" role (isn't muted)
-        if not discord.utils.get(user.guild.roles, name='muted') in user.roles:
-            await user.add_roles(discord.utils.get(user.guild.roles, name='muted'))  # Add the role
+        await user.add_roles(discord.utils.get(user.guild.roles, name=self.bot.config['mute_role']))  # Add the role
 
-            await ctx.message.delete()
-            await ctx.send(embed=action_embed('Muted', ctx, user, reason))  # Send embed to the channel
-            await discord.utils.get(ctx.guild.channels, name="moderation-log").send(
-                embed=log_embed('Mute', ctx.author, user, reason)  # send embed to "moderation-log" channel
-            )
-            log_text = f'Muted user {user.name}. Reason: {reason}'
-            logging.info(log_text)
-            print(log_text)
-
-        else:  # Otherwise send error
-            await ctx.send(embed=bd.error_embed('Human error', 'User is already muted'))
+        await ctx.message.delete()
+        await ctx.send(embed=action_embed('Muted', ctx, user, reason))  # Send embed to the channel
+        await discord.utils.get(ctx.guild.channels, name=self.bot.config['moderation_log_channel']).send(
+            embed=log_embed('Mute', ctx.author, user, reason, self.bot.config['embed_image_url'])  # send embed to "moderation-log" channel
+        )
+        util.log_print(f'Muted user {user.name}. Reason: {reason}')
 
     # ----- unmute -----
-    @commands.command(description="unmutes the user", usage="!unmute <user>")
-    # @commands.has_permissions(kick_members=True)
-    async def unmute(self, ctx: commands.Context, user: discord.Member, reason=''):
+    @commands.command(usage="unmute <user>",
+                      description="unmutes the user")
+    @commands.has_permissions(kick_members=True)
+    async def unmute(self, ctx: commands.Context, user: discord.Member, *, reason: str = 'No reason provided'):
         """
-        Command to unmute user
-        Not implemented
+        Command to unmute user.
+        Requires "kick" permission.
 
         :param reason: reason for unmute
         :param ctx: channel where the command was used
@@ -59,24 +68,23 @@ class Moderation(commands.Cog):
         """
 
         # If user does has "muted" role (is muted)
-        if discord.utils.get(user.guild.roles, name='muted') in user.roles:
-            await user.remove_roles(discord.utils.get(user.guild.roles, name='muted'))  # Remove the role
+        if discord.utils.get(user.guild.roles, name=self.bot.config['mute_role']) not in user.roles:
+            await ctx.send(embed=util.error_embed('User is not muted'))
+            return
 
-            await ctx.message.delete()
-            await ctx.send(embed=action_embed('Unmuted', ctx, user, 'reason'))  # send embed into the channel
-            await discord.utils.get(ctx.guild.channels, name="moderation-log").send(
-                embed=log_embed('Unmute', ctx.author, user, reason)  # send embed into "moderation-log" channel
-            )
-            log_text = f'Unmuted user {user.name}. Reason: {reason}'
-            logging.info(log_text)
-            print(log_text)
+        await user.remove_roles(discord.utils.get(user.guild.roles, name=self.bot.config['mute_role']))  # Remove the role
 
-        else:  # Otherwise send error
-            await ctx.send(embed=bd.error_embed('Human error', 'User is not muted'))
+        await ctx.message.delete()
+        await ctx.send(embed=action_embed('Unmuted', ctx, user, reason))  # send embed into the channel
+        await discord.utils.get(ctx.guild.channels, name=self.bot.config['moderation_log_channel']).send(
+            embed=log_embed('Unmute', ctx.author, user, reason, self.bot.config['embed_image_url'])  # send embed into "moderation-log" channel
+        )
+        util.log_print(f'Unmuted user {user.name}. Reason: {reason}')
 
     # ----- kick -----
-    @commands.command(description="kicks the user", usage="!kick <user> [reason]")
-    # @commands.has_permissions(kick_members=True)
+    @commands.command(usage="kick <user> [reason]",
+                      description="kicks the user")
+    @commands.has_permissions(kick_members=True)
     async def kick(self, ctx: commands.Context, user: discord.Member, *, reason="No reason provided"):
         """
         Used to kick players.
@@ -96,17 +104,16 @@ class Moderation(commands.Cog):
         await ctx.send(embed=kick_embed)  # send the message
 
         kick_embed.title = 'You were kicked!'
-        await user.send(
-            'Seems like you were not behaving properly.\nNext time please do not break the rules.',
-            embed=kick_embed)  # send it to the user's DMs
+        await user.send(embed=kick_embed)  # send it to the user's DMs
 
-        await discord.utils.get(ctx.guild.channels, name="moderation-log").send(
-            embed=log_embed('Kick', ctx.author, user, reason)
+        await discord.utils.get(ctx.guild.channels, name=self.bot.config['moderation_log_channel']).send(
+            embed=log_embed('Kick', ctx.author, user, reason, self.bot.config['embed_image_url'])
         )
 
     #  ----- ban -----
-    @commands.command(description="bans the user", usage="!ban <user> [reason]")
-    # @commands.has_permissions(ban_members=True)
+    @commands.command(usage="ban <user> [reason]",
+                      description="bans the user")
+    @commands.has_permissions(ban_members=True)
     async def ban(self, ctx: commands.Context, user: discord.Member, *, reason="No reason provided"):  # TODO: Check if embeds work
         """
         Used to ban players.
@@ -126,15 +133,14 @@ class Moderation(commands.Cog):
         await ctx.send(embed=ban_embed)  # send the message
 
         ban_embed.title = 'You were banned!'
-        await user.send(
-            'You broke the rules. A LOT.\nNow you have to face the consequences.\nWas it worth it?',
-            embed=ban_embed)  # send it to the user's DMs
+        await user.send(embed=ban_embed)  # send it to the user's DMs
 
-        await discord.utils.get(ctx.guild.channels, name="moderation-log").send(
-            embed=log_embed('Ban', ctx.author, user, reason)
-            )
+        await discord.utils.get(ctx.guild.channels, name=self.bot.config['moderation_log_channel']).send(
+            embed=log_embed('Ban', ctx.author, user, reason, self.bot.config['embed_image_url'])
+        )
 
-    @commands.command()
+    @commands.command(usage='report <member> [reason]',
+                      description='Command for reporting members')
     async def report(self, ctx: commands.Context, member: discord.Member, *reason):
         """
         Command for reporting members
@@ -159,14 +165,30 @@ class Moderation(commands.Cog):
         embed.add_field(name='By:', value=ctx.author.mention)
         embed.add_field(name='Reason:', value=reason, inline=False)
 
-        await ctx.send('Warning:\n**Misuse of this command will be punished**', embed=embed)
-        await discord.utils.get(ctx.guild.channels, name="moderation-log").send(embed=embed)
+        await ctx.send('> Warning:\n> **Misuse of this command will be punished**', embed=embed)
+        await discord.utils.get(ctx.guild.channels, name=self.bot.config['moderation_log_channel']).send(embed=embed)
+
+    @commands.command(usage='purge <amount of messages to delete|10>',
+                      description='Command for deleting messages in bulk')
+    @commands.has_permissions(administrator=True)
+    async def purge(self, ctx: commands.Context, limit: int = 10):
+        """
+        Command for deleting messages in bulk
+
+        :param ctx: context of the message
+        :param limit: amount of messages to be deleted
+        :return: None
+        """
+        await ctx.message.delete()
+        await ctx.channel.purge(limit=limit)
+        await ctx.send(embed=discord.Embed(title='Success', description=f'Successfully purged {limit} messages'))
 
     @staticmethod
-    async def censor(message: discord.Message):
+    async def censor(bot: util.CustomBot, message: discord.Message):
         """
         Not a command. Used for moderating insults
 
+        :param bot: bot's instance; to retrieve the config
         :param message: Message sent (to be processed)
         :return: None
         """
@@ -186,27 +208,26 @@ class Moderation(commands.Cog):
 
                     elif category == 'major':  # words requiring immediate moderator attention
                         await message.delete()
-                        text = '@Moderator'  # TODO: Mention all moderators
+                        text = discord.utils.get(message.guild.roles, name=bot.config['moderator_role']).mention
 
         chat_embed = discord.Embed(color=bd.embed_colors['moderation'])
         chat_embed.add_field(name='User:', value=message.author.mention)
         chat_embed.add_field(name='Note:', value='Please refrain from using offensive words on this server.')
         await message.channel.send(embed=chat_embed)
 
-        mod_embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])  # TODO: fix
+        mod_embed = discord.Embed(title='Inappropriate word', color=bd.embed_colors['moderation'])
         mod_embed.add_field(name='Author:', value=message.author.mention)
         mod_embed.add_field(name='Word(s):', value=', '.join(bad_word_list))
         mod_embed.add_field(name='Message:', value=message.content)
 
-        await discord.utils.get(
-            message.guild.text_channels, name="moderation-log"
-        ).send(text, embed=mod_embed)
+        await message.channel.send(text, embed=mod_embed)
 
 
-def log_embed(action: str, author: discord.Member, user: discord.Member, reason: str) -> discord.Embed:
+def log_embed(action: str, author: discord.Member, user: discord.Member, reason: str, thumbnail_url: str) -> discord.Embed:
     """
     Used to save some code
 
+    :param thumbnail_url: thumbnail for the embed
     :param action: action taken; currently ['ban', 'kick', 'mute']
     :param author: who used that command
     :param user: again who was the action taken (e.g. who was banned)
@@ -218,11 +239,11 @@ def log_embed(action: str, author: discord.Member, user: discord.Member, reason:
     embed.add_field(name='Who:', value=user.mention)
     embed.add_field(name=chr(173), value=chr(173))
     embed.add_field(name='Reason:', value=reason)
-    embed.set_thumbnail(url=bd.embed_thumbnail)
+    embed.set_thumbnail(url=thumbnail_url)  # TODO: possibly find a better solution; possibly through a function?
     return embed
 
 
-def action_embed(action: str, ctx: commands.Context, user: discord.Member, reason: str) -> discord.Embed:  # TODO: revisit
+def action_embed(action: str, ctx: commands.Context, user: discord.Member, reason: str) -> discord.Embed:
     """
     Function for generating moderator embeds
 
@@ -236,7 +257,7 @@ def action_embed(action: str, ctx: commands.Context, user: discord.Member, reaso
                           description=f"Reason: {reason}\nBy: {ctx.author.mention}",
                           color=bd.embed_colors['moderation']
                           )  # create embed
-    embed.set_thumbnail(url=bd.embed_thumbnail)
+    embed.set_thumbnail(url=ctx.bot.config['embed_image_url'])
 
     return embed
 

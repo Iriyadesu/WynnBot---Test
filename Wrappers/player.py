@@ -1,12 +1,14 @@
 """
-Wrappers for "player" requests
-
-TO-DO: Check at some point again
+Wrappers for Wynncraft "player" API
 """
+__all__ = [
+    'player',
+    'player_raw'
+]
 
 from typing import Dict, Any, Optional
 
-from Wrappers.__init__ import api_call
+from .util import api_call
 
 
 def player(name: str) -> Optional[Dict[str, Any]]:
@@ -28,6 +30,7 @@ def player(name: str) -> Optional[Dict[str, Any]]:
     data = api_call('v2', f'player/{name}/stats')
     if data is None:  # if not found
         return
+
     data = data['data'][0]
 
     location = data['meta']['location']['server'] if data['meta']['location']['online'] is not False else None
@@ -46,6 +49,7 @@ def player(name: str) -> Optional[Dict[str, Any]]:
 
         **data['meta'],
         'rank': data['meta']['tag']['value'],  # rank as VIP/VIP+/HERO/champion
+        'veteran': data['meta']['veteran'],  # if the player has "vet" tag
         'playtime': int(data['meta']['playtime'] / 60 * 4.7),  # this one stat is WEIRD
         'playtimeRaw': data['meta']['playtime'],
         'location': location,
@@ -123,14 +127,3 @@ def player_raw(name: str) -> Optional[Dict[str, Any]]:
     :return: if found: dict obtained from response; else None
     """
     return api_call('v2', f'/player/{name}/stats')
-
-
-"""
-class_names = [
-    'archer', 'hunter',
-    'assassin', 'ninja',
-    'mage',
-    'warrior', 'knight',
-    'shaman', 'skyseer'
-]
-"""

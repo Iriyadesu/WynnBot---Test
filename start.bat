@@ -1,2 +1,2 @@
 echo Script started
-py __main__.py
+py WynnBot---Test/__main__.py

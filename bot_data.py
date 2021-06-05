@@ -7,9 +7,15 @@ Currently contains:
 - nono words
 """
 
-import discord
+__all__ = [
+    'colors',
+    'embed_colors',
+    'bad_words',
+    'bad_words_list',
+    'audit_action_converter'
+]
 
-# TODO: move here as much data as possible
+from discord import AuditLogAction
 
 colors = {
     'DEFAULT': 0x000000,
@@ -46,54 +52,54 @@ embed_colors = {  # Colors used for specific embeds
     'info': 0x0000FF,  # blue
     'error': 0,  # black
     'moderation': 0xFFFF00,  # yellow
-    'normal': 0x00FF00  # green
+    'normal': 0x00FF00,  # green
+    'technical': 0xBCC0C0  # light grey
 }
 
-# thumbnail for embeds
-embed_thumbnail = 'https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png'
-
-# String for "to-do" command
-todo_str = """
-TODO:
--? settings
--? - maybe for how much moderation do you want?
-- maybe some moderation (f-words etc.)
--  -? levels of bad words. E.g. sh** would just log it, not remove the message, while f*** would do both
-- bind user to MC account
-- store all these things in JSON
-- mute command - drastically improve it. Works, but badly
-- test everything on our new friend
--! recheck documentation (both back- and front- end)
--? maybe add more Wynn API commands?
--? - like leaderboards etc
--! reorganise what is needed
-
-WHEN DONE:
-- uncomment perms requirements
-"""
 
 bad_words = {  # What words are to be moderated
     'minor': ('shit',),
     'mid': ('fuck', 'idiot', 'asshole'),
-    'major': ('nigga', 'nigger')
+    'major': ('nigga', 'nigger', 'banboos')
 }
 bad_words_list = []  # create empty list
 [bad_words_list.extend(category) for category in bad_words.values()]  # add all of the words to the list
 bad_words_list = tuple(bad_words_list)  # make it a tuple
 
-
-def error_embed(err_type: str = 'No reason provided', description: str = '') -> discord.Embed:
-    """
-    Returns embed for errors
-
-    :param err_type: type of the error
-    :param description: description of the embed
-    :return: discord.Embed
-    """
-    embed = discord.Embed(title='Error!',
-                          color=embed_colors['error'],
-                          description='An Error occurred during processing of the command')
-    embed.add_field(name='Type:', value=err_type, inline=False)
-    embed.add_field(name='Reason:', value=description)
-
-    return embed
+audit_action_converter = {  # Converting enum to string
+    AuditLogAction.guild_update: 'Guild update',
+    AuditLogAction.channel_create: 'Channel create',
+    AuditLogAction.channel_update: 'Channel update',
+    AuditLogAction.channel_delete: 'Channel delete',
+    AuditLogAction.overwrite_create: 'Create overwrite',
+    AuditLogAction.overwrite_update: 'Update overwrite',
+    AuditLogAction.overwrite_delete: 'Delete overwrite',
+    AuditLogAction.kick: 'Kick member',
+    AuditLogAction.member_prune: 'Prune members',
+    AuditLogAction.ban: 'Ban member',
+    AuditLogAction.unban: 'Unban member',
+    AuditLogAction.member_update: 'Update member',
+    AuditLogAction.member_role_update: 'Update member roles',
+    AuditLogAction.member_move: 'Move member',
+    AuditLogAction.member_disconnect: 'Disconnect member',
+    AuditLogAction.bot_add: 'Add bot',
+    AuditLogAction.role_create: 'Create role',
+    AuditLogAction.role_update: 'Update role',
+    AuditLogAction.role_delete: 'Delete role',
+    AuditLogAction.invite_create: 'Create invite',
+    AuditLogAction.invite_update: 'Update invite',
+    AuditLogAction.invite_delete: 'Delete invite',
+    AuditLogAction.webhook_create: 'Create webhook',
+    AuditLogAction.webhook_update: 'Update webhook',
+    AuditLogAction.webhook_delete: 'Delete webhook',
+    AuditLogAction.emoji_create: 'Create emoji',
+    AuditLogAction.emoji_update: 'Update emoji',
+    AuditLogAction.emoji_delete: 'Delete emoji',
+    AuditLogAction.message_delete: 'Delete message',
+    AuditLogAction.message_bulk_delete: 'Delete message bulk',
+    AuditLogAction.message_pin: 'Pin message',
+    AuditLogAction.message_unpin: 'Unpin message',
+    AuditLogAction.integration_create: 'Create integration',
+    AuditLogAction.integration_update: 'Update integration',
+    AuditLogAction.integration_delete: 'Delete integration',
+}

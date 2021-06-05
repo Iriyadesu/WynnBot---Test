@@ -1,11 +1,19 @@
-import sys
-import logging as logging
+"""
+Module for class containing events functions
+"""
+__all__ = [
+    'Events',
+    'setup',
+]
+
 import hashlib as h
-import bot_data as bd
+import logging
 
-from discord.ext import commands
 import discord
+from discord.ext import commands
 
+import bot_data as bd
+import util
 from Cogs import Moderation
 
 
@@ -13,7 +21,9 @@ class Events(commands.Cog):
     """
     This class works with events (e.g. someone sends a message)
     """
-    def __init__(self, bot: discord.ext.commands.Bot):
+    description_ = 'Internal events'
+
+    def __init__(self, bot: util.CustomBot):
         self.bot = bot
         self.safe_block = False
 
@@ -23,8 +33,7 @@ class Events(commands.Cog):
         Called when bot is connected
         - log it
         """
-        print('Bot connected')
-        logging.info('Bot connected')
+        util.log_print('Bot connected')
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -33,11 +42,9 @@ class Events(commands.Cog):
         - log it
         - change status
         """
+        util.log_print('Bot ready')
 
-        print('Bot ready')
-        logging.info('Bot ready')
         await self.bot.change_presence(activity=discord.Game(name="on developer's nerves"))
-        # await self.bot.get_channel(781492333967179821).send('Bot successfully started')
 
     @commands.Cog.listener()
     async def on_disconnect(self):
@@ -45,12 +52,39 @@ class Events(commands.Cog):
         Called when bot is disconnected
         - log it
         """
-        print('Bot disconnected')
-        logging.info('Bot disconnected')
+        util.log_print('Bot disconnected')
+
+    @commands.Cog.listener()
+    async def on_resumed(self):
+        """
+        Called when bot has resumed connection
+        """
+        util.log_print('Bot has resumed connection')
+
+    # ----- Giving out Guest role when user joins -----
+    @commands.Cog.listener()
+    async def on_member_join(self, member: discord.Member):
+        """
+        Called when a member joins
+        - give them role "Guest"
+        - send them DM
+
+        :param member: member that joined
+        """
+        # logging.info(f'New member joined! Username: {member.name}')
+        # await member.add_roles(discord.utils.get(member.guild.roles, name='guest'))
+        # ----- create the embed -----
+        welcome_embed = discord.Embed(title="Welcome!",
+                                      description=f"Welcome {member.mention} to our server",
+                                      color=bd.embed_colors['normal'])
+        welcome_embed.add_field(name='How to get started:', value='* Read the rules')
+        welcome_embed.add_field(name='What *not* to do', value='* Break the rules')
+        welcome_embed.set_thumbnail(url=self.bot.config['embed_image_url'])
+        await member.send(embed=welcome_embed)
 
     # ----- Handling errors -----
     @commands.Cog.listener()
-    async def on_command_error(self, ctx: commands.Context, error):
+    async def on_command_error(self, ctx: commands.Context, error: Exception):
         """
         Called when an error occurs during a processing of a command
         - get type of the error
@@ -58,55 +92,47 @@ class Events(commands.Cog):
 
         :param ctx: channel where the command was used
         :param error: type of error
-        :return: none
+        :return: None
         """
+        # TODO: Other's permission!
         print(f'{"-"*32}'
               f'\n!!! Error:'
-              f'\n!!!{error.__class__.__name__}'
-              f'\n!!!{error}'
+              f'\n!!! {error.__class__.__name__}'
+              f'\n!!! {error}'
               f'\n!!! Message: {ctx.message.content}'
               f'\n{"-"*32}'
               )
-        logging.error(f'Type: {error.__class__.__name__} | Message: {ctx.message.content}')
+        logging.error(f'An error occurred during command handling: {error!r}')
 
         if isinstance(error, commands.MissingRequiredArgument):
-            error_name = 'Missing arguments'
-            error_message = 'Not enough arguments were passed'
+            error_name = ('Not enough arguments were passed',
+                          None)
         elif isinstance(error, commands.MissingPermissions):
-            error_name = 'Missing permissions'
-            error_message = 'Not allowed to use the command'
+            error_name = ('Not allowed to use the command',
+                          None)
         elif isinstance(error, commands.CommandNotFound):  # if command was not found ignore it
-            return
-        else:
-            error_name = error.__class__.__name__
-            error_message = str(error)
+            error_name = ('Command not found',
+                          None)
+        elif isinstance(error, commands.MemberNotFound):  # if there should've been mention or the name couldn't be converted to mention
+            error_name = ('Member not found'
+                          '\nPlease mention requested user', None)
+        elif isinstance(error, util.UnknownArgumentException):
+            error_name = ('Unknown argument',
+                          None)
+        elif isinstance(error, commands.BadArgument):
+            error_name = ('Value error',
+                          'Couldn\'t process value')
+        else:  # something I have no idea of
+            await ctx.send(
+                embed=util.error_embed('Unexpected error',
+                                       'An unexpected error occurred.'
+                                       'Please contact thee bot\'s author to fix it for a fix.'))
+            raise error
 
         await ctx.send(
-            embed=bd.error_embed(error_name, error_message)
+            embed=util.error_embed(*error_name,
+                                   usage=f'{self.bot.config["prefix"]}{ctx.command.signature}' if ctx.command else None)
         )
-
-    # ----- Giving out Guest role when user joins -----
-    @commands.Cog.listener()
-    async def on_member_join(self, member):
-        """
-        Called when a member joins
-        - give them role "Guest"
-        - send them DM
-
-        :param member: member that joined
-        :return: None
-        """
-        logging.info(f'New member joined! Username: {member.name}')
-        await member.add_roles(discord.utils.get(member.guild.roles, name='guest'))
-        # ----- create the embed -----
-        welcome_embed = discord.Embed(title="Welcome!",
-                                      description=f"Welcome {member.mention} to the official"
-                                                  f"\nWynnic Rebellion discord server!",
-                                      color=bd.embed_colors['normal'])
-        welcome_embed.add_field(name='How to get started:', value='* Read the rules\n* Get a guild role')
-        welcome_embed.add_field(name='What *not* to do', value='* Break the rules')
-        welcome_embed.set_thumbnail(url=bd.embed_thumbnail)
-        await member.send(embed=welcome_embed)
 
     # ----- Making commands case insensitive -----
     @commands.Cog.listener()
@@ -119,50 +145,57 @@ class Events(commands.Cog):
         :param message: message sent
         :return: None
         """
+        # TODO: Doesn't block entirely
+        # The command is always carried out, no matter the result of this function
         if not isinstance(message.channel, discord.TextChannel):  # ignoring private channels for now
             return
 
-        elif message.author == self.bot.user:
+        if message.author == self.bot.user:  # if it was sent by the bot itself
             return
 
-        elif message.author.bot:
+        if message.author.bot:  # if it is bot account in general
             return
 
-        elif any(word in message.content.lower() for word in bd.bad_words_list) and message.content[0] != '!':  # TODO: better fix
-            await Moderation.Moderation.censor(message)
+        # invoke "info" command by mentioning the bot
+        if self.bot.user.mentioned_in(message):
+            ctx = await self.bot.get_context(message)  # get context for later processing
+            await ctx.invoke(self.bot.get_command('help'))  # invoke "help" command
             return
 
-        elif self.safe_block and message.content[0] == '!':
+        if any(word in message.content.lower() for word in bd.bad_words_list) and message.content[0] != '!':
+            # TODO: better fix
+            #   Probably remove
+            await Moderation.Moderation.censor(self.bot, message)
+            return
+
+        if self.safe_block and message.content[0] == '!':
             await self.bot.get_user(552883527147061249).send('Failsafe activated')
-            print('Failsafe activated.')
-            logging.error('Failsafe activated.')
-            logging.shutdown()  # so there is no error sent
-            sys.exit('Command sent')
+            util.log_print('Failsafe activated', 'WARNING')
 
-        # TODO: Create a proper mute
+            logging.shutdown()  # so there is no error sent
+            # TODO: attempt to disable block command execution
+            # still executes the command (though it is really disabled)
+            # self.bot.remove_command(message.content.split(" ")[0][1:].lower())
+            await self.bot.close()
+            return
 
         temp = message.content.split(" ")
-        message.content = str(temp[0].lower())
-        for x in temp[1:]:
-            message.content += " " + str(x)
-            
-        if message.content == "cktq:4":
-            await message.channel.send("ahoj")
+        message.content = temp[0].lower() + ' ' + ' '.join(temp[1:])
 
     @commands.command()
-    async def failsafe(self, ctx, code: str):
+    async def failsafe(self, ctx: commands.Context, code: str):  # TODO: Why not shut down the bot directly?
         """
         A command
         """
         await ctx.message.delete()
 
-        if ctx.author.id != 552883527147061249 and ctx.author.id != 345167339693670430:
+        if ctx.author.id != 552883527147061249:  # if it is not me (TrapinchO)
             await ctx.send('Inappropriate user')
             return
 
         try:
-            with open('../padej.txt', 'r') as f:
-                failsafe_code = f.read()
+            with open('../failsafe.txt', 'r') as file:
+                failsafe_code = file.read()
         except FileNotFoundError:
             failsafe_code = 'kharaa'
 
@@ -172,12 +205,11 @@ class Events(commands.Cog):
 
         await ctx.send('Successfully blocked')
         await ctx.author.send('Access granted. Proceed with caution')
-        print('Failsafe primed')
-        logging.warning('Failsafe primed')
-        self.safe_block = True
+        util.log_print('Failsafe primed', 'WARNING')
+        self.safe_block = True  # primes the failsafe
 
 
-def setup(bot: commands.Bot):
+def setup(bot: util.CustomBot):
     """
     Add the "Events" class to the bot
     """

@@ -1,12 +1,14 @@
 """
-Wrapper for "guild" requests
-
-TO-DO: Check at some point again
+Wrappers for Wynncraft "guild" API
 """
+__all__ = [
+    'guild',
+    'guild_raw'
+]
 
 from typing import Dict, Optional, Any  # 'Dict' only for backwards compatibility (for <3.9)
 
-from Wrappers.__init__ import api_call
+from Wrappers.util import api_call
 
 
 def guild(name: str) -> Optional[Dict[str, Any]]:

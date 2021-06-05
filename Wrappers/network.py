@@ -1,5 +1,12 @@
+"""
+Wrappers for Wynncraft "network" API
+"""
+__all__ = [
+    'player_sum',
+    'players_on_worlds'
+]
 
-from Wrappers.__init__ import api_call
+from Wrappers.util import api_call
 
 
 def player_sum() -> int:

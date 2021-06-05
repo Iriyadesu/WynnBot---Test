@@ -1,30 +1,36 @@
 from typing import Union
 
-from discord.ext import commands
 import discord
+from discord.ext import commands
 
 import bot_data as bd
+import util
 from Wrappers.player import player
 from Wrappers.guild import guild
 from Wrappers.territory import territory
 from Wrappers.network import player_sum, players_on_worlds
-from Cogs.Binder import Binder
+
+try:
+    from Cogs.Binder import get_binds
+except ImportError:
+    def get_binds() -> None:
+        """Dummy function in case Binder is not loaded"""
+        return None
 
 
 class Wynncraft(commands.Cog):
     """
     This Cog contains command related to wynncraft.
-
-    Due to 1.20 breaking some parts of the API
     """
+    description_ = 'Wynncraft-related commands'
+
     def __init__(self, bot: discord.ext.commands.Bot):
         """Used to allow to use the bot instance in the code"""
         self.bot = bot
 
     # ----- player stats -----
-    # Waiting for 1.20 API update
-    @commands.command(description="provides info on requested player",
-                      usage="!profile <player name>")  # TODO: Need to make it look better
+    @commands.command(usage="profile <player name>",
+                      description="provides info on requested player")
     async def player(self, ctx: commands.Context, player_name: Union[discord.Member, str]):
         """
         Send embed with info on requested player.
@@ -37,37 +43,42 @@ class Wynncraft(commands.Cog):
 
         # ----- bind support -----
         if isinstance(player_name, discord.Member):  # if a discord member was used
-            await ctx.send('Bind is not yet fully supported')
+            binds = get_binds()
+            if binds is None:  # if binder was not imported
+                await ctx.send(embed=util.error_embed('Binding not supported'))
+                return
 
-            player_name = Binder.get_binds()[player_name.id]
+            if str(player_name.id) in binds:  # if the player is bound
+                player_name = binds[str(player_name.id)]
+            else:
+                player_name = 'a'  # this name can't exist -> automatic fail
 
         async with ctx.typing():  # make it do something while it gets the info
             player_data = player(player_name)  # get the info
 
         if player_data is None:  # if the player doesn't exist send error
-            await ctx.send(embed=bd.error_embed('API error', 'Requested player not found.'))
+            await ctx.send(embed=util.error_embed('Requested player not found.'))
             return
 
         # ----- create the embed -----
-        player_embed = discord.Embed(title=f"{player_name}'s profile", color=bd.embed_colors['normal'])
-        player_embed.add_field(name="UserName: ", value=player_data['username'], inline=True)
-        player_embed.add_field(name="Rank: ", value=player_data['rank'], inline=True)
-        player_embed.add_field(name="Online: ", value=player_data['location'] if player_data['location'] else 'no',
-                               inline=False)
-        player_embed.add_field(name="Guild name: ",
-                               value=player_data['guild']['name'] if player_data['guild']['name'] else 'none', inline=True)
-        player_embed.add_field(name="Guild rank: ",
-                               value=player_data['guild']['rank'].lower() if player_data['guild']['rank'] else 'none',
-                               inline=True)
-        player_embed.add_field(name="Playtime: ", value=f"{player_data['playtime']} hours", inline=False)
-        player_embed.add_field(name="Highest Level: ", value=player_data['highestLvlCombat'], inline=False)
-        player_embed.add_field(name="Joined: ", value=player_data['firstJoin'][:10], inline=True)
+        embed = discord.Embed(title=f"{player_name}'s profile", color=bd.embed_colors['normal'])
+        embed.add_field(name="UserName: ", value=player_data['username'])
+        embed.add_field(name="Rank: ", value=str(player_data['rank']) + (', veteran' if player_data['veteran'] else ''))
+        if player_data['position'] != 'Player':  # if the player is offline
+            embed.add_field(name="Position:", value=player_data['position'])
+        if player_data['guild']['name'] is not None:
+            embed.add_field(name="Guild:",
+                            value=f'{player_data["guild"]["name"]} ({player_data["guild"]["rank"].lower()})')
+        embed.add_field(name="Highest Level:", value=player_data['highestLvlCombat'])
+        embed.add_field(name="Online: ", value=player_data['location'] if player_data['location'] else 'no')
+        embed.add_field(name="Playtime:", value=f"{player_data['playtime']} hours", inline=False)
+        embed.add_field(name="Joined:", value=player_data['firstJoin'][:10])
 
-        await ctx.send(embed=player_embed)  # send the embed
+        await ctx.send(embed=embed)  # send the embed
     
     #  ----- guild stats -----
-    # Waiting for 1.20 API update
-    @commands.command(description="provides info on requested guild", usage="!guild <guild name>")
+    @commands.command(usage="guild <guild name>",
+                      description="provides info on requested guild")
     async def guild(self, ctx: commands.Context, guild_name):
         """
         Send embed with info on requested guild.
@@ -80,23 +91,23 @@ class Wynncraft(commands.Cog):
             guild_data = guild(guild_name)
 
         if guild_data is None:
-            await ctx.send(embed=bd.error_embed('API error', 'Requested guild not found.'))
+            await ctx.send(embed=util.error_embed('Requested guild not found.'))
             return
 
         # ----- create the embed -----
-        guild_embed = discord.Embed(title=guild_name, color=bd.embed_colors['normal'])
-        guild_embed.add_field(name="Name: ", value=guild_data['name'], inline=True)
-        guild_embed.add_field(name="Prefix: ", value=guild_data['prefix'], inline=True)
-        guild_embed.add_field(name="Level: ", value=guild_data['level'], inline=True)
-        guild_embed.add_field(name="Members: ", value=str(len(guild_data['members'])), inline=True)
-        guild_embed.add_field(name="Territories: ", value=guild_data['territories'], inline=True)
-        guild_embed.add_field(name="Created at: ", value=guild_data['createdFriendly'], inline=False)
+        embed = discord.Embed(title=guild_name, color=bd.embed_colors['normal'])
+        embed.add_field(name="Name: ", value=guild_data['name'], inline=True)
+        embed.add_field(name="Prefix: ", value=guild_data['prefix'], inline=True)
+        embed.add_field(name="Level: ", value=f'lv.{guild_data["level"]}, xp: {guild_data["xp"]}%', inline=True)
+        embed.add_field(name="Members: ", value=str(len(guild_data['members'])), inline=True)
+        embed.add_field(name="Territories: ", value=guild_data['territories'], inline=True)
+        embed.add_field(name="Created at: ", value=guild_data['createdFriendly'], inline=False)
 
-        await ctx.send(embed=guild_embed)  # send the embed
+        await ctx.send(embed=embed)  # send the embed
 
     #  ----- territory stats -----
-    # Waiting for 1.20 API update
-    @commands.command(description='provides info on requested territory', usage="!territory <territory name>")
+    @commands.command(usage="territory <territory name>",
+                      description='provides info on requested territory')
     async def territory(self, ctx: commands.Context, *territory_name):
         """
         Send embed with info on requested territory.
@@ -109,27 +120,27 @@ class Wynncraft(commands.Cog):
         async with ctx.typing():
             territory_data = territory(territory_name)
         if territory_data is None:
-            await ctx.send(
-                embed=bd.error_embed('API error', 'Requested territory not found.\nPlease check capitalisation')
-            )
+            await ctx.send(embed=util.error_embed('Requested territory not found.'
+                                                  '\nPlease check capitalisation'))
             return
 
         # ----- create the embed -----
-        territory_embed = discord.Embed(title=territory_name, color=0x00FF00)
-        territory_embed.add_field(name='Name:', value=territory_name)
-        territory_embed.add_field(name='Owner:', value=territory_data['guild'])
-        territory_embed.add_field(name=chr(173), value=chr(173))
-        territory_embed.add_field(name='Start coords:',
-                                  value=f'{territory_data["location"]["startX"]} {territory_data["location"]["startY"]}'
-                                  )
-        territory_embed.add_field(name='End coords:',
-                                  value=f'{territory_data["location"]["endX"]} {territory_data["location"]["endY"]}')
+        embed = discord.Embed(title=territory_name, color=0x00FF00)
+        embed.add_field(name='Name:', value=territory_name)
+        embed.add_field(name='Owner:', value=territory_data['guild'])
+        embed.add_field(name=chr(173), value=chr(173))
+        embed.add_field(name='Start coords:',
+                        value=f'{territory_data["location"]["startX"]} {territory_data["location"]["startY"]}'
+                        )
+        embed.add_field(name='End coords:',
+                        value=f'{territory_data["location"]["endX"]} {territory_data["location"]["endY"]}')
 
-        await ctx.send(embed=territory_embed)
+        await ctx.send(embed=embed)
 
     #  ----- sum of all online players -----
     # Waiting for 1.20 API update
-    @commands.command(description="network stuff ig", usage="!network <action> [name]")
+    @commands.command(usage="network <sum|world|find> [name]",
+                      description="network stuff ig")
     async def network(self, ctx: commands.Context, action: str, name: str = ''):
         """
         Get network data from Wynn API
@@ -143,26 +154,25 @@ class Wynncraft(commands.Cog):
         :param action: action you want to take
         :param name: only used when using "find" action
         :return: None
-
         """
 
-        if action == 'sum':
+        if action == 'sum':  # sum of all players
             embed = discord.Embed(color=bd.embed_colors['normal'])
-            embed.add_field(name='Online players:', value=player_sum())
+            # noinspection PyTypeChecker
+            embed.add_field(name='Online players:', value=player_sum())  # doesn't actually rise an error, works fine
             await ctx.send(embed=embed)
 
-        elif action == 'worlds':
+        elif action == 'worlds':  # all worlds and their player count
             embed = discord.Embed(color=bd.embed_colors['normal'])
             world_dict = players_on_worlds()
             for world in world_dict:
-                embed.add_field(name=world, value=len(world_dict[world]))
+                # noinspection PyTypeChecker
+                embed.add_field(name=f'{world}:', value=len(world_dict[world]))
             await ctx.send(embed=embed)
 
-        elif action == 'find':
+        elif action == 'find':  # find a player
             if name == '':
-                await ctx.send(
-                    embed=bd.error_embed(f'Argument error', 'Not enough parameters passed')
-                )
+                await ctx.send(embed=util.error_embed(f'Argument error', 'Not enough parameters passed'))
                 return
 
             world_dict = players_on_worlds()
@@ -175,27 +185,11 @@ class Wynncraft(commands.Cog):
                     return
             else:
                 embed = discord.Embed(color=bd.embed_colors['error'])
-                embed.add_field(name='.', value=f'Player \"{name}\" not found')
+                embed.add_field(name='Failure', value=f'Player \"{name}\" not found')
                 await ctx.send(embed=embed)
 
         else:
-            await ctx.send(embed=bd.error_embed(f'Argument error', 'Unknown parameters passed'))
-
-    #  ----- item stats -----
-    @commands.command(description='Command not yet implemented', usage="!item <item name>")
-    async def item(self, ctx: commands.Context, item_name: str):  # TODO: Create a wrapper or remove the command
-        """
-        Raises NotImplemented error
-        """
-        """
-        from Wrappers.__init__ import api_call
-        async with ctx.typing():
-            resp = api_call(f'https://api.wynncraft.com/public_api.php?action=itemDB&search={item_name}')
-            data = resp.json()
-            pass
-        """
-        await ctx.send(embed=bd.error_embed('Implementation error', 'Command not implemented'))
-        raise NotImplementedError('Command not implemented')
+            raise util.UnknownArgumentException('Unknown parameter passed')
 
 
 def setup(bot: commands.Bot):

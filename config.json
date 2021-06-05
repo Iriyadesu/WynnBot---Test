@@ -1,0 +1,18 @@
+{
+  "prefix": "!",
+  "embed_image_url": "https://cdn.discordapp.com/attachments/776102426776305717/776530245066686505/Untitled_Artwork.png",
+  "logging_level": "INFO",
+  "enabled_extensions": [
+    "Cogs.Admin",
+    "Cogs.Binder",
+    "Cogs.Events",
+    "Cogs.Info",
+    "Cogs.Miscellaneous",
+    "Cogs.Moderation",
+    "Cogs.Technical",
+    "Cogs.Wynncraft"
+  ],
+  "moderator_role": "Moderator",
+  "mute_role": "Muted",
+  "moderation_log_channel": "moderation-log"
+}

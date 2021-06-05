@@ -1,6 +1,13 @@
+"""
+Wrappers for Wynncraft "territory" API
+"""
+__all__ = [
+    'territory'
+]
+
 from typing import Union
 
-from Wrappers.__init__ import api_call
+from Wrappers.util import api_call
 
 
 def territory(name: str) -> Union[dict, None]:
